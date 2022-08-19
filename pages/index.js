@@ -1,11 +1,15 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { AiOutlineHome, AiOutlineUser } from 'react-icons/ai'
 import { BiBookmarkAltPlus, BiTrendingUp } from 'react-icons/bi'
 import { TbHeartHandshake, TbDiamond } from 'react-icons/tb'
 
 export default function Home() {
+  const [user, setUser] = useState({
+    userName: '0x9***384', myTicket: 0, balance: 350
+  })
   const router = useRouter()
 
   return (
@@ -21,8 +25,8 @@ export default function Home() {
         <div className="bg-[#000000] text-white font-['Poppins'] font-bold px-3 h-[35px] flex items-center ">SMART EARNERS</div>
 
         <div className="flex items-center gap-5 text-[.8rem] ">
-          <div className="flex flex-col items-center">Ticket <strong>0</strong></div>
-          <div className="flex flex-col items-center">Balance <strong className="">N<span>300</span></strong></div>
+          <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
+          <div className="flex flex-col items-center">Balance <strong className="">N<span>{user?.balance}</span></strong></div>
         </div>
       </nav>
 
@@ -63,115 +67,128 @@ export default function Home() {
           <div className="text-2xl font-semibold font-['Poppins'] ">Our Investment Plans</div>
         </section>
 
-        <section className="my-5 px-5 flex flex-col md:flex-row items-center md:gap-10">
-          <div className="mb-8">
-            <div className="h-[60px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
-              <div className="font-bold font-[poppins] ">SMART EARNERS</div>
-              <div className="flex items-center gap-2 font-bold ">
-                <div>PC-1</div> <div className="text-[#eee]">|</div> <div>Total 600%</div>
-              </div>
-            </div>
-
-            <div className="px-4 py-4 shadow-lg rounded-b-[10px] text-[.9rem]">
-              <div className="flex justify-between ">
-                <div className="">
-                  <div className="text-gray-500">Deposit Amount</div>
-                  <div className="font-bold ">3000</div>
-                </div>
-
-                <div className="text-end">
-                  <div className="text-gray-500">Daily Return</div>
-                  <div className="flex items-center gap-2 font-bold">
-                    <div>N300</div> <div className="text-[#eee]">|</div> <div>10%</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-between mt-10">
-                <div className="">
-                  <div className="text-gray-500">Return Period</div>
-                  <div className="font-bold ">60 Days</div>
-                </div>
-
-                <div className="text-end">
-                  <div className="text-gray-500">Total Return</div>
-                  <div className="flex items-center gap-2 font-bold">
-                    <div>N18000</div> <div className="text-[#eee]">|</div> <div>600%</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold">3000</div>
-            </div>
-          </div>
-
-          <div className="mb-8">
-            <div className="h-[60px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
-              <div className="font-bold font-[poppins] ">SMART EARNERS</div>
-              <div className="flex items-center gap-2 font-bold ">
-                <div>PC-1</div> <div className="text-[#eee]">|</div> <div>Total 600%</div>
-              </div>
-            </div>
-
-            <div className="px-4 py-4 shadow-lg rounded-b-[10px] text-[.9rem]">
-              <div className="flex justify-between ">
-                <div className="">
-                  <div className="text-gray-500">Deposit Amount</div>
-                  <div className="font-bold ">3000</div>
-                </div>
-
-                <div className="text-end">
-                  <div className="text-gray-500">Daily Return</div>
-                  <div className="flex items-center gap-2 font-bold">
-                    <div>N300</div> <div className="text-[#eee]">|</div> <div>10%</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-between mt-10">
-                <div className="">
-                  <div className="text-gray-500">Return Period</div>
-                  <div className="font-bold ">60 Days</div>
-                </div>
-
-                <div className="text-end">
-                  <div className="text-gray-500">Total Return</div>
-                  <div className="flex items-center gap-2 font-bold">
-                    <div>N18000</div> <div className="text-[#eee]">|</div> <div>600%</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold">3000</div>
-            </div>
-          </div>
+        <section className="my-5 px-5 flex flex-col md:flex-row flex-wrap justify-center items-center md:gap-10">
+          <PlanCard user={user} id={1} percentage={'10'} da={'3000'} />
+          <PlanCard user={user} id={2} percentage={'11'} da={'6000'} />
+          <PlanCard user={user} id={3} percentage={'12'} da={'10000'} />
+          <PlanCard user={user} id={4} percentage={'13'} da={'30000'} />
+          <PlanCard user={user} id={5} percentage={'14'} da={'60000'} />
+          <PlanCard user={user} id={6} percentage={'15'} da={'150000'} />
+          <PlanCard user={user} id={7} percentage={'17'} da={'500000'} />
+          <PlanCard user={user} id={8} percentage={'20'} da={'1000000'} />
         </section>
       </main>
 
       <div className="h-[90px]"></div>
 
       <footer className="fixed bottom-0 left-0 w-full h-[80px] flex justify-between items-center px-10 md:px-16 lg:px-20 bg-[#333] text-white rounded-t-[20px] ">
-        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/')}}>
+        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/') }}>
           <div className={`${router.pathname == '/' && 'text-[#ffa500]'} hover:text-[#e6ad44]`}><AiOutlineHome size="25px" /></div>
           <div className="text-[.8rem]">Home</div>
         </div>
-        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/orders')}}>
+        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/orders') }}>
           <div className={`${router.pathname == '/team' && 'text-[#ffa500]'} hover:text-[#e6ad44]`}><BiBookmarkAltPlus size="25px" /></div>
           <div className="text-[.8rem]">Orders</div>
         </div>
-        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit')}}>
+        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit') }}>
           <div className={`${router.pathname == '/deposit' && 'text-[#ffa500]'} hover:text-[#e6ad44] bg-[#d19421] text-black w-[35px] h-[35px] rounded-full grid place-items-center`}><TbDiamond size="20px" /></div>
           <div className="text-[.8rem]">Deposit</div>
         </div>
-        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/team')}}>
+        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/team') }}>
           <div className={`${router.pathname == '/team' && 'text-[#ffa500]'} hover:text-[#e6ad44]`}><TbHeartHandshake size="25px" /></div>
           <div className="text-[.8rem]">Team</div>
         </div>
-        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/profile')}}>
+        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/profile') }}>
           <div className={`${router.pathname == '/profile' && 'text-[#ffa500]'} hover:text-[#e6ad44]`}><AiOutlineUser size="25px" /></div>
           <div className="text-[.8rem]">Me</div>
         </div>
       </footer>
     </div>
   )
+}
+
+
+const PlanCard = ({ user, id, percentage, da }) => {
+  const returnPeriod = 60
+  const dailyReturn = (percentage / 100) * da
+  const totalReturn = ((percentage / 100) * da) * returnPeriod
+  const totalReturnPercentage = percentage * returnPeriod;
+  const returnTiming = '22:55-23:25'
+
+  return (<>
+    <div className="mb-8">
+      <div className="h-[60px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
+        <div className="font-bold font-[poppins] ">SMART EARNERS</div>
+        <div className="flex items-center gap-2 font-bold ">
+          <div>PC-{id}</div> <div className="text-[#eee]">|</div> <div>Total {totalReturnPercentage}%</div>
+        </div>
+      </div>
+
+      <div className="px-4 py-4 shadow-lg rounded-b-[10px] text-[.9rem]">
+        <div className="flex justify-between ">
+          <div className="">
+            <div className="text-gray-500">Deposit Amount</div>
+            <div className="font-bold ">{da}</div>
+          </div>
+
+          <div className="text-end">
+            <div className="text-gray-500">Daily Return</div>
+            <div className="flex items-center gap-2 font-bold">
+              <div>N{dailyReturn}</div> <div className="text-[#eee]">|</div> <div>{percentage}%</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-between mt-10">
+          <div className="">
+            <div className="text-gray-500">Return Period</div>
+            <div className="font-bold ">{returnPeriod} Days</div>
+          </div>
+
+          <div className="text-end">
+            <div className="text-gray-500">Total Return</div>
+            <div className="flex items-center gap-2 font-bold">
+              <div>N{totalReturn}</div> <div className="text-[#eee]">|</div> <div>{percentage * returnPeriod}%</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold">{da}</div>
+      </div>
+
+    </div>
+
+    {/* modal */}
+    <div className="hidden">
+      <div onClick={() => { alert('close') }} className="z-[4] fixed top-0 left-0 w-screen h-screen grid place-items-center bg-[rgba(0,0,0,.1)] text-white font-['Poppins']">
+      </div>
+
+      <div className="z-[5] fixed bottom-[140px] mx-auto ">
+
+        <div className="h-[70px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
+          <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
+          <div className="text-end">
+            <div className="text-black font-semibold">PLEASE</div>
+            <div className="text-2xl font-bold">CONFIRM</div>
+          </div>
+        </div>
+
+        <div className="px-4 py-4 text-center shadow-lg rounded-b-[10px] text-[.9rem] bg-[#fff] text-black">
+          <div className="">
+            <p className="mb-2">Item : <span className="text-[#ffa500] font-[600]">Daily {percentage}% investment Plus</span></p>
+            <p className="mb-2">Deposit Amount : <span className="text-[#ffa500] font-[600]">{da}</span></p>
+            <p className="mb-2">Daily Return : <span className="text-[#ffa500] font-[600]">{dailyReturn}</span></p>
+            <p className="mb-2">Total Return : <span className="text-[#ffa500] font-[600]">{totalReturn}</span></p>
+            <p className="mb-2">Return Period : <span className="text-[#ffa500] font-[600]">{returnPeriod} Days</span></p>
+            <p className="mb-2">Return Timing : <span className="text-[#ffa500] font-[600]">{returnTiming}</span></p>
+            <p className="text-[#ffa500] font-[600]">( Review first daily return 24h after deposit )</p>
+          </div>
+
+          <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold">Invest Now</div>
+
+          <p className="mt-2">( My Ticket <span>{user?.myTicket}</span> )</p>
+        </div>
+      </div>
+    </div>
+  </>)
 }
