@@ -1,10 +1,8 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useEffect, useState, useRef } from 'react'
-import { AiOutlineHome, AiOutlineUser } from 'react-icons/ai'
-import { BiBookmarkAltPlus, BiTrendingUp } from 'react-icons/bi'
-import { TbHeartHandshake, TbDiamond } from 'react-icons/tb'
+import { useState } from 'react'
+import { BiTrendingUp } from 'react-icons/bi'
+import Footer from '../components/footer'
 import Slider from '../components/slider'
 
 export default function Home() {
@@ -24,8 +22,8 @@ export default function Home() {
   ])
   const router = useRouter()
 
-  
- 
+
+
   // useEffect(() => {
   // }, [])
 
@@ -35,7 +33,6 @@ export default function Home() {
         <title>Smart Earners</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
       </Head>
 
       <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-8 md:px-36">
@@ -49,7 +46,7 @@ export default function Home() {
 
       <header className="text-center bg-[#ffd78d] mb-5 w-full overflow-hidden ">
         <Slider />
-      </header>        
+      </header>
 
       <main className="">
         <section className="flex items-center justify-between md:justify-evenly gap-5 px-6 my-5">
@@ -91,30 +88,7 @@ export default function Home() {
         </section>
       </main>
 
-      <div className="h-[90px]"></div>
-
-      <footer className="fixed bottom-0 left-0 z-50 w-full h-[80px] flex justify-between items-center px-10 md:px-16 lg:px-20 bg-[#333] text-white rounded-t-[20px] ">
-        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/') }}>
-          <div className={`${router.pathname == '/' && 'text-[#ffa500]'} hover:text-[#e6ad44]`}><AiOutlineHome size="25px" /></div>
-          <div className="text-[.8rem]">Home</div>
-        </div>
-        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/orders') }}>
-          <div className={`${router.pathname == '/team' && 'text-[#ffa500]'} hover:text-[#e6ad44]`}><BiBookmarkAltPlus size="25px" /></div>
-          <div className="text-[.8rem]">Orders</div>
-        </div>
-        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit') }}>
-          <div className={`${router.pathname == '/deposit' && 'text-[#ffa500]'} hover:text-[#e6ad44] bg-[#d19421] text-black w-[35px] h-[35px] rounded-full grid place-items-center`}><TbDiamond size="20px" /></div>
-          <div className="text-[.8rem]">Deposit</div>
-        </div>
-        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/team') }}>
-          <div className={`${router.pathname == '/team' && 'text-[#ffa500]'} hover:text-[#e6ad44]`}><TbHeartHandshake size="25px" /></div>
-          <div className="text-[.8rem]">Team</div>
-        </div>
-        <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/profile') }}>
-          <div className={`${router.pathname == '/profile' && 'text-[#ffa500]'} hover:text-[#e6ad44]`}><AiOutlineUser size="25px" /></div>
-          <div className="text-[.8rem]">Me</div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
@@ -138,7 +112,7 @@ const PlanCard = ({ user, id, percentage, da }) => {
   }
 
   return (<>
-    <div className="mb-8 w-full md:w-fit" onClick={() => { showModal() }}>
+    <div className="mb-8 w-full md:w-fit cursor-pointer" onClick={() => { showModal() }}>
       <div className="h-[60px] px-4 flex justify-between md:gap-16 items-center bg-[#ffa500] text-white rounded-t-[10px]">
         <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
         <div className="flex items-center md:gap-2 gap-1 font-bold text-sm md:text-base ">
@@ -177,7 +151,6 @@ const PlanCard = ({ user, id, percentage, da }) => {
 
         <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold">{da}</div>
       </div>
-
     </div>
 
     {/* modal */}
@@ -212,5 +185,6 @@ const PlanCard = ({ user, id, percentage, da }) => {
         </div>
       </div>
     </div>
+    
   </>)
 }
