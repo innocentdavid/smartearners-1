@@ -20,10 +20,10 @@ export default function Orders() {
     modal.classList.remove('hidden')
     modal.classList.add('flex')
 
-    setInterval(() => {
+    setTimeout(() => {
       modal.classList.remove('flex')
       modal.classList.add('hidden')
-    }, 2000);
+    }, 5000);
   }
 
   return (
@@ -43,7 +43,7 @@ export default function Orders() {
         </div>
       </nav> 
 
-      <header className="bg-gray-800 text-white py-3 px-5 font-[Poppins]">
+      <header className="bg-gray-800 text-white py-3 px-5 font-[Poppins] text-sm ">
         <ul>
           <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto perferendis asperiores vel cum aut eos.</li>
           <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto perferendis asperiores vel cum aut eos.</li>
@@ -52,8 +52,8 @@ export default function Orders() {
       </header>
 
       <main className="mt-5">
-        <section className="px-5">
-          <div className="mb-8 w-full md:w-fit" onClick={() => { showModal() }}>
+        <section className="px-5 flex flex-col items-center">
+          <div className="mb-8 w-full md:w-[60%]" onClick={() => { showModal() }}>
             <div className="h-[60px] px-4 flex justify-between md:gap-16 items-center bg-[#ffa500] text-white rounded-t-[10px]">
               <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
               <div className="flex items-center md:gap-2 gap-1 font-bold text-sm md:text-base ">

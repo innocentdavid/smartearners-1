@@ -6,8 +6,6 @@ import { TbHeartHandshake, TbDiamond } from 'react-icons/tb'
 export default function Footer() {
   const router = useRouter()
 
-  console.log(router.pathname)
-
   return (
     <>
       <div className="h-[90px]"></div>

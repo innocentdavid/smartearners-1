@@ -154,11 +154,12 @@ const PlanCard = ({ user, id, percentage, da }) => {
     </div>
 
     {/* modal */}
-    <div id={`selector${id}`} className="hidden fixed">
+    <div id={`selector${id}`} className="hidden fixed z-[9999]">
       <div onClick={() => { hideModal() }} className="z-[4] cursor-pointer fixed top-0 left-0 w-screen h-screen grid place-items-center bg-[rgba(0,0,0,.1)] text-white font-['Poppins']" title="close">
       </div>
 
-      <div className="z-[5] fixed lg:bottom-[140px] md:bottom-[120px] bottom-[95px] left-[1px] md:left-[30%] lg:left-[40%] ">
+      {/* <div className="z-[5] fixed lg:bottom-[140px] md:bottom-[120px] bottom-[95px] left-[1px] md:left-[30%] lg:left-[40%] "> */}
+      <div className="z-[5] fixed top-[50%] md:top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] md:translate-y-[-30%] w-[90%] lg:w-[60%] ">
 
         <div className="h-[70px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
           <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
@@ -168,7 +169,7 @@ const PlanCard = ({ user, id, percentage, da }) => {
           </div>
         </div>
 
-        <div className="px-4 py-4 text-center shadow-lg rounded-b-[10px] text-[.9rem] bg-[#fff] text-black">
+        <div className="px-4 py-4 text-center shadow-lg rounded-b-[10px] text-[.9rem] md:text-base lg:text-xl bg-[#fff] text-black">
           <div className="">
             <p className="mb-2">Item : <span className="text-[#ffa500] font-[600]">Daily {percentage}% investment Plus</span></p>
             <p className="mb-2">Deposit Amount : <span className="text-[#ffa500] font-[600]">{da}</span></p>
