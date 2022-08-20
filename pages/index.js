@@ -155,7 +155,7 @@ const PlanCard = ({ user, id, percentage, da }) => {
 
     {/* modal */}
     <div id={`selector${id}`} className="hidden fixed z-[9999]">
-      <div onClick={() => { hideModal() }} className="z-[4] cursor-pointer fixed top-0 left-0 w-screen h-screen grid place-items-center bg-[rgba(0,0,0,.1)] text-white font-['Poppins']" title="close">
+      <div onClick={() => { hideModal() }} className="z-[4] cursor-pointer fixed top-0 left-0 w-screen h-screen grid place-items-center bg-[rgba(0,0,0,.4)] text-white font-['Poppins']" title="close">
       </div>
 
       {/* <div className="z-[5] fixed lg:bottom-[140px] md:bottom-[120px] bottom-[95px] left-[1px] md:left-[30%] lg:left-[40%] "> */}
