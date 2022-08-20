@@ -86,7 +86,7 @@ export default function Home() {
 
         <section className="my-5 px-5 flex flex-col md:flex-row flex-wrap justify-center items-center md:gap-10">
           {plans?.map(plan => {
-            return <PlanCard user={user} id={plan?.id} percentage={plan?.percentage} da={plan?.da} />
+            return <PlanCard key={plan?.id} user={user} id={plan?.id} percentage={plan?.percentage} da={plan?.da} />
           })}
         </section>
       </main>
