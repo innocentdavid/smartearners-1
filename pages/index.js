@@ -1,10 +1,11 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { AiOutlineHome, AiOutlineUser } from 'react-icons/ai'
 import { BiBookmarkAltPlus, BiTrendingUp } from 'react-icons/bi'
 import { TbHeartHandshake, TbDiamond } from 'react-icons/tb'
+import Slider from '../components/slider'
 
 export default function Home() {
   const [user, setUser] = useState({
@@ -23,17 +24,22 @@ export default function Home() {
   ])
   const router = useRouter()
 
+  
+ 
+  // useEffect(() => {
+  // }, [])
+
   return (
     <div className="relative h-screen">
       <Head>
         <title>Smart Earners</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
       </Head>
 
-      <nav className="flex justify-between border-b border-[#ccc] py-5 px-8">
-        {/* <div className="text-[#ffa500] border border-[#ffa500] bg-white px-3 h-[35px] flex items-center ">SMART EARNERS</div> */}
-        <div className="bg-[#000000] text-white font-['Poppins'] font-bold px-3 h-[35px] flex items-center ">SMART EARNERS</div>
+      <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-8 md:px-36">
+        <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center ">SMART EARNERS</div>
 
         <div className="flex items-center gap-5 text-[.8rem] ">
           <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
@@ -41,9 +47,9 @@ export default function Home() {
         </div>
       </nav>
 
-      <header className="text-center bg-[#ffd78d] py-24 mb-5">
-        <div className="text-2xl font-semibold font-['Poppins'] ">carousel</div>
-      </header>
+      <header className="text-center bg-[#ffd78d] mb-5 w-full overflow-hidden ">
+        <Slider />
+      </header>        
 
       <main className="">
         <section className="flex items-center justify-between md:justify-evenly gap-5 px-6 my-5">
@@ -79,7 +85,7 @@ export default function Home() {
         </section>
 
         <section className="my-5 px-5 flex flex-col md:flex-row flex-wrap justify-center items-center md:gap-10">
-          {plans?.map( plan => {
+          {plans?.map(plan => {
             return <PlanCard user={user} id={plan?.id} percentage={plan?.percentage} da={plan?.da} />
           })}
         </section>
@@ -87,7 +93,7 @@ export default function Home() {
 
       <div className="h-[90px]"></div>
 
-      <footer className="fixed bottom-0 left-0 w-full h-[80px] flex justify-between items-center px-10 md:px-16 lg:px-20 bg-[#333] text-white rounded-t-[20px] ">
+      <footer className="fixed bottom-0 left-0 z-50 w-full h-[80px] flex justify-between items-center px-10 md:px-16 lg:px-20 bg-[#333] text-white rounded-t-[20px] ">
         <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/') }}>
           <div className={`${router.pathname == '/' && 'text-[#ffa500]'} hover:text-[#e6ad44]`}><AiOutlineHome size="25px" /></div>
           <div className="text-[.8rem]">Home</div>

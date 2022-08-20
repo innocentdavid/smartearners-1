@@ -1,3 +1,46 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.swiper-button-next,
+.swiper-button-prev {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+/* .swiper-button-next{
+  background-image: url('/images/next.png');
+}
+
+.swiper-button-prev {
+  background-image: url('/images/back.png');
+} */
+
+/* .swiper-button-next::after,
+.swiper-button-prev::after {
+  display: none;
+} */
+
+/* .snp, .snn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  z-index: 1px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;  
+}
+  .snp {
+    left: 0;
+    background-image: url('/images/back.png');
+  }
+  
+  .snn {
+    right: 0;
+    background-image: url('/images/next.png');
+  } */
