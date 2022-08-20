@@ -10,6 +10,17 @@ export default function Home() {
   const [user, setUser] = useState({
     userName: '0x9***384', myTicket: 0, balance: 350
   })
+
+  const [plans, setPlans] = useState([
+    { id: 1, percentage: 10, da: 3000 },
+    { id: 2, percentage: 11, da: 6000 },
+    { id: 3, percentage: 12, da: 10000 },
+    { id: 4, percentage: 13, da: 30000 },
+    { id: 5, percentage: 14, da: 60000 },
+    { id: 6, percentage: 15, da: 150000 },
+    { id: 7, percentage: 17, da: 500000 },
+    { id: 8, percentage: 20, da: 1000000 }
+  ])
   const router = useRouter()
 
   return (
@@ -68,14 +79,9 @@ export default function Home() {
         </section>
 
         <section className="my-5 px-5 flex flex-col md:flex-row flex-wrap justify-center items-center md:gap-10">
-          <PlanCard user={user} id={1} percentage={'10'} da={'3000'} />
-          <PlanCard user={user} id={2} percentage={'11'} da={'6000'} />
-          <PlanCard user={user} id={3} percentage={'12'} da={'10000'} />
-          <PlanCard user={user} id={4} percentage={'13'} da={'30000'} />
-          <PlanCard user={user} id={5} percentage={'14'} da={'60000'} />
-          <PlanCard user={user} id={6} percentage={'15'} da={'150000'} />
-          <PlanCard user={user} id={7} percentage={'17'} da={'500000'} />
-          <PlanCard user={user} id={8} percentage={'20'} da={'1000000'} />
+          {plans?.map( plan => {
+            return <PlanCard user={user} id={plan?.id} percentage={plan?.percentage} da={plan?.da} />
+          })}
         </section>
       </main>
 
@@ -115,11 +121,21 @@ const PlanCard = ({ user, id, percentage, da }) => {
   const totalReturnPercentage = percentage * returnPeriod;
   const returnTiming = '22:55-23:25'
 
+  const showModal = () => {
+    const modal = document.querySelector(`#selector${id}`)
+    modal.classList.remove('hidden')
+  }
+
+  const hideModal = () => {
+    const modal = document.querySelector(`#selector${id}`)
+    modal.classList.add('hidden')
+  }
+
   return (<>
-    <div className="mb-8">
-      <div className="h-[60px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
-        <div className="font-bold font-[poppins] ">SMART EARNERS</div>
-        <div className="flex items-center gap-2 font-bold ">
+    <div className="mb-8 w-full md:w-fit" onClick={() => { showModal() }}>
+      <div className="h-[60px] px-4 flex justify-between md:gap-16 items-center bg-[#ffa500] text-white rounded-t-[10px]">
+        <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
+        <div className="flex items-center md:gap-2 gap-1 font-bold text-sm md:text-base ">
           <div>PC-{id}</div> <div className="text-[#eee]">|</div> <div>Total {totalReturnPercentage}%</div>
         </div>
       </div>
@@ -159,11 +175,11 @@ const PlanCard = ({ user, id, percentage, da }) => {
     </div>
 
     {/* modal */}
-    <div className="hidden">
-      <div onClick={() => { alert('close') }} className="z-[4] fixed top-0 left-0 w-screen h-screen grid place-items-center bg-[rgba(0,0,0,.1)] text-white font-['Poppins']">
+    <div id={`selector${id}`} className="hidden fixed">
+      <div onClick={() => { hideModal() }} className="z-[4] cursor-pointer fixed top-0 left-0 w-screen h-screen grid place-items-center bg-[rgba(0,0,0,.1)] text-white font-['Poppins']" title="close">
       </div>
 
-      <div className="z-[5] fixed bottom-[140px] mx-auto ">
+      <div className="z-[5] fixed lg:bottom-[140px] md:bottom-[120px] bottom-[95px] left-[1px] md:left-[30%] lg:left-[40%] ">
 
         <div className="h-[70px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
           <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
@@ -184,7 +200,7 @@ const PlanCard = ({ user, id, percentage, da }) => {
             <p className="text-[#ffa500] font-[600]">( Review first daily return 24h after deposit )</p>
           </div>
 
-          <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold">Invest Now</div>
+          <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer">Invest Now</div>
 
           <p className="mt-2">( My Ticket <span>{user?.myTicket}</span> )</p>
         </div>
