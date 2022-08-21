@@ -29,7 +29,7 @@ export default function Orders() {
   return (
     <div className="relative h-screen">
       <Head>
-        <title>My orders - Smart Earners</title>
+        <title>My orders</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

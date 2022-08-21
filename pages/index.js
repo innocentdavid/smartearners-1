@@ -6,11 +6,12 @@ import Footer from '../components/footer'
 import Slider from '../components/slider'
 
 export default function Home() {
-  const [user, setUser] = useState({
+  const router = useRouter()
+  const [user] = useState({
     userName: '0x9***384', myTicket: 0, balance: 350
   })
 
-  const [plans, setPlans] = useState([
+  const [plans] = useState([
     { id: 1, percentage: 10, da: 3000 },
     { id: 2, percentage: 11, da: 6000 },
     { id: 3, percentage: 12, da: 10000 },
@@ -20,12 +21,6 @@ export default function Home() {
     { id: 7, percentage: 17, da: 500000 },
     { id: 8, percentage: 20, da: 1000000 }
   ])
-  const router = useRouter()
-
-
-
-  // useEffect(() => {
-  // }, [])
 
   return (
     <div className="relative h-screen">
@@ -44,40 +39,40 @@ export default function Home() {
         </div>
       </nav>
 
-      <header className="text-center bg-[#ffd78d] mb-5 w-full overflow-hidden ">
+      <header className="text-center bg-[#fce8c4] mb-5 w-full overflow-hidden ">
         <Slider />
       </header>
 
       <main className="">
         <section className="flex items-center justify-between md:justify-evenly gap-5 px-6 my-5">
           <div className="flex flex-col items-center">
-            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#ffd78d] text-white flex justify-center items-center ">
+            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fce8c4] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/withdraw') }}>
               <img src="/images/icons8-naira-48.png" alt="" width="20px" className="" />
             </div>
-            <div className="text-[.8rem] font-bold font-['Poppins'] ">Withdraw</div>
+            <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Withdraw</div>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#ffd78d] text-white flex justify-center items-center ">
+            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fce8c4] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/#referral') }}>
               <img src="/images/icons8-share-50.png" alt="" width="20px" className="" />
             </div>
-            <div className="text-[.8rem] font-bold font-['Poppins'] ">Referral</div>
+            <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Referral</div>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#ffd78d] text-white flex justify-center items-center ">
+            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fce8c4] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/#support') }}>
               <img src="/images/icons8-comments-50.png" alt="" width="20px" className="" />
             </div>
-            <div className="text-[.8rem] font-bold font-['Poppins'] ">Support</div>
+            <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Support</div>
           </div>
 
-          <div className="flex flex-col items-center">
-            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#ffd78d] text-black flex justify-center items-center "><BiTrendingUp size="20px" /></div>
-            <div className="text-[.8rem] font-bold font-['Poppins'] ">Invest Now</div>
+          <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/#') }}>
+            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fce8c4] text-black flex justify-center items-center "><BiTrendingUp size="20px" /></div>
+            <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Invest Now</div>
           </div>
         </section>
 
-        <section className="text-center bg-[#ffd78d] py-3 mt-16 mb-6">
+        <section className="text-center bg-[#fce8c4] py-3 mt-16 mb-6">
           <div className="text-2xl font-semibold font-['Poppins'] ">Our Investment Plans</div>
         </section>
 
@@ -113,7 +108,7 @@ const PlanCard = ({ user, id, percentage, da }) => {
 
   return (<>
     <div className="mb-8 w-full md:w-fit cursor-pointer" onClick={() => { showModal() }}>
-      <div className="h-[60px] px-4 flex justify-between md:gap-16 items-center bg-[#ffa500] text-white rounded-t-[10px]">
+      <div className="h-[60px] px-4 flex justify-between md:gap-16 items-center bg-[#ffa600] text-white rounded-t-[10px]">
         <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
         <div className="flex items-center md:gap-2 gap-1 font-bold text-sm md:text-base ">
           <div>PC-{id}</div> <div className="text-[#eee]">|</div> <div>Total {totalReturnPercentage}%</div>
@@ -149,7 +144,7 @@ const PlanCard = ({ user, id, percentage, da }) => {
           </div>
         </div>
 
-        <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold">{da}</div>
+        <div className="bg-[#ffa600] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold">{da}</div>
       </div>
     </div>
 
@@ -161,7 +156,7 @@ const PlanCard = ({ user, id, percentage, da }) => {
       {/* <div className="z-[5] fixed lg:bottom-[140px] md:bottom-[120px] bottom-[95px] left-[1px] md:left-[30%] lg:left-[40%] "> */}
       <div className="z-[5] fixed top-[50%] md:top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] md:translate-y-[-30%] w-[90%] lg:w-[60%] ">
 
-        <div className="h-[70px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
+        <div className="h-[70px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa600] text-white rounded-t-[10px]">
           <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
           <div className="text-end">
             <div className="text-black font-semibold">PLEASE</div>
@@ -171,16 +166,16 @@ const PlanCard = ({ user, id, percentage, da }) => {
 
         <div className="px-4 py-4 text-center shadow-lg rounded-b-[10px] text-[.9rem] md:text-base lg:text-xl bg-[#fff] text-black">
           <div className="">
-            <p className="mb-2">Item : <span className="text-[#ffa500] font-[600]">Daily {percentage}% investment Plus</span></p>
-            <p className="mb-2">Deposit Amount : <span className="text-[#ffa500] font-[600]">{da}</span></p>
-            <p className="mb-2">Daily Return : <span className="text-[#ffa500] font-[600]">{dailyReturn}</span></p>
-            <p className="mb-2">Total Return : <span className="text-[#ffa500] font-[600]">{totalReturn}</span></p>
-            <p className="mb-2">Return Period : <span className="text-[#ffa500] font-[600]">{returnPeriod} Days</span></p>
-            <p className="mb-2">Return Timing : <span className="text-[#ffa500] font-[600]">{returnTiming}</span></p>
-            <p className="text-[#ffa500] font-[600]">( Review first daily return 24h after deposit )</p>
+            <p className="mb-2">Item : <span className="text-[#ffa600] font-[600]">Daily {percentage}% investment Plus</span></p>
+            <p className="mb-2">Deposit Amount : <span className="text-[#ffa600] font-[600]">{da}</span></p>
+            <p className="mb-2">Daily Return : <span className="text-[#ffa600] font-[600]">{dailyReturn}</span></p>
+            <p className="mb-2">Total Return : <span className="text-[#ffa600] font-[600]">{totalReturn}</span></p>
+            <p className="mb-2">Return Period : <span className="text-[#ffa600] font-[600]">{returnPeriod} Days</span></p>
+            <p className="mb-2">Return Timing : <span className="text-[#ffa600] font-[600]">{returnTiming}</span></p>
+            <p className="text-[#ffa600] font-[600]">( Review first daily return 24h after deposit )</p>
           </div>
 
-          <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer">Invest Now</div>
+          <div className="bg-[#ffa600] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer">Invest Now</div>
 
           <p className="mt-2">( My Ticket <span>{user?.myTicket}</span> )</p>
         </div>
