@@ -26,22 +26,24 @@ export default function Team() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="fixed top-[30%] right-0 flex items-center gap-3 shadow-xl rounded-l-[30px] px-4 py-3 bg-[#ffa500] text-white cursor-pointer" onClick={() => { showModal() }}>
+      <div className="fixed top-[30%] right-0 flex items-center gap-2 shadow-xl rounded-l-[30px] px-3 py-2 bg-[#ffa500] text-white font-['Metric-Light'] cursor-pointer" onClick={() => { showModal() }}>
         <div className=""><AiOutlineShareAlt /></div>
         <div className="">My Link</div>
       </div>
 
-      <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-8 md:px-36">
+      <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-4 md:px-36">
         <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center ">SMART EARNERS</div>
 
-        <div className="flex items-center gap-5 text-[.8rem] ">
+        <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
           <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
+          <div className="border-r border-[#fff3dc] h-[60%]"></div>
           <div className="flex flex-col items-center">Balance <strong className="">N<span>{user?.balance}</span></strong></div>
         </div>
       </nav>
 
-      <header className="bg-gray-800 text-white py-3 px-5 font-[Poppins]">
-        <ul>
+      <header className="bg-gray-800 text-white py-3 px-5 font-['Matric-Light'] text-[16px]">
+      {/* style={{ listStyleType:'initial' }} */}
+        <ul className="">
           <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto <a href="#" className="text-[#ffa500]">Please click here to buy tickets if needed.</a></li>
         </ul>
       </header>

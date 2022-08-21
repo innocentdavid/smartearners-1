@@ -30,50 +30,51 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-8 md:px-36">
+      <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-4 md:px-36">
         <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center ">SMART EARNERS</div>
 
-        <div className="flex items-center gap-5 text-[.8rem] ">
+        <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
           <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
+          <div className="border-r border-[#fff3dc] h-[60%]"></div>
           <div className="flex flex-col items-center">Balance <strong className="">N<span>{user?.balance}</span></strong></div>
         </div>
       </nav>
 
-      <header className="text-center bg-[#fce8c4] mb-5 w-full overflow-hidden ">
+      <header className="text-center mb-5 md:w-full overflow-hidden ">
         <Slider />
       </header>
 
       <main className="">
-        <section className="flex items-center justify-between md:justify-evenly gap-5 px-6 my-5">
+        <section className="flex flex-wrap items-center justify-between md:justify-evenly gap-1 md:px-6 px-3 my-5">
           <div className="flex flex-col items-center">
-            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fce8c4] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/withdraw') }}>
+            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/withdraw') }}>
               <img src="/images/icons8-naira-48.png" alt="" width="20px" className="" />
             </div>
             <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Withdraw</div>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fce8c4] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/#referral') }}>
+            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/team') }}>
               <img src="/images/icons8-share-50.png" alt="" width="20px" className="" />
             </div>
             <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Referral</div>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fce8c4] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/#support') }}>
+            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/#support') }}>
               <img src="/images/icons8-comments-50.png" alt="" width="20px" className="" />
             </div>
             <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Support</div>
           </div>
 
           <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/#') }}>
-            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fce8c4] text-black flex justify-center items-center "><BiTrendingUp size="20px" /></div>
-            <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Invest Now</div>
+            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-black flex justify-center items-center "><BiTrendingUp size="20px" /></div>
+            <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Invest&nbsp;Now</div>
           </div>
         </section>
 
-        <section className="text-center bg-[#fce8c4] py-3 mt-16 mb-6">
-          <div className="text-2xl font-semibold font-['Poppins'] ">Our Investment Plans</div>
+        <section className="text-center bg-[#fff3dc] py-3 mt-16 mb-6">
+          <div className="text-2xl font-semibold font-['metric-medium'] ">Our Investment Plans</div>
         </section>
 
         <section className="my-5 px-5 flex flex-col md:flex-row flex-wrap justify-center items-center md:gap-10">
@@ -111,7 +112,7 @@ const PlanCard = ({ user, id, percentage, da }) => {
       <div className="h-[60px] px-4 flex justify-between md:gap-16 items-center bg-[#ffa600] text-white rounded-t-[10px]">
         <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
         <div className="flex items-center md:gap-2 gap-1 font-bold text-sm md:text-base ">
-          <div>PC-{id}</div> <div className="text-[#eee]">|</div> <div>Total {totalReturnPercentage}%</div>
+          <div>PC-{id}</div> <div className="text-[#eee]">|</div> <div>Total <span className="font-[fona]">{totalReturnPercentage}</span>%</div>
         </div>
       </div>
 
@@ -119,13 +120,13 @@ const PlanCard = ({ user, id, percentage, da }) => {
         <div className="flex justify-between ">
           <div className="">
             <div className="text-gray-500">Deposit Amount</div>
-            <div className="font-bold ">{da}</div>
+            <div className="font-bold font-[fona] ">{da}</div>
           </div>
 
           <div className="text-end">
             <div className="text-gray-500">Daily Return</div>
             <div className="flex items-center gap-2 font-bold">
-              <div>N{dailyReturn}</div> <div className="text-[#eee]">|</div> <div>{percentage}%</div>
+              <div className="font-[fona]">N{dailyReturn}</div> <div className="text-[#eee]">|</div> <div className="font-[fona]">{percentage}%</div>
             </div>
           </div>
         </div>
@@ -133,18 +134,18 @@ const PlanCard = ({ user, id, percentage, da }) => {
         <div className="flex justify-between mt-10">
           <div className="">
             <div className="text-gray-500">Return Period</div>
-            <div className="font-bold ">{returnPeriod} Days</div>
+            <div className="font-bold font-[fona] "><span className="font-[fona]">{returnPeriod}</span> Days</div>
           </div>
 
           <div className="text-end">
             <div className="text-gray-500">Total Return</div>
             <div className="flex items-center gap-2 font-bold">
-              <div>N{totalReturn}</div> <div className="text-[#eee]">|</div> <div>{percentage * returnPeriod}%</div>
+              <div className="font-[fona]">N{totalReturn}</div> <div className="text-[#eee]">|</div> <div className="font-[fona]">{percentage * returnPeriod}%</div>
             </div>
           </div>
         </div>
 
-        <div className="bg-[#ffa600] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold">{da}</div>
+        <div className="bg-[#ffa600] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold font-[fona]">{da}</div>
       </div>
     </div>
 

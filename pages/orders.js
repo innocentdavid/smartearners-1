@@ -43,7 +43,7 @@ export default function Orders() {
         </div>
       </nav> 
 
-      <header className="bg-gray-800 text-white py-3 px-5 font-[Poppins] text-sm ">
+      <header className="bg-gray-800 text-white py-3 px-5 font-['Metric-light'] text-sm ">
         <ul>
           <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto perferendis asperiores vel cum aut eos.</li>
           <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto perferendis asperiores vel cum aut eos.</li>

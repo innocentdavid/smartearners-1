@@ -18,10 +18,18 @@
   background-image: url('/images/back.png');
 } */
 
-/* .swiper-button-next::after,
+.swiper-button-next::after,
 .swiper-button-prev::after {
-  display: none;
-} */
+  color: #ffa600;
+  font-size: 30px;
+}
+
+@media (max-width: 600px) {
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    display: none;
+  }
+}
 
 /* .snp, .snn {
   position: absolute;
