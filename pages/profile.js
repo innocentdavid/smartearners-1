@@ -2,9 +2,11 @@ import Head from 'next/head'
 import { useState } from 'react'
 import Footer from '../components/footer'
 import { AiOutlineUser } from 'react-icons/ai'
+import { useRouter } from 'next/router'
 
 export default function Profile() {
-  const [user, setUser] = useState({
+  const router = useRouter()
+  const [user] = useState({
     id: 1, userName: '0x9***384', myTicket: 0, balance: 350
   })
 
@@ -23,17 +25,21 @@ export default function Profile() {
           <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
           <div className="flex flex-col items-center">Balance <strong className="">N<span>{user?.balance}</span></strong></div>
         </div>
-      </nav> 
+      </nav>
 
       <header className="bg-gray-800 text-white py-3 px-5 font-[Poppins]">
         <div className="flex items-center justify-end gap-1">
-          <div className="text-[#ffa500]"><AiOutlineUser size="20px" /></div> 
-          <div>My ID: <span>{user?.userName}</span></div>
+          <div className="text-[#ffa500]"><AiOutlineUser size="20px" /></div>
+          {/* <div>My ID: <span>{user?.userName}</span></div> */}
+          <div className="flex items-center gap-2">
+            <div className="text-sm py-1 px-3 border border-[#ffa600] cursor-pointer" onClick={() => { router.push('/login') }}>Log in</div>
+            <div className="text-sm py-1 px-3 border border-[#ffa600] cursor-pointer" onClick={() => { router.push('/signup') }}>Sign up</div>
+          </div>
         </div>
       </header>
 
       <main className="mt-5">
-        
+
       </main>
 
       <Footer />

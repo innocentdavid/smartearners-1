@@ -40,7 +40,7 @@ export default function Profile() {
       <main className="mt-3">
         <div className="font-[fona] text-[18px]">
           <div className="flex border-b">
-            <div className="w-full flex items-center justify-center h-[59px] bg-[#ffa600] text-white border-r">3000</div>
+            <div className="w-full flex items-center justify-center h-[59px] bg-[#ffa600] text-white border-r">3000</div> 
             <div className="w-full flex items-center justify-center h-[59px] border-r">3000</div>
             <div className="w-full flex items-center justify-center h-[59px]">3000</div>
           </div>

@@ -28,7 +28,7 @@ export default function Withdraw() {
       </Head>
 
       <header className="flex items-center px-8 py-5 border-b border-gray-300 relative">
-        <div className="cursor-pointer" onClick={() => { router.back() }}><img src="/images/back.png" alt="" width="20px" /></div>
+        <div className="cursor-pointer rotate-[270deg]" onClick={() => { router.back() }}><BsArrowUp size="20px" /></div>
         <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-xl font-semibold uppercase ">Withdraw</div>
       </header>
 

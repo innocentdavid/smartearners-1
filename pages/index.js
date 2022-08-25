@@ -1,97 +1,105 @@
+import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BiTrendingUp } from 'react-icons/bi'
 import Footer from '../components/footer'
 import Slider from '../components/slider'
+import { getAllInvestmentPlan } from '../lib/api'
 
-export default function Home() {
+export default function Home({ allInvestmentPlan }) {
+  const { status, data } = useSession();
+  const [user] = useState({ userName: '', myTicket: 0, balance: 0 })
   const router = useRouter()
-  const [user] = useState({
-    userName: '0x9***384', myTicket: 0, balance: 350
-  })
+  useEffect(() => {
+    if(status === 'unauthenticated') {
+      router.replace('/login')
+    }
 
-  const [plans] = useState([
-    { id: 1, percentage: 10, da: 3000 },
-    { id: 2, percentage: 11, da: 6000 },
-    { id: 3, percentage: 12, da: 10000 },
-    { id: 4, percentage: 13, da: 30000 },
-    { id: 5, percentage: 14, da: 60000 },
-    { id: 6, percentage: 15, da: 150000 },
-    { id: 7, percentage: 17, da: 500000 },
-    { id: 8, percentage: 20, da: 1000000 }
-  ])
+    // if(data && data.user.token){
+    //   console.log(data?.user?.token)
+    // }
+  }, [status])
+  // const dataN = data?.user?.token
+  // dataN && setUser({ ...dataN, balance: dataN.ri + dataN.roi })
+  
+  if(status === 'loading'){
+    return (<p className="text-2xl">Loading...</p>)
+  }
+  if (status === 'authenticated') {
 
-  return (
-    <div className="relative h-screen">
-      <Head>
-        <title>Smart Earners</title>
-        <meta name="description" content="" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    const [plans] = useState(allInvestmentPlan)
 
-      <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-4 md:px-36">
-        <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center ">SMART EARNERS</div>
+    return (
+      <div className="relative h-screen">
+        <Head>
+          <title>Smart Energy</title>
+          <meta name="description" content="" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-        <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
-          <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
-          <div className="border-r border-[#fff3dc] h-[60%]"></div>
-          <div className="flex flex-col items-center">Balance <strong className="">N<span>{user?.balance}</span></strong></div>
-        </div>
-      </nav>
+        <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-4 md:px-36">
+          <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase ">SMART Energy</div>
 
-      <header className="text-center mb-5 md:w-full overflow-hidden ">
-        <Slider />
-      </header>
+          <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
+            <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
+            <div className="border-r border-[#fff3dc] h-[60%]"></div>
+            <div className="flex flex-col items-center">Balance <strong className="">N<span>{data?.user?.token.roi + data?.user?.token.ri}</span></strong></div>
+          </div>
+        </nav>
 
-      <main className="">
-        <section className="flex flex-wrap items-center justify-between md:justify-evenly gap-1 md:px-6 px-3 my-5">
-          <div className="flex flex-col items-center">
-            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/withdraw') }}>
-              <img src="/images/icons8-naira-48.png" alt="" width="20px" className="" />
+        <header className="text-center mb-5 md:w-full overflow-hidden ">
+          <Slider />
+        </header>
+
+        <main className="">
+          <section className="flex flex-wrap items-center justify-between md:justify-evenly gap-1 md:px-6 px-3 my-5">
+            <div className="flex flex-col items-center">
+              <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/withdraw') }}>
+                <img src="/images/icons8-naira-48.png" alt="" width="20px" className="" />
+              </div>
+              <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Withdraw</div>
             </div>
-            <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Withdraw</div>
-          </div>
 
-          <div className="flex flex-col items-center">
-            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/team') }}>
-              <img src="/images/icons8-share-50.png" alt="" width="20px" className="" />
+            <div className="flex flex-col items-center">
+              <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/team') }}>
+                <img src="/images/icons8-share-50.png" alt="" width="20px" className="" />
+              </div>
+              <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Referral</div>
             </div>
-            <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Referral</div>
-          </div>
 
-          <div className="flex flex-col items-center">
-            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/#support') }}>
-              <img src="/images/icons8-comments-50.png" alt="" width="20px" className="" />
+            <div className="flex flex-col items-center">
+              <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/#support') }}>
+                <img src="/images/icons8-comments-50.png" alt="" width="20px" className="" />
+              </div>
+              <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Support</div>
             </div>
-            <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Support</div>
-          </div>
 
-          <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/#') }}>
-            <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-black flex justify-center items-center "><BiTrendingUp size="20px" /></div>
-            <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Invest&nbsp;Now</div>
-          </div>
-        </section>
+            <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/#') }}>
+              <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-black flex justify-center items-center "><BiTrendingUp size="20px" /></div>
+              <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Invest&nbsp;Now</div>
+            </div>
+          </section>
 
-        <section className="text-center bg-[#fff3dc] py-3 mt-16 mb-6">
-          <div className="text-2xl font-semibold font-['metric-medium'] ">Our Investment Plans</div>
-        </section>
+          <section className="text-center bg-[#fff3dc] py-3 mt-16 mb-6">
+            <div className="text-2xl font-semibold font-['metric-medium'] ">Our Investment Plans</div>
+          </section>
 
-        <section className="my-5 px-5 flex flex-col md:flex-row flex-wrap justify-center items-center md:gap-10">
-          {plans?.map(plan => {
-            return <PlanCard key={plan?.id} user={user} id={plan?.id} percentage={plan?.percentage} da={plan?.da} />
-          })}
-        </section>
-      </main>
+          <section className="my-5 px-5 flex flex-col md:flex-row flex-wrap justify-center items-center md:gap-10">
+            {plans?.map((plan, index) => {
+              return <PlanCard key={plan?._id} user={user} id={index + 1} title={plan?.title} returnPeriod={plan?.returnPeriod} percentage={plan?.percentage} da={plan?.da} />
+            })}
+          </section>
+        </main>
 
-      <Footer />
-    </div>
-  )
+        <Footer />
+      </div>
+    )
+  }
 }
 
 
-const PlanCard = ({ user, id, percentage, da }) => {
-  const returnPeriod = 60
+const PlanCard = ({ user, id, title, percentage, da, returnPeriod }) => {
   const dailyReturn = (percentage / 100) * da
   const totalReturn = ((percentage / 100) * da) * returnPeriod
   const totalReturnPercentage = percentage * returnPeriod;
@@ -110,9 +118,11 @@ const PlanCard = ({ user, id, percentage, da }) => {
   return (<>
     <div className="mb-8 w-full md:w-fit cursor-pointer" onClick={() => { showModal() }}>
       <div className="h-[60px] px-4 flex justify-between md:gap-16 items-center bg-[#ffa600] text-white rounded-t-[10px]">
-        <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
+        <div className="font-bold font-[poppins] ">SMART <br /> Energy</div>
         <div className="flex items-center md:gap-2 gap-1 font-bold text-sm md:text-base ">
-          <div>PC-{id}</div> <div className="text-[#eee]">|</div> <div>Total <span className="font-[fona]">{totalReturnPercentage}</span>%</div>
+          {/* <div>PC-{id}</div>  */}
+          <div>{title}</div>
+          <div className="text-[#eee]">|</div> <div>Total <span className="font-[fona]">{totalReturnPercentage}</span>%</div>
         </div>
       </div>
 
@@ -158,7 +168,7 @@ const PlanCard = ({ user, id, percentage, da }) => {
       <div className="z-[5] fixed top-[50%] md:top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] md:translate-y-[-30%] w-[90%] lg:w-[60%] ">
 
         <div className="h-[70px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa600] text-white rounded-t-[10px]">
-          <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
+          <div className="font-bold font-[poppins] ">SMART <br /> Energy</div>
           <div className="text-end">
             <div className="text-black font-semibold">PLEASE</div>
             <div className="text-2xl font-bold">CONFIRM</div>
@@ -182,6 +192,16 @@ const PlanCard = ({ user, id, percentage, da }) => {
         </div>
       </div>
     </div>
-    
+
   </>)
+}
+
+
+export async function getStaticProps({ preview = false }) {
+  const allInvestmentPlan = await getAllInvestmentPlan();
+
+  return {
+    props: { allInvestmentPlan },
+    revalidate: 1
+  }
 }
