@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState } from 'react';
+import { BsArrowUp } from 'react-icons/bs'
 import { TbCurrencyNaira } from 'react-icons/tb'
 
 export default function Withdraw() {
