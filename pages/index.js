@@ -19,17 +19,17 @@ export default function Home({ allInvestmentPlan }) {
     // if(data && data.user.token){
     //   console.log(data?.user?.token)
     // }
-  }, [status])
+  },[])
   // const dataN = data?.user?.token
   // dataN && setUser({ ...dataN, balance: dataN.ri + dataN.roi })
   
   if(status === 'loading'){
     return (<p className="text-2xl">Loading...</p>)
   }
+
+  const [plans] = useState(allInvestmentPlan)
+
   if (status === 'authenticated') {
-
-    const [plans] = useState(allInvestmentPlan)
-
     return (
       <div className="relative h-screen">
         <Head>

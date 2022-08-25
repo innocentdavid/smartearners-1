@@ -45,7 +45,8 @@ const authoptions = {
   },
   pages: {
     signIn: '/login?p=0',
-    signup: '/login?p=1'
+    signup: '/login?p=1',
+    newUser: '/login?p=1'
   }
 }
 
