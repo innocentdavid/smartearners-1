@@ -8,10 +8,12 @@ import Slider from '../components/slider'
 import { getAllInvestmentPlan } from '../lib/api'
 
 export default function Home({ allInvestmentPlan }) {
-  const [plans, setPlans] = useState(allInvestmentPlan)
+  const [plans] = useState(allInvestmentPlan)
   const { status, data } = useSession();
-  const [user, setUser] = useState({ userName: '', myTicket: 0, balance: 0 })
+  const [user, setUser] = useState()
   const router = useRouter()
+
+  // console.log('data =>', data)
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.replace('/login')
@@ -19,13 +21,13 @@ export default function Home({ allInvestmentPlan }) {
 
     if (data && data.user.token) {
       const dataN = data?.user?.token
-      dataN && setUser({ ...dataN, userName: dataN.tel, balance: dataN.ri + dataN.roi })
-      console.log('user =>', user)
+      const u = { ...dataN, balance: dataN.ri + dataN.roi}
+      dataN.tek && setUser(u)
     }
   }, [status, router])
 
   if (status === 'loading') {
-    return (<p className="text-2xl">Loading...</p>)
+    return (<p className="grid place-items-center text-2xl">Loading...</p>)
   }
 
 
@@ -44,7 +46,7 @@ export default function Home({ allInvestmentPlan }) {
           <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
             <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
             <div className="border-r border-[#fff3dc] h-[60%]"></div>
-            <div className="flex flex-col items-center">Balance <strong className="">N<span>{data?.user?.token.roi + data?.user?.token.ri}</span></strong></div>
+            <div className="flex flex-col items-center">Balance <strong className="">N<span>{user?.balance}</span></strong></div>
           </div>
         </nav>
 

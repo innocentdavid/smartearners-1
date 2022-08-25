@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { BsPhone, BsLock } from 'react-icons/bs'
+import { getUser } from '../lib/api';
 
 export default function Login() {
   const router = useRouter()
@@ -29,7 +30,7 @@ export default function Login() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     const data = { tel: userDetails.tel, password: userDetails.password }
-    const user = await getUser(tel);
+    const user = await getUser(data.tel);
     if(!user){
       try {
         const response = await fetch('/api/createUser', {

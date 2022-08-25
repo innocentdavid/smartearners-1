@@ -42,43 +42,44 @@ export default function Team() {
       </nav>
 
       <header className="bg-gray-800 text-white py-3 px-5 font-['Matric-Light'] text-[16px]">
-      {/* style={{ listStyleType:'initial' }} */}
-        <ul className="">
-          <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto <a href="#" className="text-[#ffa500]">Please click here to buy tickets if needed.</a></li>
-        </ul>
+        <div>The referral income you obtain from "My Team" consist of 3 parts below. <span className="text-[#ffa500] select-none cursor-pointer">Please click here to buy tickets if needed.</span></div>
       </header>
 
       <main className="mt-5">
-      
+        <ul>
+          <li>• 14%+5%+1% / One-Time Commission</li>
+          <li>• 20% Share of Lv.1's Daily Return</li>
+          <li>• ₦300 Per Valid Refer</li>
+        </ul>
       </main>
 
       <Footer />
 
 
       <div id="modal" className="hidden fixed">
-      <div onClick={() => { hideModal() }} className="z-[4] cursor-pointer fixed top-0 left-0 w-screen h-screen grid place-items-center bg-[rgba(0,0,0,.1)] text-white font-['Poppins']" title="close">
-      </div>
-
-      <div className="z-[5] fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[90%] mx-auto">
-        <div className="h-[70px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
-          <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
-          <div className="text-end">
-            <div className="text-black font-semibold">COPY YOUR</div>
-            <div className="text-2xl font-bold">REFERRAL LINK</div>
-          </div>
+        <div onClick={() => { hideModal() }} className="z-[4] cursor-pointer fixed top-0 left-0 w-screen h-screen grid place-items-center bg-[rgba(0,0,0,.1)] text-white font-['Poppins']" title="close">
         </div>
 
-        <div className="px-4 py-4 shadow-lg rounded-b-[10px] text-[.9rem] bg-[#fff] text-black">
-          <div className="">
-            <p>Please copy your exclusive referral link:</p>
-            <p><a href={`http://smartearners.com/?rf=${user?.id}`}>http://smartearners.com/?rf={user?.id}</a></p>
+        <div className="z-[5] fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[90%] mx-auto">
+          <div className="h-[70px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
+            <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
+            <div className="text-end">
+              <div className="text-black font-semibold">COPY YOUR</div>
+              <div className="text-2xl font-bold">REFERRAL LINK</div>
+            </div>
           </div>
 
-          <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer">Copy</div>
+          <div className="px-4 py-4 shadow-lg rounded-b-[10px] text-[.9rem] bg-[#fff] text-black">
+            <div className="">
+              <p>Please copy your exclusive referral link:</p>
+              <p><a href={`http://smartearners.com/?rf=${user?.id}`}>http://smartearners.com/?rf={user?.id}</a></p>
+            </div>
+
+            <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer">Copy</div>
+          </div>
         </div>
       </div>
-    </div>
-  
+
     </div>
   )
 }
