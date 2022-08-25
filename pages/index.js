@@ -8,26 +8,26 @@ import Slider from '../components/slider'
 import { getAllInvestmentPlan } from '../lib/api'
 
 export default function Home({ allInvestmentPlan }) {
+  const [plans, setPlans] = useState(allInvestmentPlan)
   const { status, data } = useSession();
-  const [user] = useState({ userName: '', myTicket: 0, balance: 0 })
+  const [user, setUser] = useState({ userName: '', myTicket: 0, balance: 0 })
   const router = useRouter()
   useEffect(() => {
-    if(status === 'unauthenticated') {
+    if (status === 'unauthenticated') {
       router.replace('/login')
     }
 
-    // if(data && data.user.token){
-    //   console.log(data?.user?.token)
-    // }
-  },[])
-  // const dataN = data?.user?.token
-  // dataN && setUser({ ...dataN, balance: dataN.ri + dataN.roi })
-  
-  if(status === 'loading'){
+    if (data && data.user.token) {
+      const dataN = data?.user?.token
+      dataN && setUser({ ...dataN, userName: dataN.tel, balance: dataN.ri + dataN.roi })
+      console.log('user =>', user)
+    }
+  }, [status, router])
+
+  if (status === 'loading') {
     return (<p className="text-2xl">Loading...</p>)
   }
 
-  const [plans] = useState(allInvestmentPlan)
 
   if (status === 'authenticated') {
     return (
