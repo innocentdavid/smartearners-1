@@ -13,7 +13,7 @@ export default function Investreturn() {
   return (
     <>
       <Head>
-        <title>20% Share of Lv.1's Daily Return - Smart Earners</title>
+        <title>{"20% Share of Lv.1's Daily Return"} - Smart Earners</title>
         <meta name="description" content="20% Share of Lv.1's Daily Return" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -22,9 +22,9 @@ export default function Investreturn() {
         <div className="cursor-pointer rotate-[270deg]" onClick={() => { router.back() }}><BsArrowUp size="20px" /></div>
 
         <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
-          <div className="flex flex-col items-center text-center text-[.6rem]">I've <br /> earned <strong className="font-Josefin text-lg">{user?.roi || 0}</strong></div>
+          <div className="flex flex-col items-center text-center text-[.6rem]">{"I've"} <br /> earned <strong className="font-Josefin text-lg">{user?.roi || 0}</strong></div>
           <div className="border-r border-[#fff3dc] h-[60%]"></div>
-          <div className="flex flex-col items-center text-center text-[.6rem]">I'm earning <br /> today <strong className="font-Josefin text-lg">₦<span>{user?.balance}</span></strong></div>
+          <div className="flex flex-col items-center text-center text-[.6rem]">{"I'm earning"} <br /> today <strong className="font-Josefin text-lg">₦<span>{user?.balance}</span></strong></div>
         </div>
       </nav>
 
@@ -34,7 +34,7 @@ export default function Investreturn() {
           <div className="font-bold text-[.9rem] md:text-[1rem] -mb-1">20% Share of Lv.1's Daily Return</div>
         </div>
 
-        <p className="mt-3 text-[.75rem]">When your Level 1 referrals start to obtain daily return from his investment plans, you will obtain a 20% extra share of that return on a daily basis as well.</p>
+        <p className="mt-3 text-[.75rem]">{"When your Level 1 referrals start to obtain daily return from his investment plans, you will obtain a 20% extra share of that return on a daily basis as well."}</p>
       </header>
 
       <section className="mt-4">

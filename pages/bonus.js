@@ -22,9 +22,9 @@ export default function Bonus() {
         <div className="cursor-pointer rotate-[270deg]" onClick={() => { router.back() }}><BsArrowUp size="20px" /></div>
 
         <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
-          <div className="flex flex-col items-center">I've <br /> earned <strong className="font-Josefin text-lg">{user?.roi}</strong></div>
+          <div className="flex flex-col items-center">{"I've"} <br /> earned <strong className="font-Josefin text-lg">{user?.roi}</strong></div>
           <div className="border-r border-[#fff3dc] h-[60%]"></div>
-          <div className="flex flex-col items-center">I'm earning <br /> today <strong className="font-Josefin text-lg">₦<span>{user?.balance}</span></strong></div>
+          <div className="flex flex-col items-center">{"I'm earning"} <br /> today <strong className="font-Josefin text-lg">₦<span>{user?.balance}</span></strong></div>
         </div>
       </nav>
 
@@ -34,7 +34,7 @@ export default function Bonus() {
           <div className="font-bold text-[.9rem] md:text-[1rem]">14%+5%+1% / One-Time Commission</div>
         </div>
 
-        <p className="mt-3 text-[.75rem]">When your Level 1 referrals make a payment, you will obtain 14% of his payment amount as referral commission immediately. And you obtain 5% of your Level 2's payment amount, and 1% of your Level 3's.</p>
+        <p className="mt-3 text-[.75rem]">{"When your Level 1 referrals make a payment, you will obtain 14% of his payment amount as referral commission immediately. And you obtain 5% of your Level 2's payment amount, and 1% of your Level 3's."}</p>
       </header>
 
       <main className="max-w-[767px]">
