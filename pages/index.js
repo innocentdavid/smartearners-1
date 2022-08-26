@@ -24,7 +24,7 @@ export default function Home({ allInvestmentPlan }) {
       const u = { ...dataN, balance: dataN.ri + dataN.roi}
       dataN.tek && setUser(u)
     }
-  }, [status, router])
+  }, [status, data, router])
 
   if (status === 'loading') {
     return (<p className="grid place-items-center text-2xl">Loading...</p>)
