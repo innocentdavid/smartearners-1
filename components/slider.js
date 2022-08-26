@@ -29,13 +29,16 @@ export default function Slider() {
       // onSwiper={(swiper) => console.log(swiper)}
     >
       <SwiperSlide className="flex justify-center">
-        <img src="/images/239aea4431a36bbfee37a891a0303492.png/" alt="" className="w-full md:h-[300px] lg:h-[400px] object-cover" />
+        <img src="/images/IMG-20220824-WA0021.jpg" alt="" className="w-full md:h-[300px] lg:h-[400px] object-cover" />
       </SwiperSlide>
       <SwiperSlide className="flex justify-center">
-        <img src="/images/354d8cfd841268167900ba516bfeeacd.png/" alt="" className="w-full md:h-[300px] lg:h-[400px] object-cover" />
+        <img src="/images/IMG-20220823-WA0021.jpg" alt="" className="w-full md:h-[300px] lg:h-[400px] object-cover" />
       </SwiperSlide>
       <SwiperSlide className="flex justify-center">
-        <img src="/images/1150c43c77b18703fcb5ab79587b7348.png/" alt="" className="w-full md:h-[300px] lg:h-[400px] object-cover" />
+        <img src="/images/IMG-20220824-WA0019.jpg" alt="" className="w-full md:h-[300px] lg:h-[400px] object-cover" />
+      </SwiperSlide>
+      <SwiperSlide className="flex justify-center">
+        <img src="/images/IMG-20220824-WA0020.jpg" alt="" className="w-full md:h-[300px] lg:h-[400px] object-cover" />
       </SwiperSlide>
 
       {/* <div className="snp" ref={sNextRef}></div>
