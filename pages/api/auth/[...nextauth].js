@@ -12,7 +12,7 @@ const authoptions = {
         const { tel, password } = credentials
         // perform login logic, query db for user
         const user = await getUser(tel);
-        console.log(user)
+        // console.log(user)
         if(!user){
           throw new Error("You haven't registered yet!")
         }else{

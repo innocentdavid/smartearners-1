@@ -30,7 +30,7 @@ export default function Withdraw() {
 
       <header className="flex items-center px-8 py-5 border-b border-gray-300 relative">
         <div className="cursor-pointer rotate-[270deg]" onClick={() => { router.back() }}><BsArrowUp size="20px" /></div>
-        <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-xl font-semibold uppercase ">Withdraw</div>
+        <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold uppercase ">Withdraw</div>
       </header>
 
       <main>

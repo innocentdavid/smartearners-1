@@ -52,3 +52,115 @@
     right: 0;
     background-image: url('/images/next.png');
   } */
+
+  @font-face {
+    font-family: 'Metric';
+    src: local('Metric SemiBold Italic'), local('Metric-SemiBoldItalic'),
+        url('/Metric/Metric-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric Black Italic'), local('Metric-BlackItalic'),
+        url('/Metric/Metric-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric Thin Italic'), local('Metric-ThinItalic'),
+        url('/Metric/Metric-ThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric Regular'), local('Metric-Regular'),
+        url('/Metric/Metric-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric Thin'), local('Metric-Thin'),
+        url('/Metric/Metric/Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric Regular Italic'), local('Metric-RegularItalic'),
+        url('/Metric/Metric-RegularItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric Bold Italic'), local('Metric-BoldItalic'),
+        url('/Metric/Metric-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric Light'), local('Metric-Light'),
+        url('/Metric/Metric-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric Bold'), local('Metric-Bold'),
+        url('/Metric/Metric/Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric Medium'), local('Metric-Medium'),
+        url('/Metric/Metric-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric Light Italic'), local('Metric-LightItalic'),
+        url('/Metric/Metric-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric Black'), local('Metric-Black'),
+        url('/Metric/Metric-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric SemiBold'), local('Metric-SemiBold'),
+        url('/Metric/Metric-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Metric';
+    src: local('Metric Medium Italic'), local('Metric-MediumItalic'),
+        url('/Metric/Metric-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}

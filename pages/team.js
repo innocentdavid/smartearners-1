@@ -2,8 +2,10 @@ import Head from 'next/head'
 import { useState } from 'react'
 import Footer from '../components/footer'
 import { AiOutlineShareAlt } from 'react-icons/ai'
+import { useRouter } from 'next/router'
 
 export default function Team() {
+  const router = useRouter()
   const [user, setUser] = useState({
     id: 1, userName: '0x9***384', myTicket: 0, balance: 350
   })
@@ -26,7 +28,7 @@ export default function Team() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="fixed top-[30%] right-0 flex items-center gap-2 shadow-xl rounded-l-[30px] px-3 py-2 bg-[#ffa500] text-white font-['Metric-Light'] cursor-pointer" onClick={() => { showModal() }}>
+      <div className="fixed top-[10%] right-0 flex items-center gap-2 rounded-l-[30px] px-3 py-2 bg-[#ffa500] text-white font-['Metric-Light'] cursor-pointer" style={{ boxShadow: '0px 0px 14px -3px #707377' }} onClick={() => { showModal() }}>
         <div className=""><AiOutlineShareAlt /></div>
         <div className="">My Link</div>
       </div>
@@ -41,16 +43,30 @@ export default function Team() {
         </div>
       </nav>
 
-      <header className="bg-gray-800 text-white py-3 px-5 font-['Matric-Light'] text-[16px]">
-        <div>The referral income you obtain from "My Team" consist of 3 parts below. <span className="text-[#ffa500] select-none cursor-pointer">Please click here to buy tickets if needed.</span></div>
+      <header className="bg-[#242931] text-[#fff] py-3 px-5 font-Josefin text-[14px]">
+        <div>The referral income you obtain from "My Team" consist of 3 parts below. <span className="text-[#ffa500] select-none cursor-pointer" onClick={() => { showModal() }}>Please click here to buy tickets if needed.</span></div>
       </header>
 
-      <main className="mt-5">
-        <ul>
-          <li>• 14%+5%+1% / One-Time Commission</li>
-          <li>• 20% Share of Lv.1's Daily Return</li>
-          <li>• ₦300 Per Valid Refer</li>
-        </ul>
+      <main className="mt-5 px-5">
+        <div>
+          <div className="">
+            <div style={{ fontFamily: "Metric-SemiBold" }} className="text-[19px] text-black font-bold ">• 14%+5%+1% / One-Time Commission</div>
+            <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">When your Level 1 referrals make a payment, you will obtain 14% of his payment amount as referral commission immediately. And you obtain 5% of your Level 2's payment amount, and 1% of your Level 3's.</p>
+            <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/bonus') }}>Check my stats in this part</div>
+          </div>
+
+          <div className="">
+            <div className="font-['Metric-SemiBold'] text-[19px] text-black font-bold ">• 20% Share of Lv.1's Daily Return</div>
+            <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">When your Level 1 referrals start to obtain daily return from his investment plans, you will obtain a 20% extra share of that return on a daily basis as well.</p>
+            <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/investreturn') }}>Check my stats in this part</div>
+          </div>
+
+          <div className="">
+            <div className="font-['Metric-SemiBold'] text-[19px] text-black font-bold ">• ₦300 Per Valid Refer</div>
+            <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">You will obtain ₦300 as bonus when any of your Level 1 referrals make a payment and become a valid member. This bonus is only given for one time on the same referral.</p>
+            <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/pervalidrefer') }}>Check my stats in this part</div>
+          </div>
+        </div>
       </main>
 
       <Footer />
