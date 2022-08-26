@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import { useState } from 'react'
 import Footer from '../components/footer'
 
@@ -29,7 +30,7 @@ export default function Orders() {
   return (
     <div className="relative h-screen">
       <Head>
-        <title>My orders</title>
+        <title>Orders</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -43,12 +44,10 @@ export default function Orders() {
         </div>
       </nav> 
 
-      <header className="bg-gray-800 text-white py-3 px-5 font-['Metric-light'] text-sm ">
-        <ul>
-          <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto perferendis asperiores vel cum aut eos.</li>
-          <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto perferendis asperiores vel cum aut eos.</li>
-          <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto <a href="#" className="text-[#ffa500]">Please click here to buy tickets if needed.</a></li>
-        </ul>
+      <header className="bg-gray-800 text-white py-3 px-5 font-Josefin text-sm ">
+          <div>• Only 24H after deposit, rather than the moment you purchase, you receive its first daily return at your balance.</div>
+          <div>• You can keep multiple plans simultaneously, no matter same or different ones.</div>
+          <div>• All investment plans are only activated by tickets. <Link href="/deposit"><a className="text-[#ffa500] select-none">Please click here to buy tickets if needed.</a></Link></div>
       </header>
 
       <main className="mt-5">
