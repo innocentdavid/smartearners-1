@@ -28,7 +28,7 @@ export default function Team() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="fixed top-[10%] right-0 flex items-center gap-2 rounded-l-[30px] px-3 py-2 bg-[#ffa500] text-white font-['Metric-Light'] cursor-pointer" style={{ boxShadow: '0px 0px 14px -3px #707377' }} onClick={() => { showModal() }}>
+      <div className="fixed top-[30%] right-0 flex items-center gap-2 rounded-l-[30px] px-3 py-2 bg-[#ffa500] text-white font-['Metric-Light'] cursor-pointer" style={{ boxShadow: '0px 0px 14px -3px #707377' }} onClick={() => { showModal() }}>
         <div className=""><AiOutlineShareAlt /></div>
         <div className="">My Link</div>
       </div>
@@ -47,7 +47,7 @@ export default function Team() {
         <div>{`The referral income you obtain from "My Team" consist of 3 parts below.`} <span className="text-[#ffa500] select-none cursor-pointer" onClick={() => { showModal() }}>Please click here to buy tickets if needed.</span></div>
       </header>
 
-      <main className="mt-5 px-5">
+      <main className="mt-5 px-5 max-w-[500px]">
         <div>
           <div className="">
             <div style={{ fontFamily: "Metric-SemiBold" }} className="text-[19px] text-black font-bold ">• 14%+5%+1% / One-Time Commission</div>
