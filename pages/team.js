@@ -44,26 +44,26 @@ export default function Team() {
       </nav>
 
       <header className="bg-[#242931] text-[#fff] py-3 px-5 font-Josefin text-[14px]">
-        <div>The referral income you obtain from "My Team" consist of 3 parts below. <span className="text-[#ffa500] select-none cursor-pointer" onClick={() => { showModal() }}>Please click here to buy tickets if needed.</span></div>
+        <div>{`The referral income you obtain from "My Team" consist of 3 parts below.`} <span className="text-[#ffa500] select-none cursor-pointer" onClick={() => { showModal() }}>Please click here to buy tickets if needed.</span></div>
       </header>
 
       <main className="mt-5 px-5">
         <div>
           <div className="">
             <div style={{ fontFamily: "Metric-SemiBold" }} className="text-[19px] text-black font-bold ">• 14%+5%+1% / One-Time Commission</div>
-            <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">When your Level 1 referrals make a payment, you will obtain 14% of his payment amount as referral commission immediately. And you obtain 5% of your Level 2's payment amount, and 1% of your Level 3's.</p>
+            <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">{`When your Level 1 referrals make a payment, you will obtain 14% of his payment amount as referral commission immediately. And you obtain 5% of your Level 2's payment amount, and 1% of your Level 3's.`}</p>
             <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/bonus') }}>Check my stats in this part</div>
           </div>
 
           <div className="">
-            <div className="font-['Metric-SemiBold'] text-[19px] text-black font-bold ">• 20% Share of Lv.1's Daily Return</div>
-            <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">When your Level 1 referrals start to obtain daily return from his investment plans, you will obtain a 20% extra share of that return on a daily basis as well.</p>
+            <div className="font-['Metric-SemiBold'] text-[19px] text-black font-bold ">{`• 20% Share of Lv.1's Daily Return`}</div>
+            <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">{`When your Level 1 referrals start to obtain daily return from his investment plans, you will obtain a 20% extra share of that return on a daily basis as well.`}</p>
             <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/investreturn') }}>Check my stats in this part</div>
           </div>
 
           <div className="">
-            <div className="font-['Metric-SemiBold'] text-[19px] text-black font-bold ">• ₦300 Per Valid Refer</div>
-            <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">You will obtain ₦300 as bonus when any of your Level 1 referrals make a payment and become a valid member. This bonus is only given for one time on the same referral.</p>
+            <div className="font-['Metric-SemiBold'] text-[19px] text-black font-bold ">{`• ₦300 Per Valid Refer`}</div>
+            <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">{`You will obtain ₦300 as bonus when any of your Level 1 referrals make a payment and become a valid member. This bonus is only given for one time on the same referral.`}</p>
             <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/pervalidrefer') }}>Check my stats in this part</div>
           </div>
         </div>
