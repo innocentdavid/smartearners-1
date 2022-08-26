@@ -85,3 +85,29 @@ export default function ReferralLevel() {
     </>
   )
 }
+
+
+export async function getStaticProps({ params, preview = true }) {
+  const level = params.level
+
+  return {
+    props: {
+      preview, level
+    },
+    revalidate: 1
+  }
+}
+
+export async function getStaticPaths() {
+  // const allPosts = await getAllPostsWithSlug()
+  return {
+    paths: ['1','2','3'],
+    // paths:
+    //   allPosts?.map((post) => ({
+    //     params: {
+    //       slug: post?.slug,
+    //     },
+    //   })) || [],
+    fallback: true,
+  }
+}
