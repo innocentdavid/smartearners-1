@@ -7,7 +7,7 @@ import { AiOutlineShareAlt } from 'react-icons/ai'
 export default function Bonus() {
   const router = useRouter()
   const [user, setUser] = useState({
-    id: 1, userName: '0x9***384', myTicket: 0, balance: 350
+    id: 1, userName: '0x9***384', roi: 0, myTicket: 0, balance: 350
   })
 
   return (
@@ -21,10 +21,10 @@ export default function Bonus() {
       <nav className="flex justify-between items-center px-8 py-2">
         <div className="cursor-pointer rotate-[270deg]" onClick={() => { router.back() }}><BsArrowUp size="20px" /></div>
 
-        <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
-          <div className="flex flex-col items-center">{"I've"} <br /> earned <strong className="font-Josefin text-lg">{user?.roi}</strong></div>
+        <div className="flex items-center gap-3 text-[.8em] font-['Metric-Medium'] ">
+          <div className="flex flex-col items-center text-center">{"I've"} <br /> earned <strong className="font-Josefin font-semibold text-lg">{user?.roi}</strong></div>
           <div className="border-r border-[#fff3dc] h-[60%]"></div>
-          <div className="flex flex-col items-center">{"I'm earning"} <br /> today <strong className="font-Josefin text-lg">₦<span>{user?.balance}</span></strong></div>
+          <div className="flex flex-col items-center text-center">{"I'm earning"} <br /> today <strong className="font-Josefin font-semibold text-lg">₦<span>{user?.balance}</span></strong></div>
         </div>
       </nav>
 

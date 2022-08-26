@@ -9,7 +9,7 @@ export default function Footer() {
   return (
     <>
       <div className="h-[90px]"></div>
-      <footer className="fixed bottom-0 left-0 z-50 w-full h-[80px] flex justify-between items-center px-10 md:px-16 lg:px-20 bg-[#333] text-white rounded-t-[20px] border-t-[4px] border-t-[#ffa500] ">
+      <footer className="fixed bottom-0 left-0 z-50 w-full h-[80px] flex justify-between md:justify-center md:gap-10 items-center px-10 md:px-16 bg-[#333] text-white rounded-t-[20px] border-t-[4px] ">
         <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/') }}>
           <div className={`${router.pathname == '/' && 'text-[#ffa500]'} hover:text-[#e6ad44]`}><AiOutlineHome size="25px" /></div>
           <div className="text-[.8rem]">Home</div>

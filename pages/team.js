@@ -37,11 +37,11 @@ export default function Team() {
       <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-4 md:px-36">
         <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center cursor-pointer " onClick={() => { router.push('/') }}>SMART EARNERS</div>
                  
-        <div className="flex flex-col items-end">
+        <div className="flex flex-col items-end text-sm md:text-base font-bold">
           <div className="text-white flex items-center gap-1">
             <FcMoneyTransfer /> <div className="">Total Referral Income</div>
           </div>
-          <div className="font-josefin font-bold">0 NGN</div>
+          <div className="font-Josefin">0 NGN</div>
         </div>
         {/* <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
           <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
@@ -69,7 +69,7 @@ export default function Team() {
           </div>
 
           <div className="">
-            <div className="font-['Metric-SemiBold'] text-[19px] text-black font-bold ">{`• ₦300 Per Valid Refer`}</div>
+            <div className="font-['Metric-SemiBold'] text-[17px] md:text-[19px] text-black font-bold ">{`• ₦300 Per Valid Refer`}</div>
             <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">{`You will obtain ₦300 as bonus when any of your Level 1 referrals make a payment and become a valid member. This bonus is only given for one time on the same referral.`}</p>
             <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/pervalidrefer') }}>Check my stats in this part</div>
           </div>

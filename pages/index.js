@@ -41,16 +41,16 @@ export default function Home({ allInvestmentPlan }) {
         </Head>
 
         <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-4 md:px-36">
-          <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase ">SMART Energy</div>
+          <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase cursor-pointer">SMART Energy</div>
 
           <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
-            <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
+            <div className="flex flex-col items-center">Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket}</strong></div>
             <div className="border-r border-[#fff3dc] h-[60%]"></div>
-            <div className="flex flex-col items-center">Balance <strong className="">N<span>{user?.balance}</span></strong></div>
+            <div className="flex flex-col items-center">Balance <strong className="font-bold font-Josefin select-none">N<span>{user?.balance}</span></strong></div>
           </div>
         </nav>
 
-        <header className="text-center mb-5 md:w-full overflow-hidden ">
+        <header className="text-center mb-5 md:w-full overflow-x-hidden ">
           <Slider />
         </header>
 
@@ -77,13 +77,13 @@ export default function Home({ allInvestmentPlan }) {
               <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Support</div>
             </div>
 
-            <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/#') }}>
+            <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/#investmentPlan') }}>
               <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-black flex justify-center items-center "><BiTrendingUp size="20px" /></div>
               <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Invest&nbsp;Now</div>
             </div>
           </section>
 
-          <section className="text-center bg-[#fff3dc] py-3 mt-16 mb-6">
+          <section className="text-center bg-[#fff3dc] py-3 mt-16 mb-6" id="investmentPlan">
             <div className="text-2xl font-semibold font-['metric-medium'] ">Our Investment Plans</div>
           </section>
 

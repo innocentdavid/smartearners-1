@@ -2,20 +2,20 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { BsArrowRight, BsArrowUp } from "react-icons/bs";
 
-export default function ReferralLevel() {
+export default function ReferralLevel({ level }) {
   const router = useRouter()
 
   return (
     <>
       <Head>
-        <title>Referral Levl 1 - Smart Earners</title>
-        <meta name="description" content="Referral Levl 1" />
+        <title>Referral Level {level} - Smart Earners</title>
+        <meta name="description" content="Referral Level {level}" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <nav className="flex items-center px-8 py-5 border-b border-gray-300 relative">
         <div className="cursor-pointer rotate-[270deg]" onClick={() => { router.back() }}><BsArrowUp size="20px" /></div>
-        <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold ">Referral Level 1</div>
+        <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold ">Referral Level {level}</div>
       </nav>
 
       <div className="bg-[#242931] text-[#fff] py-4 font-Josefin text-[14px] flex justify-between items-center">
@@ -28,7 +28,7 @@ export default function ReferralLevel() {
               <td className="w-[27%] h-[38px] p-1 font-[fona] italic text-center">My<br />commission</td>
             </tr>
             <tr className="bg-[#1F242B]">
-              <td className="p-1 font-[fona] text-center text-[.8rem]">
+              <td className="p-1 font-[fona] text-center text-[.7rem]">
                 Total
               </td>
               <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">0/0</td>
@@ -36,7 +36,7 @@ export default function ReferralLevel() {
               <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦0</td>
             </tr>
             <tr className="">
-              <td className="p-1 font-[fona] text-center text-[.8rem]">
+              <td className="p-1 font-[fona] text-center text-[.7rem]">
                 Today
               </td>
               <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">0/0</td>
