@@ -33,8 +33,7 @@ export default function Pervalidrefer() {
             <div className="oneimgfour">
               <img src="/images/per01.png" alt="" />
                 </div>
-              <div className="Prew-monet">
-                ₦ 0                </div>
+              <div className="Prew-monet">₦ 0</div>
               <div className="Pre-CK-monet">
                 {"I'm earing Today"}
               </div>
@@ -45,8 +44,7 @@ export default function Pervalidrefer() {
               <div className="oneimgfour">
                 <img src="/images/per02.png" alt="" />
                 </div>
-                <div className="Prew-monet">
-                  ₦ 0                </div>
+                <div className="Prew-monet">₦ 0</div>
                 <div className="Pre-CK-monet">
                   {"I've earned"}
                 </div>

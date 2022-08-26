@@ -22,12 +22,12 @@ export default function Home({ allInvestmentPlan }) {
     if (data && data.user.token) {
       const dataN = data?.user?.token
       const u = { ...dataN, balance: dataN.ri + dataN.roi}
-      dataN.tek && setUser(u)
+      dataN?.tel && setUser(u)
     }
   }, [status, data, router])
 
   if (status === 'loading') {
-    return (<p className="grid place-items-center text-2xl">Loading...</p>)
+    return (<p className="h-screen grid place-items-center text-3xl">Loading...</p>)
   }
 
 
