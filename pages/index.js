@@ -15,9 +15,9 @@ export default function Home({ allInvestmentPlan }) {
 
   // console.log('data =>', data)
   useEffect(() => {
-    // if (status === 'unauthenticated') {
-    //   router.replace('/login')
-    // }
+    if (status === 'unauthenticated') {
+      router.replace('/login')
+    }
 
     if (data && data.user.token) {
       const dataN = data?.user?.token
