@@ -22,7 +22,7 @@ export default function Home({ allInvestmentPlan }) {
     if (data && data.user.token) {
       const dataN = data?.user?.token
       const u = { ...dataN, balance: dataN.ri + dataN.roi }
-      // dataN?.tel && setUser(u)
+      dataN?.tel && setUser(u)
 
       const fetch = async () => {
         document.querySelector('#generalLoading').classList.remove('hidden')
