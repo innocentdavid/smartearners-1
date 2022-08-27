@@ -1,7 +1,10 @@
+import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Footer from '../components/footer'
+import { getUser, getOrders } from '../lib/api'
 
 export default function Orders() {
   // const [user, setUser] = useState({
@@ -38,6 +41,18 @@ export default function Orders() {
       fetch()
     }
   }, [status, data, router])
+
+
+  const [orderItems, setOrderItems] = useState(null)
+
+  useEffect(() => {
+    const fetch = async () => {
+      const orders = await getOrders()
+      orders && setOrderItems(orders)
+      console.log(orders)
+    }
+    fetch()
+  }, [])
 
   const id = 1
   const da = 5000

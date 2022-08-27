@@ -4,6 +4,7 @@ export default {
   type: 'document',
   initialValue: {
     level: 1,
+    myTicket: 0,
     roi: 0,
     ri: 0
   },
