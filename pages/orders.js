@@ -35,7 +35,6 @@ export default function Orders() {
           const u = { ...cuser, balance: cuser.tbalance + cuser?.ri + cuser?.roi }
           // console.log(u)
           setUser(u)
-          const r = await updateUserPortfolio(user)
         }
       }
       fetch()
@@ -85,8 +84,8 @@ export default function Orders() {
         <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center ">SMART EARNERS</div>
 
         <div className="flex items-center gap-5 text-[.8rem] ">
-          <div className="flex flex-col items-center">Obtained  <strong>{user?.myTicket ? user?.myTicket : 0}</strong></div>
-          <div className="flex flex-col items-center">Balance <strong className="">N<span>{user?.balance}</span></strong></div>
+          <div className="flex flex-col items-center"><div>Obtained</div><div>Already</div><strong>{user?.myTicket ? user?.myTicket : 0}</strong></div>
+          <div className="flex flex-col items-center"><div>Obtained</div><div>Already</div> <strong className="">N<span>{user?.balance}</span></strong></div>
         </div>
       </nav> 
 

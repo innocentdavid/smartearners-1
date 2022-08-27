@@ -20,31 +20,33 @@ export default async function createUser(req, res) {
 
         const createOrder = await client.create({
           _type: 'order',
-          investmentPlan: {
-            _type: 'reference',
-            _ref: 'drafts.a73d9975-f00c-4078-81c2-209ac7776584',
-          },
-          user: {
-            _type: 'reference',
-            _ref: newUser?._id,
-          }
+          planId: 'drafts.a73d9975-f00c-4078-81c2-209ac7776584',
+          planTitle: 'Signup Bonus',
+          percentage: 1,
+          da: 5000,
+          dr: 50,
+          returnPeriod: 365,
+          drTime: newUser?._createdAt,
+          userId: newUser?._id,
+          userTel: newUser?.Tel
         })
 
         const updateTbalance = await client
           .patch(newUser?._id)
-          .dec({tbalance: 300})
+          .dec({ tbalance: 300 })
           .commit()
           .catch(error => {
             console.log('update user profile', error)
           })
 
-          const createBalanceRecord = await client.create({
-            _type: 'balanceRecord',
-            title: 'Signup Bonus',
-            type: 'income',
-            amount: 300,
-            remaining: 300
-          })
+        const createBalanceRecord = await client.create({
+          _type: 'record',
+          title: 'Signup Bonus',
+          category: 'balanceRecord',
+          type: 'income',
+          amount: 300,
+          remaining: 300
+        })
 
       } catch (err) {
         console.error(err)

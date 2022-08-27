@@ -10,6 +10,7 @@ export default function Profile() {
   const router = useRouter()
   const { status, data } = useSession();
   const [user, setUser] = useState(null)
+  const version = process.env.NODE_ENV
 
   // console.log('data =>', data)
   useEffect(() => {

@@ -28,8 +28,8 @@ export default function Login() {
     if (res.status == 200) {
       router.push('/')
     }
-    res.error && console.log(res.error)
-    alert(res.error)
+    console.log(res.error)
+    res.error && alert(res.error)
     document.querySelector('#generalLoading').classList.remove('grid')
     document.querySelector('#generalLoading').classList.add('hidden')
   }
