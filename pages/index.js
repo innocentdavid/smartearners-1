@@ -32,8 +32,10 @@ export default function Home({ allInvestmentPlan }) {
         document.querySelector('#generalLoading').classList.add('hidden')
         if (cuser) {
           const u = { ...cuser, balance: cuser?.ri + cuser?.roi }
-          console.log(u)
+          // console.log(u)
           setUser(u)
+        }else{
+          router.replace('/login')
         }
       }
       fetch()
@@ -50,6 +52,8 @@ export default function Home({ allInvestmentPlan }) {
 
       // return subscription.unsubscribe()
 
+    }else{
+      router.replace('/login')
     }
   }, [status, data, router])
 
