@@ -15,36 +15,8 @@ export default function Home({ allInvestmentPlan }) {
   const router = useRouter()
 
   // console.log('data =>', data)
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      version === 'production' && router.replace('/login')
-      alert('not loged in')
-    }
-
-    if (data && data.user.token) {
-      const dataN = data?.user?.token
-      // const u = { ...dataN, balance: dataN.ri + dataN.roi }
-      // dataN?.tel && setUser(u)
-
-      const fetch = async () => {
-        document.querySelector('#generalLoading').classList.remove('hidden')
-        document.querySelector('#generalLoading').classList.add('grid')
-        const cuser = await getUser(dataN.tel)
-        document.querySelector('#generalLoading').classList.remove('grid')
-        document.querySelector('#generalLoading').classList.add('hidden')
-        if (cuser) {
-          const u = { ...cuser, balance: cuser?.ri + cuser?.roi }
-          // console.log(u)
-          setUser(u)
-        }else{
-          version === 'production' && router.replace('/login')
-          alert('not loged in')
-        }
-      }
-      fetch()
-
-      // const query = '*[_type == "user" && id = $id]'
-      // const params = { id: dataN._id }
+  
+   // const params = { id: dataN._id }
       // client.listen(query, params)
       // .subscribe((update) => {
       //   console.log(update)
@@ -55,11 +27,6 @@ export default function Home({ allInvestmentPlan }) {
 
       // return subscription.unsubscribe()
 
-    }else{
-      version === 'production' && router.replace('/login')
-      alert('not loged in')
-    }
-  }, [status, data, router])
 
   if (status === 'loading') {
     return (
