@@ -14,12 +14,13 @@ export default function Home({ allInvestmentPlan }) {
   const [user, setUser] = useState(null)
   const router = useRouter()
 
+
   // console.log('data =>', data)
   
    // const params = { id: dataN._id }
       // client.listen(query, params)
       // .subscribe((update) => {
-      //   console.log(update)
+      //   console.log(update) //update
       //   const userData = update.result
       //   console.log('userData',userData)
       //   setUser(userData)
