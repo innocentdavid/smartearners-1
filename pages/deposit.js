@@ -2,25 +2,69 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { BsArrowUp } from 'react-icons/bs'
+import { FaTimes } from 'react-icons/fa'
+import { AiOutlineCreditCard, AiOutlineCheckCircle } from 'react-icons/ai'
+import { depositWithBalance } from '../lib/api'
 
 export default function Profile() {
   const [user, setUser] = useState({
-    id: 1, userName: '0x9***384', myTicket: 0, balance: 350
+    id: 1, userName: '0x9***384', myTicket: 0, balance: 3000
   })
 
   const router = useRouter()
 
   const [ticket, setTicket] = useState(3000)
+  const [ticketPlaceholder, setTicketPlaceholder] = useState()
   const [amountDeposited] = useState(ticket)
+  const [paymentGateWay, setPaymentGateWay] = useState(2)
+  const [showPaymentGateWay, setShowPaymentGateWay] = useState(false)
 
-  return (
+  const selectAmount = (e) => {
+    const value = e.target.value
+    document.querySelector('#ticket').value = ''
+    document.querySelector('#ticket').placeholder = value
+    setTicketPlaceholder(value)
+    setTicket(value)
+  }
+
+  const deposit = () => {
+    if (!ticket) {
+      alert('Please enter amount');
+      return
+    }
+    setShowPaymentGateWay(true)
+  }
+  
+  const makeDeposit = async () => {
+    console.log(ticket)
+    console.log(paymentGateWay)
+    if(paymentGateWay === 2){
+      console.log(user.balance, ticket)
+      if(!(user.balance >= parseInt(ticket))){
+        alert('Your balance is not enough')
+        return
+      }
+      const res = await depositWithBalance(user, ticket)
+      console.log(res)
+      if(res.message === 'success'){
+        alert(`You have successfully purchase ${ticket} tickets with your balance`)
+        setShowPaymentGateWay(false)
+        return;
+      }else{
+        alert(res.message)
+      }
+    }
+    setShowPaymentGateWay(false)
+  }
+
+  return (<>
+    <Head>
+      <title>Deposit</title>
+      <meta name="description" content="" />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
+
     <div className="relative h-screen">
-      <Head>
-        <title>Deposit</title>
-        <meta name="description" content="" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <nav className="flex justify-between items-center border-b border-[#ccc] bg-black text-white py-5 px-8 md:px-36">
         <div className="cursor-pointer rotate-[270deg]" onClick={() => { router.back() }}><BsArrowUp size="20px" className="stroke-1" /></div>
 
@@ -38,126 +82,99 @@ export default function Profile() {
 
       <main className="mt-3">
         <div>
-          <ul className="donate-now">
+          <ul className="donate-now border-b">
             <li>
-              <input type="radio" id="a25" name="amount" />
-              <label htmlFor="a25">$25</label>
+              <input type="radio" id="a25" name="amount" value="3000" onClick={selectAmount} />
+              <label htmlFor="a25" className="border-r">3000</label>
             </li>
             <li>
-              <input type="radio" id="a50" name="amount" />
-              <label htmlFor="a50">$50</label>
+              <input type="radio" id="a50" name="amount" value="6000" onClick={selectAmount} />
+              <label htmlFor="a50" className="border-r">6000</label>
             </li>
             <li>
-              <input type="radio" id="a75" name="amount" checked="checked" />
-              <label htmlFor="a75">$75</label>
-            </li>
-            <li>
-              <input type="radio" id="a100" name="amount" />
-              <label htmlFor="a100">$100</label>
-            </li>
-            <li>
-              <input type="radio" id="other" name="amount" />
-              <label htmlFor="other">other:</label>
-            </li>
-            <li>
-              <input type="text" id="otherAmount" name="numAmount" />
+              <input type="radio" id="a75" name="amount" value="10000" onClick={selectAmount} />
+              <label htmlFor="a75" className="">10000</label>
             </li>
           </ul>
-        </div>
-        <br />
-        <br />
-        <div className="font-[fona] text-[18px]">
-          <div className="flex border-b">
-            <label htmlFor="a3000" className="w-full flex items-center justify-center h-[59px] bg-[#ffa600] text-white border-r">
-              <input type="radio" name="amountsample" id="a3000" checked />
-              <div className="">3000</div>
-            </label>
 
-            <label htmlFor="a6000" className="w-full flex items-center justify-center h-[59px] border-r">
-              <input type="radio" name="amountsample" id="a6000" />
-              <div className="">6000</div>
-            </label>
+          <ul className="donate-now border-b">
+            <li>
+              <input type="radio" id="a25" name="amount" value="30000" onClick={selectAmount} />
+              <label htmlFor="a25" className="border-r">30000</label>
+            </li>
+            <li>
+              <input type="radio" id="a50" name="amount" value="60000" onClick={selectAmount} />
+              <label htmlFor="a50" className="border-r">60000</label>
+            </li>
+            <li>
+              <input type="radio" id="a75" name="amount" value="150000" onClick={selectAmount} />
+              <label htmlFor="a75" className="">150000</label>
+            </li>
+          </ul>
 
-            <label htmlFor="a10000" className="w-full flex items-center justify-center h-[59px]">
-              <input type="radio" name="amountsample" id="a10000" />
-              <div className="">10000</div>
-            </label>
-
-          </div>
-          <div className="flex border-b">
-            <label htmlFor="a30000" className="w-full flex items-center justify-center h-[59px] border-r">
-              <input type="radio" name="amountsample" id="a30000" />
-              <div className="">30000</div>
-            </label>
-
-            <label htmlFor="a60000" className="w-full flex items-center justify-center h-[59px] border-r">
-              <input type="radio" name="amountsample" id="a60000" />
-              <div className="">60000</div>
-            </label>
-
-            <label htmlFor="a150000" className="w-full flex items-center justify-center h-[59px]">
-              <input type="radio" name="amountsample" id="a150000" />
-              <div className="">150000</div>
-            </label>
-
-          </div>
-          <div className="flex border-b">
-            <label htmlFor="a500000" className="w-full flex items-center justify-center h-[59px] border-r">
-              <input type="radio" name="amountsample" id="a500000" />
-              <div className="">500000</div>
-            </label>
-
-            <label htmlFor="a1000000" className="w-full flex items-center justify-center h-[59px] border-r">
-              <input type="radio" name="amountsample" id="a1000000" />
-              <div className="">1000000</div>
-            </label>
-
-            <label htmlFor="aAmount" className="w-full flex items-center justify-center h-[59px] text-sm">
-              <input type="radio" name="amountsample" id="aAmount" />
-              <div className="">EnterAmount</div>
-            </label>
-
-          </div>
-        </div>
-        <br />
-        <br />
-
-        <div className="font-[fona] text-[18px]">
-          <div className="flex border-b">
-            <div className="w-full flex items-center justify-center h-[59px] bg-[#ffa600] text-white border-r">3000</div>
-            <div className="w-full flex items-center justify-center h-[59px] border-r">3000</div>
-            <div className="w-full flex items-center justify-center h-[59px]">3000</div>
-          </div>
-          <div className="flex border-b">
-            <div className="w-full flex items-center justify-center h-[59px] border-r">3000</div>
-            <div className="w-full flex items-center justify-center h-[59px] border-r">3000</div>
-            <div className="w-full flex items-center justify-center h-[59px]">3000</div>
-          </div>
-          <div className="flex border-b">
-            <div className="w-full flex items-center justify-center h-[59px] border-r">3000</div>
-            <div className="w-full flex items-center justify-center h-[59px] border-r">3000</div>
-            <div className="w-full flex items-center justify-center h-[59px] text-sm">Enter Amount</div>
-          </div>
+          <ul className="donate-now border-b">
+            <li>
+              <input type="radio" id="a100" name="amount" value="500000" onClick={selectAmount} />
+              <label htmlFor="a100" className="border-r">500000</label>
+            </li>
+            <li>
+              <input type="radio" id="a100" name="amount" value="1000000" onClick={selectAmount} />
+              <label htmlFor="a100" className="border-r">1000000</label>
+            </li>
+            <li>
+              <input type="radio" id="other" name="amount" className="cursor-pointer" onClick={() => { document.getElementById('ticket').focus() }} />
+              <label htmlFor="other">Enter Amount</label>
+            </li>
+          </ul>
         </div>
 
         <div className="px-5">
           <div className="flex justify-between mt-5">
             <div>Buy Tickets:</div>
-            <input type="number" name="ticket" id="ticket" placeholder={ticket} className="w-[100px] text-end outline-none border-b border-[#ffa500] font-[fona] " />
+            <input type="number" name="ticket" id="ticket" placeholder={ticketPlaceholder} className="w-[100px] text-end outline-none border-b border-[#ffa500] font-[fona] font-bold text-[#ffa600] "
+              onChange={(e) => { setTicket(e.target.value) }}
+              value={ticket} />
           </div>
 
           <div className="flex justify-between mt-5">
             <div>Deposit Amount:</div>
-            <div className="font-bold font-[fona]">N3000</div>
+            <div className="font-bold font-[fona]">N{ticket}</div>
           </div>
 
           <div className="flex justify-end font-[fona] mt-5">( 1Ticket = 1N )</div>
 
-          <div className="bg-[#ffa500] text-white h-[40px] w-full flex justify-center items-center mt-8 text-lg font-bold rounded-[10px] font-[fona]">Deposit</div>
+          <div className="bg-[#ffa500] text-white h-[40px] w-full flex justify-center items-center mt-8 text-lg font-bold rounded-[10px] font-[fona] cursor-pointer" onClick={deposit}>Deposit</div>
 
           <p className="text-center mt-5"><a href="#" className="text-[#ffa500] underline">{`I paid, but I didn't get ticket?`}</a></p>
         </div>
       </main>
     </div>
-  )
+
+    {showPaymentGateWay && <div className="absolute top-0 left-0 w-full h-screen z-[999]" style={{ background: 'rgba(0,0,0,.7)' }}>
+      <div className="fixed bottom-0 left-0 w-full bg-white rounded-t-[30px] px-6 py-4">
+        <header className="flex items-center justify-end px-8 mb-2 relative">
+          <div className="cursor-pointer rotate-[270deg]" onClick={() => { setShowPaymentGateWay(false) }}><FaTimes size="20px" className="stroke-1" /></div>
+          <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold uppercase ">Payment: <span className="text-[#ffa600] font-black">N{ticket}</span></div>
+        </header>
+
+        <div className="flex justify-center items-center gap-2">
+          <AiOutlineCreditCard className="text-[#ffa600] stroke-2" />
+          <span className="font-bold">Select a payment gateway</span>
+        </div>
+
+        <ul className="donate-now border-y py-3 flex-col gap-4 border-b mt-5">
+          <li>
+            <input type="radio" id="g1" name="gWay" value="1" onClick={() => { setPaymentGateWay(1) }} />
+            <label htmlFor="g1" className="bg-gray-200 border-r flex items-center gap-4">Gateway 1 <AiOutlineCheckCircle className="text-xl text-inherit" /></label>
+          </li>
+          <li>
+            <input type="radio" id="g2" name="gWay" value="2" onClick={() => { setPaymentGateWay(2) }} />
+            <label htmlFor="g2" className="bg-gray-200 border-r flex items-center gap-4">Pay with Balance <AiOutlineCheckCircle className="text-xl text-inherit" /></label>
+          </li>
+        </ul>
+
+        <div className="mt-5 h-[30px] grid place-items-center bg-[#ffa600] text-white font-bold rounded-[5px] cursor-pointer" onClick={makeDeposit}>Deposit</div>
+      </div>
+    </div>}
+  </>)
 }

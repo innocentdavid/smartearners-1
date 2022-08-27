@@ -5,12 +5,13 @@ import { useState, useEffect } from 'react'
 import { BiTrendingUp } from 'react-icons/bi'
 import Footer from '../components/footer'
 import Slider from '../components/slider'
-import { getAllInvestmentPlan } from '../lib/api'
+import { getAllInvestmentPlan, getUser } from '../lib/api'
+import client from '../lib/sanity'
 
 export default function Home({ allInvestmentPlan }) {
   const [plans] = useState(allInvestmentPlan)
   const { status, data } = useSession();
-  const [user, setUser] = useState()
+  const [user, setUser] = useState(null)
   const router = useRouter()
 
   // console.log('data =>', data)
@@ -22,7 +23,28 @@ export default function Home({ allInvestmentPlan }) {
     if (data && data.user.token) {
       const dataN = data?.user?.token
       const u = { ...dataN, balance: dataN.ri + dataN.roi }
-      dataN?.tel && setUser(u)
+      // dataN?.tel && setUser(u)
+      
+      const fetch = async () => {
+        const cuser = await getUser(dataN.tel)
+        const u = { ...cuser, balance: cuser.ri + cuser.roi }
+        console.log(u)
+        cuser && setUser(u)
+      }
+      fetch()
+
+      // const query = '*[_type == "user" && id = $id]'
+      // const params = { id: dataN._id }
+      // client.listen(query, params)
+      // .subscribe((update) => {
+      //   console.log(update)
+      //   const userData = update.result
+      //   console.log('userData',userData)
+      //   setUser(userData)
+      // })
+  
+      // return subscription.unsubscribe()
+
     }
   }, [status, data, router])
 
@@ -117,6 +139,10 @@ const PlanCard = ({ user, id, title, percentage, da, returnPeriod }) => {
     modal.classList.add('hidden')
   }
 
+  const investNow = () => {
+    console.log('in', id)
+  }
+
   return (<>
     <div className="mb-8 w-full md:w-fit cursor-pointer" onClick={() => { showModal() }}>
       <div className="h-[60px] px-4 flex justify-between md:gap-16 items-center bg-[#ffa600] text-white rounded-t-[10px]">
@@ -188,9 +214,9 @@ const PlanCard = ({ user, id, title, percentage, da, returnPeriod }) => {
             <p className="text-[#ffa600] font-[600]">( Review first daily return 24h after deposit )</p>
           </div>
 
-          <div className="bg-[#ffa600] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer">Invest Now</div>
+          <div className="bg-[#ffa600] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer" onClick={() => { investNow() }}>Invest Now</div>
 
-          <p className="mt-2">( My Ticket <span>{user?.myTicket}</span> )</p>
+          <p className="mt-2 font-Josefin">( My Ticket <span>{user?.myTicket}</span> )</p>
         </div>
       </div>
     </div>
