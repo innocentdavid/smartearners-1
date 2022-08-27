@@ -21,7 +21,7 @@ export default function Home({ allInvestmentPlan }) {
 
     if (data && data.user.token) {
       const dataN = data?.user?.token
-      const u = { ...dataN, balance: dataN.ri + dataN.roi }
+      const u = { ...dataN, balance: dataN.tbalance + dataN.ri + dataN.roi }
       dataN?.tel && setUser(u)
 
       // const query = '*[_type == "user" && id = $id]'
@@ -43,7 +43,7 @@ export default function Home({ allInvestmentPlan }) {
         document.querySelector('#generalLoading').classList.remove('grid')
         document.querySelector('#generalLoading').classList.add('hidden')
         if (cuser) {
-          const u = { ...cuser, balance: cuser?.ri + cuser?.roi }
+          const u = { ...cuser, balance: cuser.tbalance + cuser?.ri + cuser?.roi }
           // console.log(u)
           setUser(u)
           const r = await updateUserPortfolio(user)
@@ -77,7 +77,7 @@ export default function Home({ allInvestmentPlan }) {
           <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase cursor-pointer">SMART Energy</div>
 
           <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
-            <div className="flex flex-col items-center cursor-pointer" onClick={() => {router.push('/deposit')}}>Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket}</strong></div>
+            <div className="flex flex-col items-center cursor-pointer" onClick={() => {router.push('/deposit')}}>Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket ? user?.myTicket : 0}</strong></div>
             <div className="border-r border-[#fff3dc] h-[60%]"></div>
             <div onClick={() => { router.push('/withdraw') }} className="flex flex-col items-center">Balance <strong className="font-bold font-Josefin select-none">N<span>{user?.balance}</span></strong></div>
           </div>

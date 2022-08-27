@@ -1,12 +1,43 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Footer from '../components/footer'
 
 export default function Orders() {
-  const [user, setUser] = useState({
-    userName: '0x9***384', myTicket: 0, balance: 350
-  })
+  // const [user, setUser] = useState({
+  //   userName: '0x9***384', myTicket: 0, balance: 350
+  // })
+  const version = process.env.NODE_ENV
+  const { status, data } = useSession();
+  const [user, setUser] = useState(null)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      version === 'production' ? router.replace('/login') : alert('not loged in')
+    }
+
+    if (data && data.user.token) {
+      const dataN = data?.user?.token
+      const u = { ...dataN, balance: dataN.tbalance + dataN.ri + dataN.roi }
+      dataN?.tel && setUser(u)
+      
+      const fetch = async () => {
+        document.querySelector('#generalLoading').classList.remove('hidden')
+        document.querySelector('#generalLoading').classList.add('grid')
+        const cuser = await getUser(dataN.tel)
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
+        if (cuser) {
+          const u = { ...cuser, balance: cuser.tbalance + cuser?.ri + cuser?.roi }
+          // console.log(u)
+          setUser(u)
+          const r = await updateUserPortfolio(user)
+        }
+      }
+      fetch()
+    }
+  }, [status, data, router])
 
   const id = 1
   const da = 5000
@@ -39,7 +70,7 @@ export default function Orders() {
         <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center ">SMART EARNERS</div>
 
         <div className="flex items-center gap-5 text-[.8rem] ">
-          <div className="flex flex-col items-center">Obtained  <strong>{user?.myTicket}</strong></div>
+          <div className="flex flex-col items-center">Obtained  <strong>{user?.myTicket ? user?.myTicket : 0}</strong></div>
           <div className="flex flex-col items-center">Balance <strong className="">N<span>{user?.balance}</span></strong></div>
         </div>
       </nav> 
