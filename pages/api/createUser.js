@@ -1,5 +1,6 @@
 import client from './config'
 import bcrypt from 'bcrypt'
+import { createRecord } from '../../lib/api';
 
 export default async function createUser(req, res) {
   const { tel, password } = JSON.parse(req.body)
@@ -12,6 +13,7 @@ export default async function createUser(req, res) {
           tel,
           password: hash,
           level: 1,
+          lastChecked: new Date(),
           roi: 0,
           ri: 0,
           tbalance: 0
@@ -28,24 +30,27 @@ export default async function createUser(req, res) {
           returnPeriod: 365,
           drTime: newUser?._createdAt,
           userId: newUser?._id,
-          userTel: newUser?.Tel
+          userTel: newUser?.tel
         })
 
         const updateTbalance = await client
           .patch(newUser?._id)
-          .dec({ tbalance: 300 })
+          .inc({ tbalance: 300 })
           .commit()
           .catch(error => {
             console.log('update user profile', error)
           })
 
+          // const createBalanceRecord = await createRecord(title='Signup Bonus', category='balanceRecord', type='income', amount=300, remaining=300, userId=newUser._id, userTel=newUser.tel)
         const createBalanceRecord = await client.create({
           _type: 'record',
           title: 'Signup Bonus',
           category: 'balanceRecord',
           type: 'income',
           amount: 300,
-          remaining: 300
+          remaining: 300,
+          userId: newUser._id,
+          userTel: newUser.tel,
         })
 
       } catch (err) {

@@ -55,7 +55,7 @@ export default {
 
   preview: {
     select: {
-      title: 'investmentPlan.title'
+      title: 'planTitle'
     }
   }
 }

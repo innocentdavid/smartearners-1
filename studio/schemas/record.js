@@ -27,6 +27,16 @@ export default {
       name: 'remaining',
       title: 'Remaining',
       type: 'number',
+    },
+    {
+      name: 'userId',
+      title: 'User Id',
+      type: 'number',
+    },
+    {
+      name: 'userTel',
+      title: 'User Tel',
+      type: 'number',
     }
   ],
 
@@ -41,7 +51,7 @@ export default {
     prepare(selection) {
       const {amount, remaining, type} = selection
       return Object.assign({}, selection, {
-        subtitle: amount && remaining &&  `${category} - ${type}, ₦${amount} ~₦${remaining}`
+        subtitle: amount && remaining &&  `${category} - ${type}, ${amount} - ${remaining}`
       })
     }
   }

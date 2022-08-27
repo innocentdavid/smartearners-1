@@ -53,13 +53,14 @@ export default {
     {
       name: 'lastChecked',
       title: 'Last Checked',
-      type: 'datetime',
+      type: 'string',
     },
   ],
 
   preview: {
     select: {
       title: 'tel',
+      tbalance: 'tbalance',
       ri: 'ri',
       roi: 'roi'
     },
