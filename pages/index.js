@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import { BiTrendingUp } from 'react-icons/bi'
 import Footer from '../components/footer'
 import Slider from '../components/slider'
-import { getAllInvestmentPlan, getUser } from '../lib/api'
+import { buyInvestmentPlan, getAllInvestmentPlan, getUser, updateUserPortfolio } from '../lib/api'
 
 export default function Home({ allInvestmentPlan }) {
   const version = process.env.NODE_ENV
@@ -16,8 +16,7 @@ export default function Home({ allInvestmentPlan }) {
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      version === 'production' && router.replace('/login')
-      alert('not loged in')
+      version === 'production' ? router.replace('/login') : alert('not loged in')
     }
 
     if (data && data.user.token) {
@@ -36,6 +35,7 @@ export default function Home({ allInvestmentPlan }) {
       // })
 
       // return subscription.unsubscribe()
+      
       const fetch = async () => {
         document.querySelector('#generalLoading').classList.remove('hidden')
         document.querySelector('#generalLoading').classList.add('grid')
@@ -46,6 +46,7 @@ export default function Home({ allInvestmentPlan }) {
           const u = { ...cuser, balance: cuser?.ri + cuser?.roi }
           // console.log(u)
           setUser(u)
+          const r = await updateUserPortfolio(user)
         }
       }
       fetch()
@@ -63,7 +64,6 @@ export default function Home({ allInvestmentPlan }) {
     )
   }
 
-
   if (status === 'authenticated') {
     return (
       <div className="relative h-screen">
@@ -77,9 +77,9 @@ export default function Home({ allInvestmentPlan }) {
           <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase cursor-pointer">SMART Energy</div>
 
           <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
-            <div className="flex flex-col items-center">Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket}</strong></div>
+            <div className="flex flex-col items-center cursor-pointer" onClick={() => {router.push('/deposit')}}>Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket}</strong></div>
             <div className="border-r border-[#fff3dc] h-[60%]"></div>
-            <div className="flex flex-col items-center">Balance <strong className="font-bold font-Josefin select-none">N<span>{user?.balance}</span></strong></div>
+            <div onClick={() => { router.push('/withdraw') }} className="flex flex-col items-center">Balance <strong className="font-bold font-Josefin select-none">N<span>{user?.balance}</span></strong></div>
           </div>
         </nav>
 
@@ -122,7 +122,7 @@ export default function Home({ allInvestmentPlan }) {
 
           <section className="my-5 px-5 flex flex-col md:flex-row flex-wrap justify-center items-center md:gap-10">
             {plans?.map((plan, index) => {
-              return <PlanCard key={plan?._id} user={user} id={index + 1} title={plan?.title} returnPeriod={plan?.returnPeriod} percentage={plan?.percentage} da={plan?.da} />
+              return <PlanCard key={plan?._id} user={user} id={index + 1} plan={plan} title={plan?.title} returnPeriod={plan?.returnPeriod} percentage={plan?.percentage} da={plan?.da} router={router} />
             })}
           </section>
         </main>
@@ -133,8 +133,7 @@ export default function Home({ allInvestmentPlan }) {
   }
 }
 
-
-const PlanCard = ({ user, id, title, percentage, da, returnPeriod }) => {
+const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router }) => {
   const dailyReturn = (percentage / 100) * da
   const totalReturn = ((percentage / 100) * da) * returnPeriod
   const totalReturnPercentage = percentage * returnPeriod;
@@ -150,8 +149,15 @@ const PlanCard = ({ user, id, title, percentage, da, returnPeriod }) => {
     modal.classList.add('hidden')
   }
 
-  const investNow = () => {
-    console.log('in', id)
+  const investNow = async () => {
+    if(user.myTicket < plan.da){
+      alert('You do not have enough ticket, get more ticket to continue')
+      router.push('/deposit')
+      return
+    }
+    const res = await buyInvestmentPlan(plan._id, user._id, da)
+    alert(res?.message)
+    hideModal()
   }
 
   return (<>
@@ -234,7 +240,6 @@ const PlanCard = ({ user, id, title, percentage, da, returnPeriod }) => {
 
   </>)
 }
-
 
 export async function getStaticProps({ preview = false }) {
   const allInvestmentPlan = await getAllInvestmentPlan();

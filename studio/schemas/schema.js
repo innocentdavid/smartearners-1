@@ -7,9 +7,12 @@ import user from './user'
 import investmentPlan from './investmentPlan'
 import order from './order'
 import otc from './otc'
-import referal from './referal'
 import validRef from './validRef'
 import dailyReturn from './dailyReturn'
+import referral from './referral'
+import record from './record'
+// import balanceRecord from './nbalanceRecord'
+// import ticketRecord from './ticketRecord'
 
 
 // Then we give our schema to the builder and provide the result to Sanity
@@ -24,8 +27,11 @@ export default createSchema({
     investmentPlan,
     order,
     otc,
-    referal,
     validRef,
-    dailyReturn
+    dailyReturn,
+    referral,
+    record
+    // balanceRecord,
+    // ticketRecord,
   ]),
 })

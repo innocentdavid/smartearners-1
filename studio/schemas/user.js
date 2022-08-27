@@ -29,8 +29,8 @@ export default {
       type: 'number'
     },
     {
-      name: 'referer',
-      title: 'Referer',
+      name: 'referrer',
+      title: 'Referrer',
       type: 'reference',
       to: {type: 'user'}
     },
@@ -45,10 +45,14 @@ export default {
       type: 'number',
     },
     {
-      name: 'publishedAt',
-      title: 'Published at',
+      name: 'tbalance',
+      title: 'Balance',
+      type: 'number',
+    },
+    {
+      name: 'lastChecked',
+      title: 'Last Checked',
       type: 'datetime',
-      validation: (Rule) => Rule.required(),
     },
   ],
 

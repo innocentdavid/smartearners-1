@@ -11,11 +11,12 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'publishedAt',
-      title: 'Published at',
-      type: 'datetime',
+      name: 'referrer',
+      title: 'Referrer',
+      type: 'reference',
+      to: {type: 'user'},
       validation: (Rule) => Rule.required(),
-    },
+    }
   ],
 
   preview: {

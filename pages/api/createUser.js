@@ -7,15 +7,45 @@ export default async function createUser(req, res) {
   bcrypt.genSalt(saltRounds, function (err, salt) {
     bcrypt.hash(password, salt, async function (err, hash) {
       try {
-        await client.create({
+        const newUser = await client.create({
           _type: 'user',
           tel,
           password: hash,
           level: 1,
           roi: 0,
           ri: 0,
-          publishedAt: new Date()
+          tbalance: 0
         })
+        console.log(newUser)
+
+        const createOrde = await client.create({
+          _type: 'order',
+          investmentPlan: {
+            _type: 'reference',
+            _ref: '',
+          },
+          user: {
+            _type: 'reference',
+            _ref: newUser?._id,
+          }
+        })
+
+        const updateTbalance = await client
+          .patch(newUser?._id)
+          .dec({tbalance: 300})
+          .commit()
+          .catch(error => {
+            console.log('update user profile', error)
+          })
+
+          const createBalanceRecord = await client.create({
+            _type: 'balanceRecord',
+            title: 'Signup Bonus',
+            type: 'income',
+            amount: 300,
+            remaining: 300
+          })
+
       } catch (err) {
         console.error(err)
         return res.status(500).json({ message: `Couldn't create user`, err })

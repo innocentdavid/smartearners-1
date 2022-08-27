@@ -2,6 +2,7 @@ import { SessionProvider } from "next-auth/react"
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
+  
   return (<>
     <div id="generalLoading" className="hidden fixed top-0 left-0 w-full h-screen place-items-center z-[999999999] text-white" style={{ background: 'rgba(0,0,0,.8)'}}>
       <div className="text-2xl md:text-3xl lg:text-5xl flex items-center gap-3">

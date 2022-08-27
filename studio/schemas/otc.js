@@ -18,8 +18,8 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'referer',
-      title: 'Referer',
+      name: 'referrer',
+      title: 'Referrer',
       type: 'reference',
       to: {type: 'user'},
       validation: (Rule) => Rule.required(),
@@ -28,13 +28,7 @@ export default {
       name: 'order',
       title: 'Lv1s Orders',
       type: 'number',
-    },
-    {
-      name: 'publishedAt',
-      title: 'Published at',
-      type: 'datetime',
-      validation: (Rule) => Rule.required(),
-    },
+    }
   ],
 
   preview: {

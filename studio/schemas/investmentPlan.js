@@ -38,13 +38,7 @@ export default {
       name: 'drTime',
       title: 'Daily Return Time',
       type: 'string',
-    },
-    {
-      name: 'publishedAt',
-      title: 'Published at',
-      type: 'datetime',
-      validation: (Rule) => Rule.required(),
-    },
+    }
   ],
 
   preview: {

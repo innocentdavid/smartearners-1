@@ -7,7 +7,7 @@ import { getUser } from '../lib/api';
 
 export default function Login() {
   const version = process.env.NODE_ENV
-  console.log(version)
+  // console.log(version)
   const router = useRouter()
   const [userDetails, setUserDetails] = useState({ tel: '', password: '', cPassword: '' })
   const tabsData = [
@@ -29,6 +29,7 @@ export default function Login() {
       router.push('/')
     }
     console.log(res.error)
+    alert(res.error)
     document.querySelector('#generalLoading').classList.remove('grid')
     document.querySelector('#generalLoading').classList.add('hidden')
   }

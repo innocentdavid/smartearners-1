@@ -39,7 +39,7 @@ export default function Orders() {
         <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center ">SMART EARNERS</div>
 
         <div className="flex items-center gap-5 text-[.8rem] ">
-          <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
+          <div className="flex flex-col items-center">Obtained  <strong>{user?.myTicket}</strong></div>
           <div className="flex flex-col items-center">Balance <strong className="">N<span>{user?.balance}</span></strong></div>
         </div>
       </nav> 
