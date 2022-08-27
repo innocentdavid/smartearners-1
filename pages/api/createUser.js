@@ -18,11 +18,11 @@ export default async function createUser(req, res) {
         })
         console.log(newUser)
 
-        const createOrde = await client.create({
+        const createOrder = await client.create({
           _type: 'order',
           investmentPlan: {
             _type: 'reference',
-            _ref: '',
+            _ref: 'drafts.a73d9975-f00c-4078-81c2-209ac7776584',
           },
           user: {
             _type: 'reference',

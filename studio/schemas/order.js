@@ -4,17 +4,51 @@ export default {
   type: 'document',
   fields: [
     {
-      name: 'investmentPlan',
-      title: 'Investment Plan',
-      type: 'reference',
-      to: {type: 'investmentPlan'},
+      name: 'planId',
+      title: 'Plan Id',
+      type: 'string',
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'user',
-      title: 'User',
-      type: 'reference',
-      to: {type: 'user'},
+      name: 'planTitle',
+      title: 'Plan Title',
+      type: 'string',
+    },
+    {
+      name: 'percentage',
+      title: 'Percentage',
+      type: 'number',
+    },
+    {
+      name: 'da',
+      title: 'Deposit Amount',
+      type: 'number',
+    },
+    {
+      name: 'dr',
+      title: 'Daily Return',
+      type: 'number',
+    },
+    {
+      name: 'returnPeriod',
+      title: 'Return Period',
+      type: 'number',
+    },
+    {
+      name: 'drTime',
+      title: 'Daily Return Time',
+      type: 'string',
+    },
+    {
+      name: 'userId',
+      title: 'User Id',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'userTel',
+      title: 'User Tel',
+      type: 'string',
       validation: (Rule) => Rule.required(),
     }
   ],

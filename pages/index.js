@@ -155,7 +155,7 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
       router.push('/deposit')
       return
     }
-    const res = await buyInvestmentPlan(plan._id, user._id, da)
+    const res = await buyInvestmentPlan(plan, user)
     alert(res?.message)
     hideModal()
   }
