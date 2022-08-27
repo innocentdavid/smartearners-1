@@ -6,7 +6,6 @@ import { BiTrendingUp } from 'react-icons/bi'
 import Footer from '../components/footer'
 import Slider from '../components/slider'
 import { getAllInvestmentPlan, getUser } from '../lib/api'
-import client from '../lib/sanity'
 
 export default function Home({ allInvestmentPlan }) {
   const [plans] = useState(allInvestmentPlan)
@@ -24,12 +23,18 @@ export default function Home({ allInvestmentPlan }) {
       const dataN = data?.user?.token
       const u = { ...dataN, balance: dataN.ri + dataN.roi }
       // dataN?.tel && setUser(u)
-      
+
       const fetch = async () => {
+        document.querySelector('#generalLoading').classList.remove('hidden')
+        document.querySelector('#generalLoading').classList.add('grid')
         const cuser = await getUser(dataN.tel)
-        const u = { ...cuser, balance: cuser.ri + cuser.roi }
-        console.log(u)
-        cuser && setUser(u)
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
+        if (cuser) {
+          const u = { ...cuser, balance: cuser?.ri + cuser?.roi }
+          console.log(u)
+          setUser(u)
+        }
       }
       fetch()
 
@@ -42,14 +47,21 @@ export default function Home({ allInvestmentPlan }) {
       //   console.log('userData',userData)
       //   setUser(userData)
       // })
-  
+
       // return subscription.unsubscribe()
 
     }
   }, [status, data, router])
 
   if (status === 'loading') {
-    return (<p className="h-screen grid place-items-center text-3xl">Loading...</p>)
+    return (
+      <div className="fixed top-0 left-0 w-full h-screen grid place-items-center z-[999999999] text-white" style={{ background: 'rgba(0,0,0,.8)' }}>
+        <div className="text-2xl md:text-3xl lg:text-5xl flex items-center gap-3">
+          <img src="/images/withdraw-1.png" alt="" width="20px" height="20px" className="animate-spin" />
+          <span>Loading<span className="animate-ping">...</span></span>
+        </div>
+      </div>
+    )
   }
 
 

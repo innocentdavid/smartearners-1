@@ -9,47 +9,55 @@ export default function Login() {
   const router = useRouter()
   const [userDetails, setUserDetails] = useState({ tel: '', password: '', cPassword: '' })
   const tabsData = [
-    { label: "Log in", content:"" },
-    { label: "Sign up", content:"" },
+    { label: "Log in", content: "" },
+    { label: "Sign up", content: "" },
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const handleLogIn = async (e) => {
     e.preventDefault();
+    document.querySelector('#generalLoading').classList.remove('hidden')
+    document.querySelector('#generalLoading').classList.add('grid')
     const res = await signIn('credentials', {
       tel: userDetails.tel,
       password: userDetails.password,
       redirect: false
     })
-    if(res.status == 200){
+    if (res.status == 200) {
       router.push('/')
     }
     console.log(res.error)
+    document.querySelector('#generalLoading').classList.remove('grid')
+    document.querySelector('#generalLoading').classList.add('hidden')
   }
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    document.querySelector('#generalLoading').classList.remove('hidden')
+    document.querySelector('#generalLoading').classList.add('grid')
     const data = { tel: userDetails.tel, password: userDetails.password }
     const user = await getUser(data.tel);
-    if(!user){
+    if (!user) {
       try {
         const response = await fetch('/api/createUser', {
           method: 'POST',
           body: JSON.stringify(data),
           type: 'application/json'
         })
-        if(response.status == 200){
+        if (response.status == 200) {
           alert("You have been registered successfully!, login to continue")
           setActiveTabIndex(0)
-        }else{
+        } else {
           console.log(response)
         }
       } catch (err) {
         console.log(err)
       }
-    }else{
+    } else {
       alert('This number has an account with us already, login to continue or use another number')
     }
+    document.querySelector('#generalLoading').classList.remove('grid')
+    document.querySelector('#generalLoading').classList.add('hidden')
   }
 
   return (
@@ -87,9 +95,9 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Mobile Number</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsPhone size="20px" />
-                  <input type="number" name="tel" className="w-full bg-transparent outline-none border-none" 
-                  onChange={(e) => { setUserDetails({ ...userDetails, tel: e.target.value }) }}
-                  value={userDetails.tel} />
+                  <input type="number" name="tel" className="w-full bg-transparent outline-none border-none"
+                    onChange={(e) => { setUserDetails({ ...userDetails, tel: e.target.value }) }}
+                    value={userDetails.tel} />
                 </div>
               </div>
 
@@ -97,9 +105,9 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Password</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
-                  <input type="password" name="password" className="w-full bg-transparent outline-none border-none" 
-                  onChange={(e) => { setUserDetails({ ...userDetails, password: e.target.value }) }}
-                  value={userDetails.password} />
+                  <input type="password" name="password" className="w-full bg-transparent outline-none border-none"
+                    onChange={(e) => { setUserDetails({ ...userDetails, password: e.target.value }) }}
+                    value={userDetails.password} />
                 </div>
               </div>
 
@@ -112,14 +120,14 @@ export default function Login() {
               </div>
             </form>
           </> : <>
-          <form className="" onSubmit={handleSignUp}>
+            <form className="" onSubmit={handleSignUp}>
               <div className="">
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Mobile Number</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsPhone size="20px" />
-                  <input type="number" name="tel" className="w-full bg-transparent outline-none border-none" 
-                  onChange={(e) => { setUserDetails({ ...userDetails, tel: e.target.value }) }}
-                  value={userDetails.tel} />
+                  <input type="number" name="tel" className="w-full bg-transparent outline-none border-none"
+                    onChange={(e) => { setUserDetails({ ...userDetails, tel: e.target.value }) }}
+                    value={userDetails.tel} />
                 </div>
               </div>
 
@@ -127,9 +135,9 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Password</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
-                  <input type="password" name="password" className="w-full bg-transparent outline-none border-none" 
-                  onChange={(e) => { setUserDetails({ ...userDetails, password: e.target.value }) }}
-                  value={userDetails.password} />
+                  <input type="password" name="password" className="w-full bg-transparent outline-none border-none"
+                    onChange={(e) => { setUserDetails({ ...userDetails, password: e.target.value }) }}
+                    value={userDetails.password} />
                 </div>
               </div>
 
@@ -137,9 +145,9 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Password</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
-                  <input type="password" name="cpassword" id="cpassword" className="w-full bg-transparent outline-none border-none" 
-                  onChange={(e) => { setUserDetails({ ...userDetails, cPassword: e.target.value }) }}
-                  value={userDetails.cPassword} />
+                  <input type="password" name="cpassword" id="cpassword" className="w-full bg-transparent outline-none border-none"
+                    onChange={(e) => { setUserDetails({ ...userDetails, cPassword: e.target.value }) }}
+                    value={userDetails.cPassword} />
                 </div>
               </div>
 
