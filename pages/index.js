@@ -1,57 +1,25 @@
 import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { BiTrendingUp } from 'react-icons/bi'
 import Footer from '../components/footer'
 import Slider from '../components/slider'
-import { buyInvestmentPlan, getAllInvestmentPlan, getUser, updateUserPortfolio } from '../lib/api'
+import { getAllInvestmentPlan } from '../lib/api'
+import { useAppContext } from '../context/AppContext';
 
 export default function Home({ allInvestmentPlan }) {
-  const version = process.env.NODE_ENV
   const [plans] = useState(allInvestmentPlan)
   const { status, data } = useSession();
-  const [user, setUser] = useState(null)
+  const { user } = useAppContext()
   const router = useRouter()
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      version === 'production' ? router.replace('/login') : alert('not loged in')
+      setLoading(false)
+      router.replace('/login')
     }
-
-    if (data && data.user.token) {
-      const dataN = data?.user?.token
-      const u = { ...dataN, balance: dataN.tbalance + dataN.ri + dataN.roi }
-      dataN?.tel && setUser(u)
-
-      // const query = '*[_type == "user" && id = $id]'
-      // const params = { id: dataN._id }
-      // const subscription = client.listen(query, params)
-      // .subscribe((update) => {
-      //   console.log(update)
-      //   const userData = update.result
-      //   console.log('userData',userData)
-      //   setUser(userData)
-      // })
-
-      // return subscription.unsubscribe()
-      
-      const fetch = async () => {
-        document.querySelector('#generalLoading').classList.remove('hidden')
-        document.querySelector('#generalLoading').classList.add('grid')
-        const cuser = await getUser(dataN.tel)
-        document.querySelector('#generalLoading').classList.remove('grid')
-        document.querySelector('#generalLoading').classList.add('hidden')
-        if (cuser) {
-          const u = { ...cuser, balance: cuser.tbalance + cuser?.ri + cuser?.roi }
-          // console.log(u)
-          setUser(u)
-          const r = await updateUserPortfolio(user)
-        }
-      }
-      fetch()
-    }
-  }, [status, data, router])
+  }, [status])
 
   if (status === 'loading') {
     return (
@@ -77,7 +45,7 @@ export default function Home({ allInvestmentPlan }) {
           <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase cursor-pointer">SMART Energy</div>
 
           <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
-            <div className="flex flex-col items-center cursor-pointer" onClick={() => {router.push('/deposit')}}>Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket ? user?.myTicket : 0}</strong></div>
+            <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit') }}>Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket ? user?.myTicket : 0}</strong></div>
             <div className="border-r border-[#fff3dc] h-[60%]"></div>
             <div onClick={() => { router.push('/withdraw') }} className="flex flex-col items-center">Balance <strong className="font-bold font-Josefin select-none">N<span>{user?.balance}</span></strong></div>
           </div>
@@ -150,14 +118,37 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
   }
 
   const investNow = async () => {
-    if(user.myTicket < plan.da){
-      alert('You do not have enough ticket, get more ticket to continue')
-      router.push('/deposit')
-      return
+    document.querySelector('#generalLoading').classList.remove('hidden')
+    document.querySelector('#generalLoading').classList.add('grid')
+    if (user) {
+      // console.log(user.myTicket, plan.da)
+      if (user?.myTicket && user.myTicket < plan.da) {
+        alert('You do not have enough ticket, get more ticket to continue');
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
+        router.push('/deposit')
+        return
+      }
+      // const res = await buyInvestmentPlan(plan, user)
+      try {
+        const response = await fetch('/api/user', {
+          method: 'POST',
+          body: JSON.stringify(['buyInvestmentPlan', plan, user]),
+          type: 'application/json'
+        })
+        const res = await response.json()
+        console.log(res.message)
+        res.message && alert(res?.message)
+        router.push('/orders')
+      } catch (err) {
+        console.log(err)
+      }
+      hideModal()
+    }else{
+      alert('You have to log in first!')
     }
-    const res = await buyInvestmentPlan(plan, user)
-    alert(res?.message)
-    hideModal()
+    document.querySelector('#generalLoading').classList.remove('grid')
+    document.querySelector('#generalLoading').classList.add('hidden')
   }
 
   return (<>

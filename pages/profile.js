@@ -16,7 +16,7 @@ export default function Profile() {
   useEffect(() => {
     if (status === 'unauthenticated') {
       version === 'production' && router.replace('/login')
-      alert('not loged in')
+      version === 'development' && alert('not loged in')
     }
 
     if (data && data.user.token) {
@@ -36,13 +36,10 @@ export default function Profile() {
           setUser(u)
         }else{
           version === 'production' && router.replace('/login')
-      alert('not loged in')
+          version === 'development' && alert('not loged in')
         }
       }
       fetch()
-    }else{
-      version === 'production' && router.replace('/login')
-      alert('not loged in')
     }
   }, [status, data, router])
 

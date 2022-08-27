@@ -16,6 +16,7 @@ export default async function createUser(req, res) {
           lastChecked: new Date(),
           roi: 0,
           ri: 0,
+          myTicket: 0,
           tbalance: 0
         })
         console.log(newUser)

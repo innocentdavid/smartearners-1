@@ -7,39 +7,39 @@ import Footer from '../components/footer'
 import { getUser, getOrders } from '../lib/api'
 
 export default function Orders() {
-  // const [user, setUser] = useState({
-  //   userName: '0x9***384', myTicket: 0, balance: 350
-  // })
+  const [user, setUser] = useState({
+    userName: '0x9***384', myTicket: 0, balance: 350
+  })
   const version = process.env.NODE_ENV
   const { status, data } = useSession();
-  const [user, setUser] = useState(null)
+  // const [user, setUser] = useState(null)
   const router = useRouter()
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      version === 'production' ? router.replace('/login') : alert('not loged in')
-    }
+  // useEffect(() => {
+  //   if (status === 'unauthenticated') {
+  //     version === 'production' ? router.replace('/login') : alert('not loged in')
+  //   }
 
-    if (data && data.user.token) {
-      const dataN = data?.user?.token
-      const u = { ...dataN, balance: dataN.tbalance + dataN.ri + dataN.roi }
-      dataN?.tel && setUser(u)
+  //   if (data && data.user.token) {
+  //     const dataN = data?.user?.token
+  //     const u = { ...dataN, balance: dataN.tbalance + dataN.ri + dataN.roi }
+  //     dataN?.tel && setUser(u)
       
-      const fetch = async () => {
-        document.querySelector('#generalLoading').classList.remove('hidden')
-        document.querySelector('#generalLoading').classList.add('grid')
-        const cuser = await getUser(dataN.tel)
-        document.querySelector('#generalLoading').classList.remove('grid')
-        document.querySelector('#generalLoading').classList.add('hidden')
-        if (cuser) {
-          const u = { ...cuser, balance: cuser.tbalance + cuser?.ri + cuser?.roi }
-          // console.log(u)
-          setUser(u)
-        }
-      }
-      fetch()
-    }
-  }, [status, data, router])
+  //     const fetch = async () => {
+  //       document.querySelector('#generalLoading').classList.remove('hidden')
+  //       document.querySelector('#generalLoading').classList.add('grid')
+  //       const cuser = await getUser(dataN.tel)
+  //       document.querySelector('#generalLoading').classList.remove('grid')
+  //       document.querySelector('#generalLoading').classList.add('hidden')
+  //       if (cuser) {
+  //         const u = { ...cuser, balance: cuser.tbalance + cuser?.ri + cuser?.roi }
+  //         // console.log(u)
+  //         setUser(u)
+  //       }
+  //     }
+  //     fetch()
+  //   }
+  // }, [status, data, router])
 
 
   const [orderItems, setOrderItems] = useState(null)
