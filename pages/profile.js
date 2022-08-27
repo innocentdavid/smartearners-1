@@ -14,12 +14,13 @@ export default function Profile() {
   // console.log('data =>', data)
   useEffect(() => {
     if (status === 'unauthenticated') {
-      router.replace('/login')
+      version === 'production' && router.replace('/login')
+      alert('not loged in')
     }
 
     if (data && data.user.token) {
       const dataN = data?.user?.token
-      const u = { ...dataN, balance: dataN.ri + dataN.roi }
+      // const u = { ...dataN, balance: dataN.ri + dataN.roi }
       // dataN?.tel && setUser(u)
 
       const fetch = async () => {
@@ -32,9 +33,15 @@ export default function Profile() {
           const u = { ...cuser, balance: cuser?.ri + cuser?.roi }
           console.log(u)
           setUser(u)
+        }else{
+          version === 'production' && router.replace('/login')
+      alert('not loged in')
         }
       }
       fetch()
+    }else{
+      version === 'production' && router.replace('/login')
+      alert('not loged in')
     }
   }, [status, data, router])
 

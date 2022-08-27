@@ -6,6 +6,8 @@ import { BsPhone, BsLock } from 'react-icons/bs'
 import { getUser } from '../lib/api';
 
 export default function Login() {
+  const version = process.env.NODE_ENV
+  console.log(version)
   const router = useRouter()
   const [userDetails, setUserDetails] = useState({ tel: '', password: '', cPassword: '' })
   const tabsData = [

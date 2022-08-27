@@ -8,6 +8,7 @@ import Slider from '../components/slider'
 import { getAllInvestmentPlan, getUser } from '../lib/api'
 
 export default function Home({ allInvestmentPlan }) {
+  const version = process.env.NODE_ENV
   const [plans] = useState(allInvestmentPlan)
   const { status, data } = useSession();
   const [user, setUser] = useState(null)
@@ -16,12 +17,13 @@ export default function Home({ allInvestmentPlan }) {
   // console.log('data =>', data)
   useEffect(() => {
     if (status === 'unauthenticated') {
-      router.replace('/login')
+      version === 'production' && router.replace('/login')
+      alert('not loged in')
     }
 
     if (data && data.user.token) {
       const dataN = data?.user?.token
-      const u = { ...dataN, balance: dataN.ri + dataN.roi }
+      // const u = { ...dataN, balance: dataN.ri + dataN.roi }
       // dataN?.tel && setUser(u)
 
       const fetch = async () => {
@@ -35,7 +37,8 @@ export default function Home({ allInvestmentPlan }) {
           // console.log(u)
           setUser(u)
         }else{
-          router.replace('/login')
+          version === 'production' && router.replace('/login')
+          alert('not loged in')
         }
       }
       fetch()
@@ -53,7 +56,8 @@ export default function Home({ allInvestmentPlan }) {
       // return subscription.unsubscribe()
 
     }else{
-      router.replace('/login')
+      version === 'production' && router.replace('/login')
+      alert('not loged in')
     }
   }, [status, data, router])
 
