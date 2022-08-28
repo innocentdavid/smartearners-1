@@ -3,11 +3,13 @@ import Link from 'next/link'
 import { useContext, useEffect, useState } from 'react'
 import Footer from '../components/footer'
 import { AiOutlineUser } from 'react-icons/ai'
+import { FiLogOut } from 'react-icons/fi'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { getUser } from '../lib/api'
 import { useAppContext } from '../context/AppContext'
 import AuthContext from '../context/authContext'
+import { signOut } from "next-auth/react"
 
 export default function Profile() {
   const router = useRouter()
@@ -46,7 +48,7 @@ export default function Profile() {
         <header className="bg-gray-800 text-white py-3 px-5 font-[Poppins]">
           <div className="flex items-center justify-end gap-1 font-Josefin">
             <div className="text-[#ffa500]"><AiOutlineUser size="20px" /></div>
-            {user?.tel ? <div>My ID: <span>{user?.tel}</span></div> :
+            {user?.tel ? <div className="flex items-center gap-3">My ID: <span>{user?.tel}</span><FiLogOut className="cursor-pointer" onClick={() => signOut()}/></div> :
               <div className="flex items-center gap-2">
                 <div className="text-xs py-1 px-3 border border-[#ffa600] cursor-pointer" onClick={() => { router.push('/login') }}>Log in / Sign up</div>
               </div>}
@@ -60,11 +62,11 @@ export default function Profile() {
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Buy Ticket</div>
               </a>
             </Link>
-            <Link href="#">
+            {/* <Link href="#">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Download App</div>
               </a>
-            </Link>
+            </Link> */}
             <Link href="/team">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">My Referrak Link</div>
@@ -81,17 +83,18 @@ export default function Profile() {
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Withdraw</div>
               </a>
             </Link>
-            <Link href="#">
+            {/* <Link href="#">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Bind Bank Card</div>
               </a>
-            </Link>
+            </Link> */}
 
-            <Link href="#">
+            {/* <Link href="#">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Payment Issue</div>
               </a>
-            </Link>
+            </Link> */}
+
             {/* <Link href="#">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Balance Record</div>

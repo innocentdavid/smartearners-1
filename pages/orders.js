@@ -19,8 +19,12 @@ export default function Orders() {
     const fetch = async () => {
       if(user){
         // await delOrders()
-        orders && setOrderItems(orders)
-        const orders = await getOrders(user._id)
+        const orders = await getOrders(user._id).catch(err => {
+          console.log(err)
+        })
+        orders?.order && setOrderItems(orders.order)
+
+
         // const response = await fetch('/api/user', {
         //   method: 'POST',
         //   body: JSON.stringify(['getOrders', user._id ]),
@@ -113,9 +117,9 @@ const OrderCard = ({ order, user }) => {
     const da = order?.da
     const percentage = order.percentage;
     const dailyReturn = (percentage / 100) * da
+    const returnPeriod = order.returnPeriod;
     const totalReturn = ((percentage / 100) * da) * returnPeriod
     const totalReturnPercentage = percentage * returnPeriod;
-    const returnPeriod = order.returnPeriod;
 
     const createdAt = new Date(order._createdAt).getTime()
     var now = new Date().getTime();

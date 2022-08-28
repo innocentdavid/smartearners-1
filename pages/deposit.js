@@ -7,6 +7,7 @@ import { AiOutlineCreditCard, AiOutlineCheckCircle } from 'react-icons/ai'
 import { depositWithBalance } from '../lib/api'
 import { useAppContext } from '../context/AppContext'
 import AuthContext from '../context/authContext'
+import { signOut } from 'next-auth/react'
 
 export default function Deposit() {
   const user = useContext(AuthContext)
@@ -51,6 +52,7 @@ export default function Deposit() {
         // console.log(res)
         alert(`You have successfully purchase ${ticket} tickets with your balance`)
         setShowPaymentGateWay(false)
+        // signOut()
         router.reload()
         return;
       } catch (err) {

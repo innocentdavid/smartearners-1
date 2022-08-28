@@ -15,10 +15,10 @@ export const AuthContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // if (status === 'unauthenticated') {
-    //   setLoading(false)
-    //   router.replace('/login')
-    // }
+    if (status === 'unauthenticated') {
+      setLoading(false)
+      router.replace('/login')
+    }
 
     if (data && data.user.token) {
       const dataN = data?.user?.token
