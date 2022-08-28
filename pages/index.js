@@ -12,11 +12,11 @@ export default function Home({ allInvestmentPlan }) {
   const [plans] = useState(allInvestmentPlan)
   const { status, data } = useSession();
   const { user } = useAppContext()
+  // const user = null
   const router = useRouter()
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      setLoading(false)
       router.replace('/login')
     }
   }, [status])

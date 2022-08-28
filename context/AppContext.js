@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { getUser } from '../lib/api'
+import { getUser, updateUserPortfolio } from '../lib/api'
 
 const AppContext = createContext();
 
@@ -43,14 +43,15 @@ export const AppWrapper = ({ children }) => {
         const cuser = await getUser(dataN.tel)
         if (cuser) {
           var u = { ...cuser, balance: cuser.tbalance + cuser?.ri + cuser?.roi }
-          if (cuser.myTicket) {
-            u = { ...cuser, myTicket: cuser.myTicket, balance: cuser.tbalance + cuser.ri + cuser.roi }
+          if (!cuser.myTicket) {
+            u = { ...cuser, myTicket: 0, balance: cuser.tbalance + cuser.ri + cuser.roi }
           }
           // console.log(u)
           setUser(u)
         }
 
-        // if (user) {
+        if (u) {
+          // await updateUserPortfolio(u)
         //   try {
         //     const response = await fetch('/api/user', {
         //       method: 'POST',
@@ -62,7 +63,7 @@ export const AppWrapper = ({ children }) => {
         //   } catch (err) {
         //     console.log(err)
         //   }
-        // }
+        }
       }
       fetch()
       setLoading(false)

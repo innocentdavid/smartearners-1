@@ -99,7 +99,7 @@ export default function Team() {
               <p><a href={`http://smartearners.com/login?rf=${user?._id}`}>http://smartearners.com/login?rf={user?._id}</a></p>
             </div>
 
-            <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer" onClick={() => {navigator.clipboard.writeText(`https://smartearnersdev.vercel.app/?rf=${user?._id}`); alert('copied!')}}>Copy</div>
+            <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer" onClick={() => {navigator.clipboard.writeText(`https://smartearnersdev.vercel.app/login?rf=${user?._id}`); alert('copied!')}}>Copy</div>
           </div>
         </div>
       </div>
