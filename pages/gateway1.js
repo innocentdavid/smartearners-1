@@ -55,7 +55,7 @@ export default function Withdraw() {
 
           <p className="my-8 text-center font-bold text-xl">upload your payment proof below</p>
 
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col justify-center items-center">            
             <div className="w-[200px] h-[200px] border bg-gray-400"></div>
 
             <div className="bg-[#ffa600] py-2 px-5 mt-4 font-bold">UPLOAD PROOF OF PAYMENT</div>
