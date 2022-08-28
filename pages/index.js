@@ -1,17 +1,18 @@
 import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { BiTrendingUp } from 'react-icons/bi'
 import Footer from '../components/footer'
 import Slider from '../components/slider'
 import { getAllInvestmentPlan } from '../lib/api'
-import { useAppContext } from '../context/AppContext';
+import AuthContext from '../context/authContext';
 
 export default function Home({ allInvestmentPlan }) {
   const [plans] = useState(allInvestmentPlan)
   const { status, data } = useSession();
-  const { user } = useAppContext()
+  const user = useContext(AuthContext)
+  console.log(user)
   // const user = null
   const router = useRouter()
 
