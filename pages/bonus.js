@@ -13,8 +13,8 @@ export default function Bonus() {
   return (
     <>
       <Head>
-        <title>14%+5%+1% / One-Time Commission - Smart Earners</title>
-        <meta name="description" content="14%+5%+1% / One-Time Commission" />
+        <title>10%+5%+2% / One-Time Commission - Smart Earners</title>
+        <meta name="description" content="10%+5%+2% / One-Time Commission" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -31,7 +31,7 @@ export default function Bonus() {
       <header className="bg-[#242931] text-[#fff] py-4 px-5 font-Josefin text-[14px]">
         <div className="flex items-center gap-4">
           <div className=""><AiOutlineShareAlt size="25px" /></div>
-          <div className="font-bold text-[.9rem] md:text-[1rem]">14%+5%+1% / One-Time Commission</div>
+          <div className="font-bold text-[.9rem] md:text-[1rem]">10%+5%+2% / One-Time Commission</div>
         </div>
 
         <p className="mt-3 text-[.75rem]">{"When your Level 1 referrals make a payment, you will obtain 14% of his payment amount as referral commission immediately. And you obtain 5% of your Level 2's payment amount, and 1% of your Level 3's."}</p>
