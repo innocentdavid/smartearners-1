@@ -13,7 +13,7 @@ export default function Investreturn() {
   return (
     <>
       <Head>
-        <title>{"20% Share of Lv.1's Daily Return"} - Smart Earners</title>
+        <title>{"20% Share of Lv.1's Daily Return"} - Smart energy</title>
         <meta name="description" content="20% Share of Lv.1's Daily Return" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -31,10 +31,10 @@ export default function Investreturn() {
       <header className="bg-[#242931] text-[#fff] py-4 px-5 font-Josefin text-[14px]">
         <div className="flex items-center gap-4">
           <div className=""><img src="/images/901789.png" width="20px" height="20px" /></div>
-          <div className="font-bold text-[.9rem] md:text-[1rem] -mb-1">{`20% Share of Lv.1's Daily Return`}</div>
+          <div className="font-bold text-[.9rem] md:text-[1rem] -mb-1">{`2% Share of Lv.1's Daily Return`}</div>
         </div>
 
-        <p className="mt-3 text-[.75rem]">{"When your Level 1 referrals start to obtain daily return from his investment plans, you will obtain a 20% extra share of that return on a daily basis as well."}</p>
+        <p className="mt-3 text-[.75rem]">{"When your Level 1 referrals start to obtain daily return from his investment plans, you will obtain a 2% extra share of that return on a daily basis as well."}</p>
       </header>
 
       <section className="mt-4">
