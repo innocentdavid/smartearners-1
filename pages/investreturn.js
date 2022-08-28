@@ -7,7 +7,6 @@ import {useAppContext} from "../context/AppContext"
 
 export default function Investreturn() {
   const router = useRouter()
-      id: 1, userName: '0x9***384', myTicket: 0, balance: 350
 const {user} = useAppContext()
 
   return (
