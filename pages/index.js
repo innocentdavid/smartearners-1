@@ -143,6 +143,7 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
       } catch (err) {
         console.log(err)
       }
+      router.push('/orders')
       hideModal()
     }else{
       alert('You have to log in first!')

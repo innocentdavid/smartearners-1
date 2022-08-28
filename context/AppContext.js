@@ -48,21 +48,21 @@ export const AppWrapper = ({ children }) => {
           }
           // console.log(u)
           setUser(u)
-          if (user) {
-            try {
-              const response = await fetch('/api/user', {
-                method: 'POST',
-                body: JSON.stringify(['updateUserPortfolio', user]),
-                type: 'application/json'
-              })
-              const res = await response.json()
-              console.log(res.message)
-            } catch (err) {
-              console.log(err)
-            }
-          }
-          // const r = await updateUserPortfolio(user)
         }
+
+        // if (user) {
+        //   try {
+        //     const response = await fetch('/api/user', {
+        //       method: 'POST',
+        //       body: JSON.stringify(['updateUserPortfolio', user]),
+        //       type: 'application/json'
+        //     })
+        //     const res = await response.json()
+        //     console.log(res.message)
+        //   } catch (err) {
+        //     console.log(err)
+        //   }
+        // }
       }
       fetch()
       setLoading(false)
