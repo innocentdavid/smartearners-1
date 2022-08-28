@@ -1,13 +1,14 @@
 import Head from "next/head"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { BsArrowUp, BsArrowRight } from 'react-icons/bs'
 import { AiOutlineShareAlt } from 'react-icons/ai'
 import {useAppContext} from "../context/AppContext"
+import AuthContext from "../context/authContext"
 
 export default function Investreturn() {
   const router = useRouter()
-const {user} = useAppContext()
+  const user = useContext(AuthContext)
 
   return (
     <>

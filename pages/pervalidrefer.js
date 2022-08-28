@@ -1,9 +1,12 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useContext } from "react";
 import { BsArrowRight, BsArrowUp } from "react-icons/bs";
+import AuthContext from "../context/authContext";
 
 export default function Pervalidrefer() {
   const router = useRouter()
+  const user = useContext(AuthContext)
 
   return (
     <>

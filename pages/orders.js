@@ -2,13 +2,14 @@ import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Footer from '../components/footer'
 import { useAppContext } from '../context/AppContext'
+import AuthContext from '../context/authContext'
 import { getUser, getOrders } from '../lib/api'
 
 export default function Orders() {
-  const { user } = useAppContext()
+  const user = useContext(AuthContext)
   const { status, data } = useSession();
   const router = useRouter()
 

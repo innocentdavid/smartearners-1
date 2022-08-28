@@ -1,14 +1,13 @@
 import Head from "next/head"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { BsArrowUp, BsArrowRight } from 'react-icons/bs'
 import { AiOutlineShareAlt } from 'react-icons/ai'
+import AuthContext from "../context/authContext"
 
 export default function Bonus() {
   const router = useRouter()
-  const [user, setUser] = useState({
-    id: 1, userName: '0x9***384', roi: 0, myTicket: 0, balance: 350
-  })
+  const user = useContext(AuthContext)
 
   return (
     <>

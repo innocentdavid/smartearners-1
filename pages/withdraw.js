@@ -1,11 +1,13 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { BsArrowUp } from 'react-icons/bs'
 import { TbCurrencyNaira } from 'react-icons/tb'
+import AuthContext from '../context/authContext';
 
 export default function Withdraw() {
   const router = useRouter()
+  const user = useContext(AuthContext)
   const tabsData = [
     {
       label: "Withdrawal Record",

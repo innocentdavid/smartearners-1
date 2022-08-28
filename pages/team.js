@@ -1,14 +1,15 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import Footer from '../components/footer'
 import { useRouter } from 'next/router'
 import { AiOutlineShareAlt } from 'react-icons/ai'
 import { FcMoneyTransfer } from 'react-icons/fc'
 import { useAppContext } from '../context/AppContext'
+import AuthContext from '../context/authContext'
 
 export default function Team() {
   const router = useRouter()
-  const {user} = useAppContext()
+  const user = useContext(AuthContext)
 
   const showModal = () => {
     const modal = document.querySelector('#modal')

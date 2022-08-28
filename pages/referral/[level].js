@@ -1,12 +1,13 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsArrowUp } from "react-icons/bs";
 import { useAppContext } from "../../context/AppContext";
+import AuthContext from "../../context/authContext";
 
 export default function ReferralLevel({ level }) {
   const router = useRouter()
-  const { user } = useAppContext()
+  const user = useContext(AuthContext)
   const [data, setData] = useState([])
 
   useEffect(() => {

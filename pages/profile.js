@@ -1,17 +1,18 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Footer from '../components/footer'
 import { AiOutlineUser } from 'react-icons/ai'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { getUser } from '../lib/api'
 import { useAppContext } from '../context/AppContext'
+import AuthContext from '../context/authContext'
 
 export default function Profile() {
   const router = useRouter()
   const { status, data } = useSession();
-  const { user } = useAppContext()
+  const user = useContext(AuthContext)
 
   if (status === 'loading') {
     return (

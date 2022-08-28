@@ -1,14 +1,15 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { BsArrowUp } from 'react-icons/bs'
 import { FaTimes } from 'react-icons/fa'
 import { AiOutlineCreditCard, AiOutlineCheckCircle } from 'react-icons/ai'
 import { depositWithBalance } from '../lib/api'
 import { useAppContext } from '../context/AppContext'
+import AuthContext from '../context/authContext'
 
 export default function Deposit() {
-  const { user } = useAppContext()
+  const user = useContext(AuthContext)
   const router = useRouter()
   const [ticket, setTicket] = useState(3000)
   const [ticketPlaceholder, setTicketPlaceholder] = useState()
