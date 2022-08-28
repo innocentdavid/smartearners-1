@@ -1,6 +1,6 @@
 import { SessionProvider } from "next-auth/react"
 import '../styles/globals.css'
-import { AppWrapper } from '../context/AppContext';
+// import { AppWrapper } from '../context/AppContext';
 
 function MyApp({ Component, pageProps }) {
 
@@ -12,9 +12,9 @@ function MyApp({ Component, pageProps }) {
       </div>
     </div>
     <SessionProvider session={pageProps.session}>
-      <AppWrapper>
+      {/* <AppWrapper> */}
         <Component {...pageProps} />
-      </AppWrapper>
+      {/* </AppWrapper> */}
     </SessionProvider>
   </>)
 }
