@@ -80,22 +80,121 @@ export default async function user(req, res) {
     return res.status(200).json(orders)
   }
 
-  if(b[0] === 'depositWithBalance'){
+  if (b[0] === 'depositWithBalance') {
     const user = b[1]
     const amount = b[2]
 
     const resp = await client
-    .patch(user?._id)
-    .dec({ tbalance: amount })
-    .inc({ myTicket: amount })
-    .commit()
-    .catch(error => {
-      console.log('depositWithBalance error', error)
-      res.status(500).json({ message: 'An error occured', error })
-    })
+      .patch(user?._id)
+      .dec({ tbalance: amount })
+      .inc({ myTicket: amount })
+      .commit()
+      .catch(error => {
+        console.log('depositWithBalance error', error)
+        res.status(500).json({ message: 'An error occured', error })
+      })
     // console.log(resp)
     return res.status(200).json({ message: 'success' })
   }
 
+  if (b[0] == 'fetchRfCommission') {
+    const userid = b[1]
+    const level = b[2]
+
+    const resp = await client.fetch(`*[_type == "rfCommission" && user._ref == $id] && level == $level | order(_createdAt asc)
+    {
+      _id,
+      _createdAt,
+      _updatedAt,
+      commission,
+      depositAmount,
+    }`,
+      { level, id: userid }
+    ).catch(error => {
+      console.log('fetchRfCommission', error)
+      res.status(500).json({ message: 'an error occured', error })
+    })
+    res.status(200).json({ message: 'success', data: resp })
+  }
+
+
+
+
+
+
+  if (b[0] === 'confirmedPayment') {
+    const user = b[1]
+    const data = b[2]
+    const depositedAmount = data.da
+
+    // update user
+    await client
+      .patch(user._id)
+      .inc({ da: depositedAmount })
+      .commit()
+      .catch(error => {
+        console.log('update user profile', error)
+        return res.status(500).json({ message: 'an error occured', error })
+      })
+
+    if (user.referrer) {
+      // Level 1 commission
+      const commission1 = (10 * depositedAmount) / 100
+      await createRfCommision(user, commission1, depositedAmount, 1)
+
+      // Level 2 commission
+      const user2 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
+        { id: user.referrer._id }
+      ).catch(error => {
+        // console.log('getAllInvestmentPlan', error)
+        return res.status(500).json({ message: 'an error occured', error })
+      })
+      if (user2) {
+        const commission2 = (5 * depositedAmount) / 100
+        await createRfCommision(user2, commission2, depositedAmount, 2)
+      } else {
+        return res.status(500).json({ message: 'an error occured', error })
+      }
+
+      // Level 3 commission
+      const user3 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
+        { id: user.referrer._id }
+      ).catch(error => {
+        // console.log('getAllInvestmentPlan', error)
+        return res.status(500).json({ message: 'an error occured', error })
+      })
+      if (user3) {
+        const commission3 = (2 * depositedAmount) / 100
+        await createRfCommision(user3, commission3, depositedAmount, 3)
+      }
+      return res.status(500).json({ message: 'an error occured', error })
+    }
+    return res.status(200).json({ message: 'success' })
+  }
+
   res.status(200).json({ message: '...' })
+}
+
+const createRfCommision = async (user, commission, depositedAmount, level) => {
+  if (user.referrer) {
+    // update referrer
+    await client
+      .patch(user.referrer._id)
+      .inc({ ri: commission })
+      .commit()
+      .catch(error => {
+        console.log('update user profile', error)
+      })
+
+    await client.create({
+      _type: 'rfCommission',
+      commission, depositedAmount, level,
+      user: { _type: 'reference', _ref: user._id },
+      referrer: { _type: 'reference', _ref: user.referrer._id },
+    }).catch(error => {
+      console.log('update user profile', error)
+    })
+    return { message: 'success' }
+  }
+  return { message: 'user does not have a referral' }
 }

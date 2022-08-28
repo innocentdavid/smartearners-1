@@ -34,7 +34,7 @@ export default function Bonus() {
           <div className="font-bold text-[.9rem] md:text-[1rem]">10%+5%+2% / One-Time Commission</div>
         </div>
 
-        <p className="mt-3 text-[.75rem]">{"When your Level 1 referrals make a payment, you will obtain 14% of his payment amount as referral commission immediately. And you obtain 5% of your Level 2's payment amount, and 1% of your Level 3's."}</p>
+        <p className="mt-3 text-[.75rem]">{"When your Level 1 referrals make a payment, you will obtain 10% of his payment amount as referral commission immediately. And you obtain 5% of your Level 2's payment amount, and 2% of your Level 3's."}</p>
       </header>
 
       <main className="max-w-[767px]">
