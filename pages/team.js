@@ -23,7 +23,7 @@ export default function Team() {
   return (
     <div className="relative h-screen">
       <Head>
-        <title>Team - Smart Earners</title>
+        <title>Team - SMART ENERGY</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -36,7 +36,7 @@ export default function Team() {
       </div>
 
       <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-4 md:px-36">
-        <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center cursor-pointer " onClick={() => { router.push('/') }}>SMART EARNERS</div>
+        <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center cursor-pointer " onClick={() => { router.push('/') }}>SMART ENERGY</div>
                  
         <div className="flex flex-col items-end text-sm md:text-base font-bold">
           <div className="text-white flex items-center gap-1">
