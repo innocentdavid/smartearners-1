@@ -86,7 +86,7 @@ export default function Team() {
 
         <div className="z-[5] fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[90%] mx-auto">
           <div className="h-[70px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
-            <div className="font-bold font-[poppins] ">SMART <br /> EARNERS</div>
+            <div className="font-bold font-[poppins] ">SMART <br /> ENERGY</div>
             <div className="text-end">
               <div className="text-black font-semibold">COPY YOUR</div>
               <div className="text-2xl font-bold">REFERRAL LINK</div>
