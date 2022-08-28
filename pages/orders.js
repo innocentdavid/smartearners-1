@@ -17,10 +17,26 @@ export default function Orders() {
 
   useEffect(() => {
     const fetch = async () => {
-      // await delOrders()
-      const orders = await getOrders()
-      console.log(orders)
-      orders && setOrderItems(orders)
+      if(user){
+        // await delOrders()
+        orders && setOrderItems(orders)
+        const orders = await getOrders(user._id)
+        // const response = await fetch('/api/user', {
+        //   method: 'POST',
+        //   body: JSON.stringify(['getOrders', user._id ]),
+        //   type: 'application/json'
+        // })
+        // console.log('lksdjfsdjfskdl')
+        // const res = await response.json()
+        // console.log(res)
+  
+        // try {
+        // } catch (err) {
+        //   // console.log(err)
+        //   // alert('something went wrong!')
+        // }
+        // console.log(orders)
+      }
     }
     fetch()
   }, [])

@@ -71,7 +71,8 @@ export default async function user(req, res) {
   }
 
   if (b[0] === 'getOrders') {
-    const orders = await client.fetch(`*[_type == "order"] | order(_createdAt desc)`
+    const userId = b[1]
+    const orders = await client.fetch(`*[_type == "order" && userId == $userId] | order(_createdAt desc)`,{ userId }
     ).catch(error => {
       console.log('getOrders error', error)
       res.status(500).json({ message: 'An error occured', error })

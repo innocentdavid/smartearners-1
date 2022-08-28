@@ -12,8 +12,6 @@ export default function Home({ allInvestmentPlan }) {
   const [plans] = useState(allInvestmentPlan)
   const { status, data } = useSession();
   const user = useContext(AuthContext)
-  console.log(user)
-  // const user = null
   const router = useRouter()
 
   useEffect(() => {
