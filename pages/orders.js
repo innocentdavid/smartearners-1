@@ -134,7 +134,9 @@ const OrderCard = ({ order, user }) => {
 
     return (<>
       <div id={`modal${id}`} className="hidden fixed top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] bg-black text-white py-4 px-8 w-full justify-center items-center text-sm font-semibold">
-        This plan returns N {dailyReturn} to your balance everyday. you've now obtained N {obtained} on it on it's serving day {daysServed}. It will keep running for {daysRemaining} more days.
+        {
+          `This plan returns N ${dailyReturn} to your balance everyday. you've now obtained N ${obtained} on it on it's serving day ${daysServed}. It will keep running for ${daysRemaining} more days.`
+        }
       </div>
 
 
