@@ -1,7 +1,7 @@
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsPhone, BsLock } from 'react-icons/bs'
 import { getUser } from '../lib/api';
 
@@ -9,12 +9,17 @@ export default function Login() {
   const version = process.env.NODE_ENV
   // console.log(version)
   const router = useRouter()
+  const { rf } = router.query
   const [userDetails, setUserDetails] = useState({ tel: '', password: '', cPassword: '' })
   const tabsData = [
     { label: "Log in", content: "" },
     { label: "Sign up", content: "" },
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+  useEffect(() => {
+    rf && setActiveTabIndex(1)
+  }, [rf])
 
   const handleLogIn = async (e) => {
     e.preventDefault();
@@ -38,7 +43,7 @@ export default function Login() {
     e.preventDefault();
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
-    const data = { tel: userDetails.tel, password: userDetails.password }
+    const data = { tel: userDetails.tel, password: userDetails.password, rf }
     const user = await getUser(data.tel);
     if (!user) {
       try {

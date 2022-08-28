@@ -62,8 +62,6 @@ export default function Orders() {
               const createdAt = new Date(item._createdAt).getTime()
               var now = new Date().getTime();
               var gap = now - createdAt;
-              console.log("gap", gap)
-              console.log(now, createdAt)
               var second = 1000;
               var minute = second * 60;
               var hour = minute * 60;

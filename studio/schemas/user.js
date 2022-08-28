@@ -15,11 +15,6 @@ export default {
       type: 'string',
     },
     {
-      name: 'password',
-      title: 'Password',
-      type: 'string',
-    },
-    {
       name: 'level',
       title: 'Level',
       type: 'number',
@@ -53,6 +48,11 @@ export default {
     {
       name: 'lastChecked',
       title: 'Last Checked',
+      type: 'string',
+    },
+    {
+      name: 'password',
+      title: 'Password',
       type: 'string',
     },
   ],

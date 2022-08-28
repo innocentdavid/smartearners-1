@@ -22,13 +22,13 @@ export default {
   preview: {
     select: {
       title: 'user.tel',
-      // referrer: 'referrer.tel'
+      referrer: 'referrer.tel'
     },
-    // prepare(selection) {
-    //   const {referrer} = selection
-    //   return Object.assign({}, selection, {
-    //     subtitle: `by ${referrer}`
-    //   })
-    // }
+    prepare(selection) {
+      const {referrer} = selection
+      return Object.assign({}, selection, {
+        subtitle: `rf by ${referrer}`
+      })
+    }
   }
 }

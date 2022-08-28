@@ -3,22 +3,23 @@ import bcrypt from 'bcrypt'
 import { createRecord } from '../../lib/api';
 
 export default async function createUser(req, res) {
-  const { tel, password } = JSON.parse(req.body)
+  const { tel, password, rf } = JSON.parse(req.body)
   const saltRounds = 10;
   bcrypt.genSalt(saltRounds, function (err, salt) {
     bcrypt.hash(password, salt, async function (err, hash) {
       try {
-        const newUser = await client.create({
-          _type: 'user',
-          tel,
-          password: hash,
-          level: 1,
-          lastChecked: new Date(),
-          roi: 0,
-          ri: 0,
-          myTicket: 0,
-          tbalance: 0
-        })
+        var data = {}
+        if (rf) {
+          data = {
+            _type: 'user', tel, password: hash, level: 1, lastChecked: new Date(), roi: 0, ri: 0, myTicket: 0, tbalance: 0, referrer: { _type: 'reference', _ref: rf, },
+          }
+        } else {
+          data = {
+            _type: 'user', tel, password: hash, level: 1, lastChecked: new Date(), roi: 0, ri: 0, myTicket: 0, tbalance: 0,
+          }
+        }
+
+        const newUser = await client.create()
         console.log(newUser)
 
         const createOrder = await client.create({
@@ -42,7 +43,6 @@ export default async function createUser(req, res) {
             console.log('update user profile', error)
           })
 
-          // const createBalanceRecord = await createRecord(title='Signup Bonus', category='balanceRecord', type='income', amount=300, remaining=300, userId=newUser._id, userTel=newUser.tel)
         const createBalanceRecord = await client.create({
           _type: 'record',
           title: 'Signup Bonus',
@@ -52,6 +52,12 @@ export default async function createUser(req, res) {
           remaining: 300,
           userId: newUser._id,
           userTel: newUser.tel,
+        })
+
+        const create_Referral_Record = await client.create({
+          _type: 'referral',
+          user: { _type: 'reference', _ref: newUser?._id, },
+          referrer: { _type: 'reference', _ref: rf, },
         })
 
       } catch (err) {
