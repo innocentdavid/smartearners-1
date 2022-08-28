@@ -70,7 +70,6 @@ export default async function user(req, res) {
     }
   }
 
-  console.log(b[0])
   if (b[0] === 'getOrders') {
     const orders = await client.fetch(`*[_type == "order"] | order(_createdAt desc)`
     ).catch(error => {
@@ -79,6 +78,23 @@ export default async function user(req, res) {
     })
     console.log(orders)
     return res.status(200).json(orders)
+  }
+
+  if(b[0] === 'depositWithBalance'){
+    const user = b[1]
+    const amount = b[2]
+
+    const resp = await client
+    .patch(user?._id)
+    .dec({ tbalance: amount })
+    .inc({ myTicket: amount })
+    .commit()
+    .catch(error => {
+      console.log('depositWithBalance error', error)
+      res.status(500).json({ message: 'An error occured', error })
+    })
+    // console.log(resp)
+    return res.status(200).json({ message: 'success' })
   }
 
   res.status(200).json({ message: '...' })

@@ -5,14 +5,11 @@ import { BsArrowUp } from 'react-icons/bs'
 import { FaTimes } from 'react-icons/fa'
 import { AiOutlineCreditCard, AiOutlineCheckCircle } from 'react-icons/ai'
 import { depositWithBalance } from '../lib/api'
+import { useAppContext } from '../context/AppContext'
 
-export default function Profile() {
-  const [user, setUser] = useState({
-    id: 1, userName: '0x9***384', myTicket: 0, balance: 3000
-  })
-
+export default function Deposit() {
+  const { user } = useAppContext()
   const router = useRouter()
-
   const [ticket, setTicket] = useState(3000)
   const [ticketPlaceholder, setTicketPlaceholder] = useState()
   const [amountDeposited] = useState(ticket)
@@ -36,24 +33,31 @@ export default function Profile() {
   }
   
   const makeDeposit = async () => {
-    console.log(ticket)
-    console.log(paymentGateWay)
     if(paymentGateWay === 2){
-      console.log(user.balance, ticket)
+      // paywithBalance
       if(!(user.balance >= parseInt(ticket))){
         alert('Your balance is not enough')
         return
       }
-      const res = await depositWithBalance(user, ticket)
-      console.log(res)
-      if(res.message === 'success'){
+      // const res = await depositWithBalance(user, ticket)
+      try {
+        const response = await fetch('/api/user', {
+          method: 'POST',
+          body: JSON.stringify(['depositWithBalance', user, parseInt(ticket)]),
+          type: 'application/json'
+        })
+        const res = await response.json()
+        // console.log(res)
         alert(`You have successfully purchase ${ticket} tickets with your balance`)
         setShowPaymentGateWay(false)
+        router.reload()
         return;
-      }else{
-        alert(res.message)
+      } catch (err) {
+        console.log(err)
+        alert('something went wrong!')
       }
     }
+    router.push(`/gateway1?ticket=${parseInt(ticket)}`)
     setShowPaymentGateWay(false)
   }
 

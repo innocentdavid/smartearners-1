@@ -4,12 +4,11 @@ import Footer from '../components/footer'
 import { useRouter } from 'next/router'
 import { AiOutlineShareAlt } from 'react-icons/ai'
 import { FcMoneyTransfer } from 'react-icons/fc'
+import { useAppContext } from '../context/AppContext'
 
 export default function Team() {
   const router = useRouter()
-  const [user, setUser] = useState({
-    id: 1, userName: '0x9***384', myTicket: 0, balance: 350
-  })
+  const {user} = useAppContext()
 
   const showModal = () => {
     const modal = document.querySelector('#modal')
@@ -29,7 +28,9 @@ export default function Team() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="fixed top-[30%] right-0 flex items-center gap-2 rounded-l-[30px] px-3 py-2 bg-[#ffa500] text-white font-['Metric-Light'] cursor-pointer" style={{ boxShadow: '0px 0px 14px -3px #707377' }} onClick={() => { showModal() }}>
+      <div className="fixed top-[30%] right-0 flex items-center gap-2 rounded-l-[30px] px-3 py-2 bg-[#ffa500] text-white font-['Metric-Light'] cursor-pointer" 
+      style={{ boxShadow: '0px 0px 14px -3px #707377' }} 
+      onClick={() => { showModal() }}>
         <div className=""><AiOutlineShareAlt /></div>
         <div className="">My Link</div>
       </div>
@@ -41,7 +42,7 @@ export default function Team() {
           <div className="text-white flex items-center gap-1">
             <FcMoneyTransfer /> <div className="">Total Referral Income</div>
           </div>
-          <div className="font-Josefin">0 NGN</div>
+          <div className="font-Josefin">{user?.ri} NGN</div>
         </div>
         {/* <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
           <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
@@ -95,10 +96,10 @@ export default function Team() {
           <div className="px-4 py-4 shadow-lg rounded-b-[10px] text-[.9rem] bg-[#fff] text-black">
             <div className="">
               <p>Please copy your exclusive referral link:</p>
-              <p><a href={`http://smartearners.com/?rf=${user?.id}`}>http://smartearners.com/?rf={user?.id}</a></p>
+              <p><a href={`http://smartearners.com/?rf=${user?.id}`}>http://smartearners.com/?rf={user?._id}</a></p>
             </div>
 
-            <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer">Copy</div>
+            <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer" onClick={() => {navigator.clipboard.writeText(`https://smartearnersdev.vercel.app/?rf=${user?._id}`); alert('copied!')}}>Copy</div>
           </div>
         </div>
       </div>
