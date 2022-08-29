@@ -18,9 +18,9 @@ export default function Login() {
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
-  useEffect(() => {
-    rf && setActiveTabIndex(1)
-  }, [rf])
+  // useEffect(() => {
+  //   rf && setActiveTabIndex(1)
+  // }, [rf])
 
   const handleLogIn = async (e) => {
     e.preventDefault();
@@ -108,17 +108,17 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Mobile Number</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsPhone size="20px" />
-                  <input type="number" name="tel" className="w-full bg-transparent outline-none border-none"
+                  <input type="number" name="tel" id="lTel" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setLoginDetails({ ...loginDetails, tel: e.target.value }) }}
                     value={loginDetails.tel} />
                 </div>
               </div>
 
               <div className="mt-5">
-                <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Password</p>
+                <p className="font-[fona] font-bold text-[16px] text-[#9e9292] mb-1 ">Password</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
-                  <input type="password" name="password" className="w-full bg-transparent outline-none border-none"
+                  <input type="password" name="password" id="lPassword" autoComplete="new-password" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setLoginDetails({ ...loginDetails, password: e.target.value }) }}
                     value={loginDetails.password} />
                 </div>
@@ -138,7 +138,7 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Mobile Number</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsPhone size="20px" />
-                  <input type="number" name="tel" className="w-full bg-transparent outline-none border-none"
+                  <input type="number" name="tel" id="redTel" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setUserDetails({ ...userDetails, tel: e.target.value }) }}
                     value={userDetails.tel} />
                 </div>
@@ -148,7 +148,7 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Password</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
-                  <input type="password" name="password" className="w-full bg-transparent outline-none border-none"
+                  <input type="password" name="password" id="RegPassword" autoComplete="new-password" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setUserDetails({ ...userDetails, password: e.target.value }) }}
                     value={userDetails.password} />
                 </div>
@@ -158,7 +158,7 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Password</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
-                  <input type="password" name="cpassword" id="cpassword" className="w-full bg-transparent outline-none border-none"
+                  <input type="password" name="cpassword" id="cRegPassword" autoComplete="current-password" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setUserDetails({ ...userDetails, cPassword: e.target.value }) }}
                     value={userDetails.cPassword} />
                 </div>
@@ -169,7 +169,7 @@ export default function Login() {
               </div>
 
               <div className="flex justify-end mt-2">
-                <Link href=""><a className="underline">Forgot password?</a></Link>
+                {/* <Link href=""><a className="underline">Forgot password?</a></Link> */}
               </div>
             </form>
           </>}
