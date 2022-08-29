@@ -32,6 +32,7 @@ export default function Login() {
     })
     if (res.status == 200) {
       router.push('/')
+      return;
     }
     console.log(res.error)
     res.error && alert(res.error)

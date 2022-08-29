@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -57,7 +58,7 @@ export default function Orders() {
         <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center ">SMART ENERGY</div>
 
         <div className="flex items-center gap-5 text-[.8rem] ">
-          <div className="flex flex-col items-center"><div>Obtained</div><div>Already</div><strong id="oa">N{user?.roi}</strong></div>
+          {/* <div className="flex flex-col items-center"><div>Obtained</div><div>Already</div><strong id="oa">N{user?.roi}</strong></div> */}
           {/* <div className="flex flex-col items-center"><div>Current</div><div>Daily Return</div> <strong className="">N<span id="cdr">0</span></strong></div> */}
         </div>
       </nav>
@@ -111,7 +112,6 @@ export default function Orders() {
 const OrderCard = ({ order, user }) => {
   // console.log(order)
   if (order) {
-    // const [modalDetails, setModalDetails] = useState(initialState)
     const title = order?.planTitle
     const id = order._id
     const da = order?.da
@@ -122,27 +122,23 @@ const OrderCard = ({ order, user }) => {
     const totalReturnPercentage = percentage * returnPeriod;
 
     const createdAt = new Date(order._createdAt).getTime()
+    const launchedTime = moment(order._createdAt).format('h:mm, MMM Do, YYYY')
     var now = new Date().getTime();
     var gap = now - createdAt;
-    // console.log("gap", gap)
-    // console.log(now, createdAt)
     var second = 1000;
     var minute = second * 60;
     var hour = minute * 60;
     var day = hour * 24;
 
-    var d = Math.floor(gap / (day))
-    // var h = Math.floor((gap % (day)) / (hour))
-    // var m = Math.floor((gap % (hour)) / (minute))
-    // var s = Math.floor((gap % (minute)) / (second))
-
+    const d = Math.floor(gap / (day))
+    
     const daysServed = d;
     const obtained = d * dailyReturn;
     const daysRemaining = returnPeriod - d;
 
     const showModal = () => {
       const modal = document.querySelector(`#modal${id}`)
-      modal.classList.remove('hidden')
+      modal.classList.remove('hidden')      
       modal.classList.add('flex')
 
       setTimeout(() => {
@@ -172,7 +168,7 @@ const OrderCard = ({ order, user }) => {
             <div className="flex justify-between">
               <div className="">
                 <div className="">Launch Time</div>
-                <div className="font-bold ">14:11, Aug 18th, 2022</div>
+                <div className="font-bold ">{launchedTime}</div>
               </div>
 
               <div className="text-end">
@@ -186,7 +182,7 @@ const OrderCard = ({ order, user }) => {
             <div className="flex justify-between mt-5">
               <div className="">
                 <div className="">Status</div>
-                <div className="font-bold ">Activated | Day 1</div>
+                <div className="font-bold ">{order && order.status ? order.status : 'Active'} | Day {d}</div>
               </div>
 
               <div className="text-end">

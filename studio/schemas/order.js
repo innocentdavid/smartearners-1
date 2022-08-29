@@ -2,6 +2,9 @@ export default {
   name: 'order',
   title: 'Order',
   type: 'document',
+  initialValues: {
+    active: true,
+  },
   fields: [
     {
       name: 'planId',
@@ -38,6 +41,11 @@ export default {
       name: 'drTime',
       title: 'Daily Return Time',
       type: 'string',
+    },
+    {
+      name: 'active',
+      title: 'Active',
+      type: 'boolen',
     },
     {
       name: 'userId',
