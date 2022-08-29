@@ -32,6 +32,8 @@ export default function Login() {
     })
     if (res.status == 200) {
       router.push('/')
+      document.querySelector('#generalLoading').classList.remove('grid')
+      document.querySelector('#generalLoading').classList.add('hidden')
       return;
     }
     console.log(res.error)
