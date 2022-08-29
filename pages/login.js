@@ -1,10 +1,10 @@
 import Link from 'next/link'
-import { signIn } from 'next-auth/react';
+import { getSession, signIn, providers, csrfToken } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { BsPhone, BsLock } from 'react-icons/bs'
 
-export default function Login() {
+export default function Login({ providers, csrfToken }) {
   const router = useRouter()
   const [loginDetails, setLoginDetails] = useState({ tel: '', password: '' })
 
@@ -78,4 +78,22 @@ export default function Login() {
       </section>
     </div>
   )
+}
+
+signIn.getInitialProps = async (context) => {
+  const { req, res } = context;
+  const session = await (getSession({req}))
+
+  if(session && res && session.accessToken) {
+    res.writeHead(302, {
+      Location: '/profile',
+    });
+    res.end()
+    return;
+  }
+  return {
+    session: undefined,
+    providers: await providers(context),
+    csrfToken: await csrfToken(context)
+  }
 }
