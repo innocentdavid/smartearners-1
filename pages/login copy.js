@@ -1,13 +1,9 @@
 import { signIn } from 'next-auth/react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BsPhone, BsLock } from 'react-icons/bs'
-import { getUser } from '../lib/api';
 
 export default function Login() {
-  const version = process.env.NODE_ENV
-  // console.log(version)
   const router = useRouter()
   const { rf } = router.query
   const [loginDetails, setLoginDetails] = useState({ tel: '', password: '' })
@@ -17,10 +13,6 @@ export default function Login() {
     { label: "Sign up", content: "" },
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-
-  // useEffect(() => {
-  //   rf && setActiveTabIndex(1)
-  // }, [rf])
 
   const handleLogIn = async (e) => {
     e.preventDefault();
@@ -45,29 +37,40 @@ export default function Login() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    if (userDetails.password !== userDetails.cPassword) {
+      alert('Your Password and Confirm Password did not match!')
+      return;
+    }
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
-    const data = { tel: userDetails.tel, password: userDetails.password }
-    console.log(data)
-    const user = await getUser(data.tel);
-    if (!user) {
-      try {
-        const response = await fetch('/api/createUser', {
-          method: 'POST',
-          body: JSON.stringify(data),
-          type: 'application/json'
-        })
-        if (response.status == 200) {
-          alert("You have been registered successfully!, login to continue")
-          setActiveTabIndex(0)
-        } else {
-          console.log(response)
-        }
-      } catch (err) {
-        console.log(err)
+    const data = { tel: userDetails.tel, password: userDetails.password, rf }
+    try {
+      const response = await fetch('/api/createUser', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        type: 'application/json'
+      })
+      if (response.status == 200) {
+        alert("You have been registered successfully!, login to continue")
+        setActiveTabIndex(0)
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
       }
-    } else {
-      alert('This number has an account with us already, login to continue or use another number')
+
+      else if (response.status === 409) {
+        alert('This number has an account with us already, login to continue or use another number')
+        setActiveTabIndex(0)
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
+        return;
+      } else {
+        console.log(response)
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
+        return;
+      }
+    } catch (err) {
+      console.log(err)
     }
     document.querySelector('#generalLoading').classList.remove('grid')
     document.querySelector('#generalLoading').classList.add('hidden')
@@ -108,7 +111,7 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Mobile Number</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsPhone size="20px" />
-                  <input type="number" name="tel" id="lTel" className="w-full bg-transparent outline-none border-none"
+                  <input required type="number" name="tel" id="lTel" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setLoginDetails({ ...loginDetails, tel: e.target.value }) }}
                     value={loginDetails.tel} />
                 </div>
@@ -118,14 +121,14 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#9e9292] mb-1 ">Password</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
-                  <input type="password" name="password" id="lPassword" autoComplete="new-password" className="w-full bg-transparent outline-none border-none"
+                  <input required type="password" name="password" id="lPassword" autoComplete="new-password" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setLoginDetails({ ...loginDetails, password: e.target.value }) }}
                     value={loginDetails.password} />
                 </div>
               </div>
 
               <div className="mt-10 py-2 px-4 rounded-[10px] bg-[#ffa600] text-white font-bold text-lg ">
-                <input type="submit" value="Log in" className="w-full bg-transparent outline-none border-none cursor-pointer" />
+                <input required type="submit" value="Log in" className="w-full bg-transparent outline-none border-none cursor-pointer" />
               </div>
 
               <div className="flex justify-end mt-2">
@@ -138,7 +141,7 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Mobile Number</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsPhone size="20px" />
-                  <input type="number" name="tel" id="redTel" className="w-full bg-transparent outline-none border-none"
+                  <input required type="number" name="tel" id="redTel" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setUserDetails({ ...userDetails, tel: e.target.value }) }}
                     value={userDetails.tel} />
                 </div>
@@ -148,24 +151,24 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Password</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
-                  <input type="password" name="password" id="RegPassword" autoComplete="new-password" className="w-full bg-transparent outline-none border-none"
+                  <input required type="password" name="password" id="RegPassword" autoComplete="new-password" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setUserDetails({ ...userDetails, password: e.target.value }) }}
                     value={userDetails.password} />
                 </div>
               </div>
 
               <div className="mt-5">
-                <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Password</p>
+                <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Confirm Password</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
-                  <input type="password" name="cpassword" id="cRegPassword" autoComplete="current-password" className="w-full bg-transparent outline-none border-none"
+                  <input required type="password" name="cpassword" id="cRegPassword" autoComplete="current-password" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setUserDetails({ ...userDetails, cPassword: e.target.value }) }}
                     value={userDetails.cPassword} />
                 </div>
               </div>
 
               <div className="mt-10 py-2 px-4 rounded-[10px] bg-[#ffa600] text-white font-bold text-lg ">
-                <input type="submit" value="Sign up" className="w-full bg-transparent outline-none border-none" />
+                <input required type="submit" value="Sign up" className="w-full bg-transparent outline-none border-none" />
               </div>
 
               <div className="flex justify-end mt-2">

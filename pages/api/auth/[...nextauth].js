@@ -24,9 +24,9 @@ const authoptions = {
       }
     })
   ],
-  refetchInterval: 12 * 60 * 60,
+  // refetchInterval: 12 * 60 * 60,
   secret: process.env.NEXTAUTH_SECRET,
-  debug: true,
+  debug: false,
   session: {
     strategy: "jwt",
     maxAge: 24 * 60 * 60,
@@ -45,9 +45,9 @@ const authoptions = {
     },
   },
   pages: {
-    signIn: '/login?p=0',
-    signup: '/login?p=1',
-    newUser: '/login?p=1'
+    signIn: '/login',
+    signup: '/login',
+    newUser: '/login'
   }
 }
 
