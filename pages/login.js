@@ -44,7 +44,8 @@ export default function Login() {
     e.preventDefault();
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
-    const data = { tel: userDetails.tel, password: userDetails.password, rf }
+    const data = { tel: userDetails.tel, password: userDetails.password }
+    console.log(data)
     const user = await getUser(data.tel);
     if (!user) {
       try {

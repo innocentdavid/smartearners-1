@@ -11,15 +11,15 @@ export default async function createUser(req, res) {
         var data = {}
         if (rf) {
           data = {
-            _type: 'user', tel, password: hash, level: 1, lastChecked: new Date(), roi: 0, ri: 0, myTicket: 0, tbalance: 0, referrer: { _type: 'reference', _ref: rf, },
+            _type: 'user', tel, password: hash, level: 1, lastChecked: new Date(), roi: 0, ri: 0, myTicket: 0, tbalance: 300, referrer: { _type: 'reference', _ref: rf, },
           }
         } else {
           data = {
-            _type: 'user', tel, password: hash, level: 1, lastChecked: new Date(), roi: 0, ri: 0, myTicket: 0, tbalance: 0,
+            _type: 'user', tel, password: hash, level: 1, lastChecked: new Date(), roi: 0, ri: 0, myTicket: 0, tbalance: 300,
           }
         }
 
-        const newUser = await client.create()
+        const newUser = await client.create(data)
         console.log(newUser)
 
         const createOrder = await client.create({
@@ -35,14 +35,6 @@ export default async function createUser(req, res) {
           userTel: newUser?.tel
         })
 
-        const updateTbalance = await client
-          .patch(newUser?._id)
-          .inc({ tbalance: 300 })
-          .commit()
-          .catch(error => {
-            console.log('update user profile', error)
-          })
-
         const createBalanceRecord = await client.create({
           _type: 'record',
           title: 'Signup Bonus',
@@ -54,11 +46,13 @@ export default async function createUser(req, res) {
           userTel: newUser.tel,
         })
 
-        const create_Referral_Record = await client.create({
-          _type: 'referral',
-          user: { _type: 'reference', _ref: newUser?._id, },
-          referrer: { _type: 'reference', _ref: rf, },
-        })
+        if(rf){
+          const create_Referral_Record = await client.create({
+            _type: 'referral',
+            user: { _type: 'reference', _ref: newUser?._id, },
+            referrer: { _type: 'reference', _ref: rf, },
+          })
+        }
 
       } catch (err) {
         console.error(err)
