@@ -90,7 +90,7 @@ export default async function user(req, res) {
   if (b[0] === 'paymentProof') {
     const user = b[1]
     const amount = b[2]
-    const imageUrl = b[4]
+    const imageUrl = b[3]
 
     await client.create({
       _type: 'paymentProof',

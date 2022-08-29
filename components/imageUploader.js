@@ -64,7 +64,7 @@ export default function ImageUploader({ user, amount }) {
     try {
       const response = await fetch('/api/user', {
         method: 'POST',
-        body: JSON.stringify(['paymentProof', user, amount, image]),
+        body: JSON.stringify(['paymentProof', user, parseInt(amount), image]),
         type: 'application/json'
       })
       const res = await response.json()
