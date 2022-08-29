@@ -11,11 +11,11 @@ export default async function createUser(req, res) {
         var data = {}
         if (rf) {
           data = {
-            _type: 'user', tel, password: hash, level: 1, lastChecked: new Date(), roi: 0, ri: 0, myTicket: 0, tbalance: 300, referrer: { _type: 'reference', _ref: rf, },
+            _type: 'user', tel, password: hash, level: 1, lastChecked: new Date(), roi: 0, ri: 0, myTicket: 0, vrs:0, tbalance: 300, referrer: { _type: 'reference', _ref: rf, },
           }
         } else {
           data = {
-            _type: 'user', tel, password: hash, level: 1, lastChecked: new Date(), roi: 0, ri: 0, myTicket: 0, tbalance: 300,
+            _type: 'user', tel, password: hash, level: 1, lastChecked: new Date(), roi: 0, ri: 0, myTicket: 0, vrs:0, tbalance: 300,
           }
         }
 
