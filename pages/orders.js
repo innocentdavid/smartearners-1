@@ -5,9 +5,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 import Footer from '../components/footer'
-import { useAppContext } from '../context/AppContext'
 import AuthContext from '../context/authContext'
-import { getUser, getOrders } from '../lib/api'
+import { getOrders } from '../lib/api'
 
 export default function Orders() {
   const user = useContext(AuthContext)
@@ -17,6 +16,10 @@ export default function Orders() {
   const [orderItems, setOrderItems] = useState(null)
 
   useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.replace('/login')
+    }
+
     const fetch = async () => {
       if (user) {
         // await delOrders()
@@ -29,43 +32,56 @@ export default function Orders() {
     fetch()
   }, [])
 
-  return (
-    <div className="relative h-screen">
-      <Head>
-        <title>Orders</title>
-        <meta name="description" content="" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-8 md:px-36">
-        <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center select-none cursor-pointer" onClick={() => { router.push('/') }}>SMART ENERGY</div>
-
-        <div className="flex items-center gap-5 text-[.8rem] ">
-          {/* <div className="flex flex-col items-center"><div>Obtained</div><div>Already</div><strong id="oa">N{user?.roi}</strong></div> */}
-          {/* <div className="flex flex-col items-center"><div>Current</div><div>Daily Return</div> <strong className="">N<span id="cdr">0</span></strong></div> */}
+  if (status === 'loading') {
+    return (
+      <div className="fixed top-0 left-0 w-full h-screen grid place-items-center z-[999999999] text-white" style={{ background: 'rgba(0,0,0,.8)' }}>
+        <div className="text-2xl md:text-3xl lg:text-5xl flex items-center gap-3">
+          <img src="/images/withdraw-1.png" alt="" width="20px" height="20px" className="animate-spin" />
+          <span>Loading<span className="animate-ping">...</span></span>
         </div>
-      </nav>
+      </div>
+    )
+  }
 
-      <header className="bg-gray-800 text-white py-3 px-5 font-Josefin text-sm ">
-        <div>• Only 24H after deposit, rather than the moment you purchase, you receive its first daily return at your balance.</div>
-        <div>• You can keep multiple plans simultaneously, no matter same or different ones.</div>
-        <div>• All investment plans are only activated by tickets. <Link href="/deposit"><a className="text-[#ffa500] select-none">Please click here to buy tickets if needed.</a></Link></div>
-      </header>
+  if (status === 'authenticated') {
+    return (
+      <div className="relative h-screen">
+        <Head>
+          <title>Orders</title>
+          <meta name="description" content="" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-      <main className="mt-5">
-        <section className="px-5 flex flex-col items-center">
-          {orderItems && orderItems?.map((item, index) => {
-            if (item?.da) {
-              return <OrderCard key={index} order={item} />
-            }
-          })}
-        </section>
-      </main>
+        <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-8 md:px-36">
+          <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center select-none cursor-pointer" onClick={() => { router.push('/') }}>SMART ENERGY</div>
 
-      <Footer />
+          <div className="flex items-center gap-5 text-[.8rem] ">
+            {/* <div className="flex flex-col items-center"><div>Obtained</div><div>Already</div><strong id="oa">N{user?.roi}</strong></div> */}
+            {/* <div className="flex flex-col items-center"><div>Current</div><div>Daily Return</div> <strong className="">N<span id="cdr">0</span></strong></div> */}
+          </div>
+        </nav>
 
-    </div>
-  )
+        <header className="bg-gray-800 text-white py-3 px-5 font-Josefin text-sm ">
+          <div>• Only 24H after deposit, rather than the moment you purchase, you receive its first daily return at your balance.</div>
+          <div>• You can keep multiple plans simultaneously, no matter same or different ones.</div>
+          <div>• All investment plans are only activated by tickets. <Link href="/deposit"><a className="text-[#ffa500] select-none">Please click here to buy tickets if needed.</a></Link></div>
+        </header>
+
+        <main className="mt-5">
+          <section className="px-5 flex flex-col items-center">
+            {orderItems && orderItems?.map((item, index) => {
+              if (item?.da) {
+                return <OrderCard key={index} order={item} />
+              }
+            })}
+          </section>
+        </main>
+
+        <Footer />
+
+      </div>
+    )
+  }
 }
 
 const OrderCard = ({ order }) => {

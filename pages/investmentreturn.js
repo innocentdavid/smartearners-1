@@ -6,7 +6,7 @@ import { AiOutlineShareAlt } from 'react-icons/ai'
 import {useAppContext} from "../context/AppContext"
 import AuthContext from "../context/authContext"
 
-export default function Investreturn() {
+export default function Investmentreturn() {
   const router = useRouter()
   const user = useContext(AuthContext)
 

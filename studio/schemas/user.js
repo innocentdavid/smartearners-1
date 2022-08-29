@@ -6,7 +6,8 @@ export default {
     level: 1,
     myTicket: 0,
     roi: 0,
-    ri: 0
+    ri: 0,
+    vrs: 0,
   },
   fields: [
     {
@@ -38,6 +39,11 @@ export default {
     {
       name: 'ri',
       title: 'Referral Income',
+      type: 'number',
+    },
+    {
+      name: 'vrs',
+      title: 'Valid Refer Salary',
       type: 'number',
     },
     {

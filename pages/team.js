@@ -67,7 +67,7 @@ export default function Team() {
           <div className="">
             <div className="font-['Metric-SemiBold'] text-[17px] md:text-[19px] text-black font-bold ">{`• 2% Share of Lv.1's Daily Return`}</div>
             <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">{`When your Level 1 referrals start to obtain daily return from his investment plans, you will obtain a 2% extra share of that return on a daily basis as well.`}</p>
-            <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/investreturn') }}>Check my stats in this part</div>
+            <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/investmentreturn') }}>Check my stats in this part</div>
           </div>
 
           <div className="">

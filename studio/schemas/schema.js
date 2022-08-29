@@ -11,6 +11,7 @@ import validRef from './validRef'
 import dailyReturn from './dailyReturn'
 import referral from './referral'
 import record from './record'
+import paymentProof from './paymentProof'
 
 export default createSchema({
   name: 'default',
@@ -20,6 +21,7 @@ export default createSchema({
     order,
     rfCommission,
     validRef,
+    paymentProof,
     dailyReturn,
     referral,
     record

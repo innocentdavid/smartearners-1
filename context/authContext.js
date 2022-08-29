@@ -22,9 +22,9 @@ export const AuthContextProvider = ({ children }) => {
 
     if (data && data.user.token) {
       const dataN = data?.user?.token
-      var u = { ...dataN, myTicket: 0, balance: dataN.tbalance + dataN.ri + dataN.roi }
+      var u = { ...dataN, myTicket: 0, balance: dataN.tbalance + dataN.ri + dataN.vrs }
       if (dataN.myTicket) {
-        u = { ...dataN, myTicket: dataN.myTicket, balance: dataN.tbalance + dataN.ri + dataN.roi }
+        u = { ...dataN, myTicket: dataN.myTicket, balance: dataN.tbalance + dataN.ri + dataN.roi + dataN.vrs }
       }
       dataN?.tel && setUser(u)
 

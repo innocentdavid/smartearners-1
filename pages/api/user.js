@@ -70,17 +70,6 @@ export default async function user(req, res) {
     }
   }
 
-  if (b[0] === 'getOrders') {
-    const userId = b[1]
-    const orders = await client.fetch(`*[_type == "order" && userId == $userId] | order(_createdAt desc)`,{ userId }
-    ).catch(error => {
-      console.log('getOrders error', error)
-      res.status(500).json({ message: 'An error occured', error })
-    })
-    console.log(orders)
-    return res.status(200).json(orders)
-  }
-
   if (b[0] === 'depositWithBalance') {
     const user = b[1]
     const amount = b[2]
@@ -98,24 +87,24 @@ export default async function user(req, res) {
     return res.status(200).json({ message: 'success' })
   }
 
-  if (b[0] == 'fetchRfCommission') {
-    const userid = b[1]
-    const level = b[2]
+  if (b[0] === 'paymentProof') {
+    const user = b[1]
+    const amount = b[2]
+    const imageUrl = b[4]
 
-    const resp = await client.fetch(`*[_type == "rfCommission" && user._ref == $id] && level == $level | order(_createdAt asc)
-    {
-      _id,
-      _createdAt,
-      _updatedAt,
-      commission,
-      depositAmount,
-    }`,
-      { level, id: userid }
-    ).catch(error => {
-      console.log('fetchRfCommission', error)
-      res.status(500).json({ message: 'an error occured', error })
+    await client.create({
+      _type: 'paymentProof',
+      amount, imageUrl,
+      userId: user?._id,
+      userTel: user?.tel,
+    }).catch(error => {
+      console.log('paymentProof', error)
+      return res.status(500).json({ message: "an error occured", error })
     })
-    res.status(200).json({ message: 'success', data: resp })
+
+
+    // commission....
+    return res.status(200).json({ message: "success" })
   }
 
 

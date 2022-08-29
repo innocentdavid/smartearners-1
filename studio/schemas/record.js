@@ -31,12 +31,12 @@ export default {
     {
       name: 'userId',
       title: 'User Id',
-      type: 'number',
+      type: 'string',
     },
     {
       name: 'userTel',
       title: 'User Tel',
-      type: 'number',
+      type: 'string',
     }
   ],
 

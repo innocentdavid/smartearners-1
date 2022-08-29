@@ -2,7 +2,7 @@ export default {
   name: 'order',
   title: 'Order',
   type: 'document',
-  initialValues: {
+  initialValue: {
     active: true,
   },
   fields: [
@@ -45,7 +45,7 @@ export default {
     {
       name: 'active',
       title: 'Active',
-      type: 'boolen',
+      type: 'boolean',
     },
     {
       name: 'userId',

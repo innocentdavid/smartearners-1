@@ -2,8 +2,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { BsArrowUp } from "react-icons/bs";
-import { useAppContext } from "../../context/AppContext";
 import AuthContext from "../../context/authContext";
+import { fetchRfCommission } from "../../lib/api";
 
 export default function ReferralLevel({ level }) {
   const router = useRouter()
@@ -12,24 +12,16 @@ export default function ReferralLevel({ level }) {
 
   useEffect(() => {
     const fetch = async () => {
-      console.log(user)
-      // try {
-      //   const response = await fetch('/api/user', {
-      //     method: 'POST',
-      //     body: JSON.stringify(['fetchRfCommission', user._id, level]),
-      //     type: 'application/json'
-      //   })
-      //   const res = await response.json()
-      //   if (res) {
-      //     setData(res.data)
-      //   }
-      // } catch (err) {
-      //   console.log('err')
-      //   // alert('something went wrong!')
-      // }
+      const res = await fetchRfCommission(level, user).catch(err => {
+        console.log(err)
+      })
+      console.log(res)
+      res && res.resp && setData(res.resp)
     }
-    fetch()
-  }, [])
+    if(user){
+      fetch()
+    }
+  }, [user])
 
   return (
     <>
@@ -93,7 +85,7 @@ export default function ReferralLevel({ level }) {
           <tbody id="level1">
             {data?.map((item, index) => {
               return (<>
-                <tr className="bg-[#f5f5f5]">
+                <tr className={(index+1)%2 !== 0 && 'bg-[#f5f5f5]'}>
                   <td className="border-r border-gray-300  w-[16%] h-[38%] p-1 font-[fona] text-center text-[.8rem]">
                     {index+1}
                   </td>
