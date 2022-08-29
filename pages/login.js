@@ -10,6 +10,7 @@ export default function Login() {
   // console.log(version)
   const router = useRouter()
   const { rf } = router.query
+  const [loginDetails, setLoginDetails] = useState({ tel: '', password: '' })
   const [userDetails, setUserDetails] = useState({ tel: '', password: '', cPassword: '' })
   const tabsData = [
     { label: "Log in", content: "" },
@@ -26,8 +27,8 @@ export default function Login() {
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
     const res = await signIn('credentials', {
-      tel: userDetails.tel,
-      password: userDetails.password,
+      tel: loginDetails.tel,
+      password: loginDetails.password,
       redirect: false
     })
     if (res.status == 200) {
@@ -108,8 +109,8 @@ export default function Login() {
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsPhone size="20px" />
                   <input type="number" name="tel" className="w-full bg-transparent outline-none border-none"
-                    onChange={(e) => { setUserDetails({ ...userDetails, tel: e.target.value }) }}
-                    value={userDetails.tel} />
+                    onChange={(e) => { setLoginDetails({ ...loginDetails, tel: e.target.value }) }}
+                    value={loginDetails.tel} />
                 </div>
               </div>
 
@@ -118,8 +119,8 @@ export default function Login() {
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
                   <input type="password" name="password" className="w-full bg-transparent outline-none border-none"
-                    onChange={(e) => { setUserDetails({ ...userDetails, password: e.target.value }) }}
-                    value={userDetails.password} />
+                    onChange={(e) => { setLoginDetails({ ...loginDetails, password: e.target.value }) }}
+                    value={loginDetails.password} />
                 </div>
               </div>
 
