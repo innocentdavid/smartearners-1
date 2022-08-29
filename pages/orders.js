@@ -18,29 +18,12 @@ export default function Orders() {
 
   useEffect(() => {
     const fetch = async () => {
-      if(user){
+      if (user) {
         // await delOrders()
         const orders = await getOrders(user._id).catch(err => {
           console.log(err)
         })
         orders?.order && setOrderItems(orders.order)
-
-
-        // const response = await fetch('/api/user', {
-        //   method: 'POST',
-        //   body: JSON.stringify(['getOrders', user._id ]),
-        //   type: 'application/json'
-        // })
-        // console.log('lksdjfsdjfskdl')
-        // const res = await response.json()
-        // console.log(res)
-  
-        // try {
-        // } catch (err) {
-        //   // console.log(err)
-        //   // alert('something went wrong!')
-        // }
-        // console.log(orders)
       }
     }
     fetch()
@@ -55,7 +38,7 @@ export default function Orders() {
       </Head>
 
       <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-8 md:px-36">
-        <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center ">SMART ENERGY</div>
+        <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center select-none cursor-pointer" onClick={() => { router.push('/') }}>SMART ENERGY</div>
 
         <div className="flex items-center gap-5 text-[.8rem] ">
           {/* <div className="flex flex-col items-center"><div>Obtained</div><div>Already</div><strong id="oa">N{user?.roi}</strong></div> */}
@@ -73,31 +56,7 @@ export default function Orders() {
         <section className="px-5 flex flex-col items-center">
           {orderItems && orderItems?.map((item, index) => {
             if (item?.da) {
-              const da = item?.da
-              const percentage = item.percentage;
-              const dailyReturn = (percentage / 100) * da
-              // var cdrEl = document.querySelector('#cdr')
-              // var cdr = cdrEl.textContent
-              // cdrEl.textContent=parseInt(cdr) +parseInt(dailyReturn)
-              // console.log('cdr+parseInt(dailyReturn)',(cdr+parseInt(dailyReturn)))
-              
-              const createdAt = new Date(item._createdAt).getTime()
-              var now = new Date().getTime();
-              var gap = now - createdAt;
-              var second = 1000;
-              var minute = second * 60;
-              var hour = minute * 60;
-              var day = hour * 24;
-              
-              var d = Math.floor(gap / (day))
-              const obtained = d * dailyReturn;
-              // var aoEl = document.querySelector('#oa')
-              // var ao = aoEl.textContent
-              // aoEl.textContent=parseInt(ao)+parseInt(dailyReturn)
-              // console.log(parseInt(ao), parseInt(dailyReturn))
-              // setObtainedAlready(obtainedAlready + obtained)
-
-              return <OrderCard key={index} order={item} user={user} daysServed={d} obtained={obtained} />
+              return <OrderCard key={index} order={item} />
             }
           })}
         </section>
@@ -109,7 +68,7 @@ export default function Orders() {
   )
 }
 
-const OrderCard = ({ order, user }) => {
+const OrderCard = ({ order }) => {
   // console.log(order)
   if (order) {
     const title = order?.planTitle
@@ -131,14 +90,14 @@ const OrderCard = ({ order, user }) => {
     var day = hour * 24;
 
     const d = Math.floor(gap / (day))
-    
+
     const daysServed = d;
     const obtained = d * dailyReturn;
     const daysRemaining = returnPeriod - d;
 
     const showModal = () => {
       const modal = document.querySelector(`#modal${id}`)
-      modal.classList.remove('hidden')      
+      modal.classList.remove('hidden')
       modal.classList.add('flex')
 
       setTimeout(() => {
@@ -173,9 +132,7 @@ const OrderCard = ({ order, user }) => {
 
               <div className="text-end">
                 <div className="">Daily Return Time</div>
-                <div className="flex items-center gap-2 font-bold">
-                  <div>{percentage}%</div> <div className="text-[#eee]">|</div> <div>N{dailyReturn}</div>
-                </div>
+                <div className="font-bold ">{`${moment(order._createdAt).format('h:mm')} - ${parseInt(moment(order._createdAt).format('h.mm')) + 1}`}</div>
               </div>
             </div>
 
@@ -187,13 +144,9 @@ const OrderCard = ({ order, user }) => {
 
               <div className="text-end">
                 <div className="">Already Returned</div>
-                <div className="flex items-center gap-2 font-bold">
-                  <div className="font-bold ">N50</div>
-                </div>
+                <div className="font-bold ">₦{daysServed * dailyReturn}</div>
               </div>
             </div>
-
-
           </div>
 
           <div className="">
@@ -206,7 +159,7 @@ const OrderCard = ({ order, user }) => {
               <div className="text-end">
                 <div className="text-gray-500">Daily Return</div>
                 <div className="flex items-center gap-2 font-bold">
-                  <div>{percentage}%</div> <div className="text-[#eee]">|</div> <div>N{dailyReturn}</div>
+                  <div>{percentage}%</div> <div className="text-[#eee]">|</div> <div>₦{dailyReturn}</div>
                 </div>
               </div>
             </div>
@@ -220,7 +173,7 @@ const OrderCard = ({ order, user }) => {
               <div className="text-end">
                 <div className="text-gray-500">Total Return</div>
                 <div className="flex items-center gap-2 font-bold">
-                  <div>{percentage * returnPeriod}%</div> <div className="text-[#eee]">|</div> <div>N{totalReturn}</div>
+                  <div>{percentage * returnPeriod}%</div> <div className="text-[#eee]">|</div> <div>₦{totalReturn}</div>
                 </div>
               </div>
             </div>
