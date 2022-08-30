@@ -30,7 +30,7 @@ export default function Admin({ allPaymentProofs }) {
 
     if(status === 'authenticated' && user && !user.isAdmin){
       console.log(user.isAdmin);
-      // router.push('/')
+      router.push('/')
       return;
     }
   }, [status, user])
@@ -59,7 +59,7 @@ export default function Admin({ allPaymentProofs }) {
       .catch(error => console.error(error))
   }
 
-  const approve = async (itemId) => {
+  const approvePayment = async (itemId) => {
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
     try {
@@ -129,7 +129,7 @@ export default function Admin({ allPaymentProofs }) {
                   </td>
                   <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center relative">
                     {data.approved ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <MdOutlineSwitchRight className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
-                      onClick={() => { approve(data._id) }}
+                      onClick={() => { approvePayment(data._id) }}
                     />}
                   </td>
                 </tr>

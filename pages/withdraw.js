@@ -5,11 +5,12 @@ import { useContext, useEffect, useState } from 'react';
 import { BsArrowUp } from 'react-icons/bs'
 import { TbCurrencyNaira } from 'react-icons/tb'
 import AuthContext from '../context/authContext';
+import { getAllBalanceRecord, getAllWithDrawRecord } from '../lib/functions';
 
 export default function Withdraw() {
   const router = useRouter()
   const user = useContext(AuthContext)
-  console.log(user)
+  const balance = user?.tbalance + user?.roi + user?.ri + user?.vrs
   const tabsData = [
     {
       label: "Withdrawal Record",
@@ -32,20 +33,42 @@ export default function Withdraw() {
     const fetch = async () => {
       const wr = await getAllWithDrawRecord(user?._id);
       const br = await getAllBalanceRecord(user?._id);
-      wr && setWithdrawRecord(wr);
-      br && setBalanceRecord(br);
+      if(wr.message === 'success'){
+        // console.log('setWithdrawRecord(wr?.res?.data)', wr?.res?.data)
+        setWithdrawRecord(wr?.res?.data)
+      }else{
+        alert(wr.message)
+        console.log(wr.err)
+      }
+      if(br.message === 'success'){
+        // console.log('setBalanceRecord(br.res?.data)', br.res?.data)
+        setBalanceRecord(br.res?.data)
+      }else{
+        alert(br.message)
+        console.log(br.err)
+      }
     }
-  }, [])
+    if(user){
+      fetch()
+    }
+  }, [user])
 
 
   const handleWithdraw = async (e) => {
-    e.prevenDefault();
+    e.preventDefault();
 
+    if (!amountToWithdraw) {
+      alert('The minimum you can withdraw is 1000')
+      return;
+    }
     if (amountToWithdraw < 1000) {
       alert('The minimum you can withdraw is 1000')
       return;
     }
-
+    if (amountToWithdraw > balance) {
+      alert(`Your balance is ${balance} so you can't withdraw more than what you have`)
+      return;
+    }
 
     // run withdraw
     document.querySelector('#generalLoading').classList.remove('hidden')
@@ -56,6 +79,8 @@ export default function Withdraw() {
         body: JSON.stringify(['withdraw', user, amountToWithdraw]),
         type: 'application/json'
       })
+      const res = await response.json()
+      console.log(res)
       if (response.status == 200) {
         alert('Your request has been submited successfully')
         router.reload();
@@ -90,7 +115,7 @@ export default function Withdraw() {
           <div className="flex items-center gap-3">
             <div><img src="/images/withdraw-1.png" alt="" width="42px" height="42px" /></div>
             <div className="">
-              <div className="font-black flex items-center"><TbCurrencyNaira size="20px" /><span>{user?.tblance + user?.roi + user?.ri + user?.vrs}</span></div>
+              <div className="font-black flex items-center"><TbCurrencyNaira size="20px" /><span>{balance}</span></div>
               <div className="font-semibold">Balance</div>
             </div>
           </div>
@@ -123,7 +148,6 @@ export default function Withdraw() {
 
         <section className="mt-16 mb-8 px-4">
           <div className="bg-gray-400 px-[3px] py-[3px] rounded-[10px] flex items-center justify-center text-[.9rem]">
-            {/* Loop through tab data and render button for each. */}
             {tabsData.map((tab, idx) => {
               return (
                 <button
@@ -139,7 +163,6 @@ export default function Withdraw() {
               );
             })}
           </div>
-          {/* Show active tab content. */}
           <div className="py-4">
             {activeTabIndex == 0 ? <>
               <div className="">
@@ -154,12 +177,12 @@ export default function Withdraw() {
               </div>
               <br />
 
-              {withdrawRecord?.map((record, index) => {
+              {withdrawRecord && withdrawRecord?.map((record, index) => {
                 return (<>
-                  <div key={index + 1} className="">
+                  <div key={record._id} className="">
                     <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
                       <div>{index + 1}</div>
-                      <div>{record?._createdAt && moment(new Date(record?._createdAt)).format('MM-Do-YY')}</div>
+                      <div>{record?._createdAt && moment(new Date(record?._createdAt)).format('MM-D-YY')}</div>
                       <div className="text-gray-200">|</div>
                       <div>N{record?.amount}</div>
                       <div className="text-gray-200">|</div>
@@ -185,10 +208,10 @@ export default function Withdraw() {
 
               {balanceRecord?.map((record, index) => {
                 return (<>
-                  <div key={index+1} className="">
+                  <div key={record._id} className="">
                     <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
                       <div>{index+1}</div>
-                      <div>{moment(new Date(record?._createdAt)).format('MM-Do-YY')}</div>
+                      <div>{moment(new Date(record?._createdAt)).format('MM-D-YY')}</div>
                       <div className="text-gray-200">|</div>
                       <div>{record.title}</div>
                       <div className="text-gray-200">|</div>

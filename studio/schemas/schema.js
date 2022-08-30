@@ -12,6 +12,7 @@ import dailyReturn from './dailyReturn'
 import referral from './referral'
 import record from './record'
 import paymentProof from './paymentProof'
+import withdraw from './withdraw'
 
 export default createSchema({
   name: 'default',
@@ -24,6 +25,7 @@ export default createSchema({
     paymentProof,
     dailyReturn,
     referral,
-    record
+    record,
+    withdraw,
   ]),
 })

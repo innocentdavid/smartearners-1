@@ -7,9 +7,9 @@ export default {
   },
   fields: [
     {
-      name: 'date',
-      title: 'Date',
-      type: 'string',
+      name: 'amount',
+      title: 'Amount',
+      type: 'number',
     },
     {
       name: 'status',
@@ -37,7 +37,7 @@ export default {
     prepare(selection) {
       const {amount, status} = selection
       return Object.assign({}, selection, {
-        subtitle: amount && status `${amount} - ${status}`
+        subtitle: amount && `${amount} - ${status === true ? 'Confirmed' : 'Pending...'}`
       })
     }
   }

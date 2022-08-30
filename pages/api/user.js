@@ -175,7 +175,7 @@ export default async function user(req, res) {
 
   if (b[0] === 'getValidRefers') {
     const referrerId = b[1]
-    const refer = await client.fetch(`*[_type == "validRef" && referrer._ref == $referrerId] | refer(_createdAt desc)
+    const refer = await client.fetch(`*[_type == "validRef" && referrer._ref == $referrerId] | order(_createdAt desc)
       {
         'date': _createdAt,
         'tel': user->{tel}
@@ -187,7 +187,20 @@ export default async function user(req, res) {
     if (refer) {
       return res.status(200).json({ message: "success", refer })
     }
-    return res.status(500).json({ message: "error", error })
+    return res.status(500).json({ message: "error" })
+  }
+
+  if(b[0] === 'getAllBalanceRecord') {
+    const userId = b[1]
+    const data = await client.fetch(`*[_type == "record" && userId == $userId] | order(_createdAt desc)`, { userId }
+    ).catch(error => {
+      console.log('getAllBalanceRecord error', error)
+      return res.status(500).json({ message: "error", error })
+    })
+    if (data) {
+      return res.status(200).json({ message: "success", data })
+    }
+    return res.status(500).json({ message: "error" })
   }
 
 
