@@ -48,7 +48,7 @@ export default function Profile() {
         <header className="bg-gray-800 text-white py-3 px-5 font-[Poppins]">
           <div className="flex items-center justify-end gap-1 font-Josefin">
             <div className="text-[#ffa500]"><AiOutlineUser size="20px" /></div>
-            {user?.tel ? <div className="flex items-center gap-3">My ID: <span>{user?.tel}</span><FiLogOut className="cursor-pointer" onClick={() => signOut()}/></div> :
+            {user?.tel ? <div className="flex items-center gap-3">My ID: <span>{user?.tel}</span><FiLogOut className="cursor-pointer" onClick={() => { signOut(); router.push('/login') }}/></div> :
               <div className="flex items-center gap-2">
                 <div className="text-xs py-1 px-3 border border-[#ffa600] cursor-pointer" onClick={() => { router.push('/login') }}>Log in / Sign up</div>
               </div>}

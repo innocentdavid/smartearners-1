@@ -1,15 +1,13 @@
 import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { BsArrowUp, BsArrowRight } from 'react-icons/bs'
 import { AiOutlineShareAlt } from 'react-icons/ai'
 import AuthContext from "../context/authContext"
-import { getSession, useSession } from "next-auth/react"
-import { unstable_getServerSession } from "next-auth/next"
-import { authOptions } from "./api/auth/[...nextauth]"
+import { useSession } from "next-auth/react"
 
-export default function Bonus({  }) {
+export default function Bonus() {
   const router = useRouter()
   const user = useContext(AuthContext)
 

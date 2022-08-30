@@ -22,14 +22,18 @@ export default function Admin({ allPaymentProofs }) {
   );
 
 
-  // useEffect(() => {
-  //   // if(!user || !user.isAdmin){
-  //   //   console.log(user.isAdmin);
-  //   //   // router.push('/')
-  //   //   return;
-  //   // }
-  //   // console.log(user)
-  // }, [user])
+  useEffect(() => {
+    if(status === 'unauthenticated'){
+      router.push('/')
+      return;
+    }
+
+    if(status === 'authenticated' && user && !user.isAdmin){
+      console.log(user.isAdmin);
+      // router.push('/')
+      return;
+    }
+  }, [status, user])
 
   const clearAllOrder = () => {
     const mutations = [
@@ -38,13 +42,15 @@ export default function Admin({ allPaymentProofs }) {
           "query": "*[_type == 'order']",
         }
       },
-  ]
+    ]
 
-    fetch(`https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}?dryRun=true`, {
+    const tokenWithWriteAccess = '';
+
+    fetch(`https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}?dryRun=false`, {
       method: 'post',
       headers: {
         'Content-type': 'application/json',
-        Authorization: `Bearer ${process.env.SANITY_API_TOKEN}`
+        Authorization: `Bearer ${tokenWithWriteAccess}`
       },
       body: JSON.stringify({ mutations })
     })
@@ -94,12 +100,12 @@ export default function Admin({ allPaymentProofs }) {
         <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold uppercase ">Proof Of Payment</div>
       </header>
 
-      <div className="my-5 mx-5"><div className="h-20 w-28 bg-black text-white cursor-pointer" onClick={clearAllOrder}>clearAllOrder</div></div>
+      {/* <div className="my-5 mx-5"><div className="h-7 w-28 text-center text-xs bg-black text-white cursor-pointer" onClick={clearAllOrder}>clearAllOrder</div></div> */}
 
-      <section className="">
+      <section className="px-2">
         <table className="pb-[20px] w-full">
           <thead className="">
-            <tr className="bg-black text-white text-xs px-1">
+            <tr className="bg-black text-white text-xs">
               <td></td>
               <td className="w-[27%] h-[38px] p-1 font-[fona] italic text-center">DATE</td>
               <td className="w-[27%] h-[38px] p-1 font-[fona] italic text-center">USER</td>

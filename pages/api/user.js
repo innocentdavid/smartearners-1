@@ -6,7 +6,9 @@ export default async function user(req, res) {
     const plan = b[1]
     const user = b[2]
 
-    if(parseInt(user?.myTicket) > parseInt(plan?.da)){
+    console.log(user?.myTicket, plan?.da)
+
+    if(user?.myTicket >= plan?.da){
       const createOrder = await client.create({
         _type: 'order',
         planId: plan?._id,

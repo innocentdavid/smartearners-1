@@ -49,7 +49,7 @@ export default {
       remaining: 'remaining',
     },
     prepare(selection) {
-      const {amount, remaining, type} = selection
+      const {amount, category, remaining, type} = selection
       return Object.assign({}, selection, {
         subtitle: amount && remaining &&  `${category} - ${type}, ${amount} - ${remaining}`
       })
