@@ -121,7 +121,7 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
     document.querySelector('#generalLoading').classList.add('grid')
     if (user) {
       // console.log(user.myTicket, plan.da)
-      if (user?.myTicket && user.myTicket < plan.da) {
+      if (user?.myTicket && parseInt(user.myTicket) < parseInt(plan.da)) {
         alert('You do not have enough ticket, get more ticket to continue');
         document.querySelector('#generalLoading').classList.remove('grid')
         document.querySelector('#generalLoading').classList.add('hidden')

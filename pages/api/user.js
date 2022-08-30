@@ -6,32 +6,36 @@ export default async function user(req, res) {
     const plan = b[1]
     const user = b[2]
 
-    const createOrder = await client.create({
-      _type: 'order',
-      planId: plan?._id,
-      planTitle: plan?.title,
-      percentage: plan?.percentage,
-      da: plan?.da,
-      dr: plan?.dr,
-      returnPeriod: plan?.returnPeriod,
-      drTime: plan?.drTime,
-      userId: user?._id,
-      userTel: user?.tel
-    })
-      .catch(error => {
-        console.log('update user profile', error)
-        res.status(500).json({ message: error })
+    if(parseInt(user?.myTicket) > parseInt(plan?.da)){
+      const createOrder = await client.create({
+        _type: 'order',
+        planId: plan?._id,
+        planTitle: plan?.title,
+        percentage: plan?.percentage,
+        da: plan?.da,
+        dr: plan?.dr,
+        returnPeriod: plan?.returnPeriod,
+        drTime: plan?.drTime,
+        userId: user?._id,
+        userTel: user?.tel
       })
-    // console.log('createOrder', createOrder)
-
-    const updateTbalance = await client.patch(user?._id).dec({ myTicket: plan.da }).commit()
-      .catch(error => {
-        console.log('update user profile', error)
-        res.status(500).json({ message: error })
-      })
-    // console.log('updateTbalance', updateTbalance)
-
-    res.status(200).json({ message: 'success' })
+        .catch(error => {
+          console.log('update user profile', error)
+          res.status(500).json({ message: error })
+        })
+      // console.log('createOrder', createOrder)
+  
+      const updateTbalance = await client.patch(user?._id).dec({ myTicket: plan.da }).commit()
+        .catch(error => {
+          console.log('update user profile', error)
+          res.status(500).json({ message: error })
+        })
+      // console.log('updateTbalance', updateTbalance)
+  
+      res.status(200).json({ message: 'success' })
+    }
+      
+    res.status(500).json({ message: 'error' })
   }
 
   if (b[0] === 'updateUserPortfolio') {

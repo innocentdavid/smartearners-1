@@ -6,11 +6,20 @@ import { MdOutlineSwitchRight } from 'react-icons/md'
 import { BsArrowUp, BsPatchCheckFill } from 'react-icons/bs'
 import Head from "next/head"
 import moment from "moment"
+import { getSession, useSession } from 'next-auth/react';
 
-export default function Admin({ allPaymentProofs }) {
-  console.log(allPaymentProofs)
+export default function Admin({ session, allPaymentProofs }) {
   const router = useRouter()
   const user = useContext(AuthContext)
+  const { status, data } = useSession({
+    required: true,
+    onUnauthenticated() {
+      // The user is not authenticated, handle it here.
+      console.log("The user is not authenticated")
+    },
+  });
+
+  console.log(session)
 
   // useEffect(() => {
   //   // if(!user || !user.isAdmin){
@@ -45,6 +54,10 @@ export default function Admin({ allPaymentProofs }) {
     document.querySelector('#generalLoading').classList.add('hidden')
   }
 
+  if (status === "loading") {
+    return "Loading or not authenticated..."
+  }
+
   return (
     <div>
       <Head>
@@ -71,27 +84,25 @@ export default function Admin({ allPaymentProofs }) {
             </tr>
           </thead>
 
-          <div className="h-3"></div>
-
           <tbody>
+            <tr className="h-3"></tr>
             {allPaymentProofs?.map((data, index) => {
-              return (<>
+              return (
                 <tr key={index} className={`${(index + 1) % 2 === 0 && "bg-[#f5f5f5]"} px-10`}>
                   <td className="p-1 font-[fona] text-center text-[.8rem]">{index + 1}</td>
-                  <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">{moment(data._createdAt).format('MMM-Do-YYY')}</td>
+                  <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">{moment(data._createdAt).format('MM-D-YY')}</td>
                   <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">{data.userTel}</td>
                   <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦{data.amount}</td>
                   <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] relative">
-                    {/* <div className="w-[40px] h-[30px] bg-gray-400"></div> */}
                     <img src={data.imageUrl} alt="" width="40px" height="30px" className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" />
                   </td>
                   <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center relative">
-                    {data.approved ? <BsPatchCheckFill className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <MdOutlineSwitchRight className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
+                    {data.approved ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <MdOutlineSwitchRight className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
                       onClick={() => { approve(data._id) }}
                     />}
                   </td>
                 </tr>
-              </>)
+              )
             })}
           </tbody>
         </table>
@@ -101,11 +112,12 @@ export default function Admin({ allPaymentProofs }) {
 }
 
 
-export async function getStaticProps({ preview = false }) {
+export async function getStaticProps(context) {
+  const session = await getSession(context)
   const allPaymentProofs = await getAllPaymentProofs();
 
   return {
-    props: { allPaymentProofs },
+    props: { session, allPaymentProofs },
     revalidate: 1
   }
 }

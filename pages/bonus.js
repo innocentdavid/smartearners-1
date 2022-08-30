@@ -1,13 +1,20 @@
 import Head from "next/head"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useContext, useState } from "react"
 import { BsArrowUp, BsArrowRight } from 'react-icons/bs'
 import { AiOutlineShareAlt } from 'react-icons/ai'
 import AuthContext from "../context/authContext"
+import { getSession, useSession } from "next-auth/react"
+import { unstable_getServerSession } from "next-auth/next"
+import { authOptions } from "./api/auth/[...nextauth]"
 
-export default function Bonus() {
+export default function Bonus({  }) {
   const router = useRouter()
   const user = useContext(AuthContext)
+
+  const { data: session } = useSession()
+  console.log(session)
 
   return (
     <>
@@ -21,9 +28,9 @@ export default function Bonus() {
         <div className="cursor-pointer rotate-[270deg]" onClick={() => { router.back() }}><BsArrowUp size="20px" /></div>
 
         <div className="flex items-center gap-3 text-[.8em] font-['Metric-Medium'] ">
-          <div className="flex flex-col items-center text-center">{"I've"} <br /> earned <strong className="font-Josefin font-semibold text-lg">{user?.roi}</strong></div>
+          <div className="flex flex-col items-center text-center">{"I've"} earned <strong className="font-Josefin font-semibold text-lg">{user?.roi}</strong></div>
           <div className="border-r border-[#fff3dc] h-[60%]"></div>
-          <div className="flex flex-col items-center text-center">{"I'm earning"} <br /> today <strong className="font-Josefin font-semibold text-lg">₦<span>{user?.balance}</span></strong></div>
+          {/* <div className="flex flex-col items-center text-center">{"I'm earning"} <br /> today <strong className="font-Josefin font-semibold text-lg">₦<span>{user?.balance}</span></strong></div> */}
         </div>
       </nav>
 
@@ -55,7 +62,11 @@ const TableCard = ({ level, router }) => {
           <div className="font-bold text-[1.3rem]">Level {level}</div>
         </div>
 
-        <div className="py-2 px-6 text-center text-[17px] font-[Metric] border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] flex items-center gap-3 cursor-pointer hover:text-[black]" onClick={() => { router.push(`/referral/${level}`) }}>Details <div className="stroke-[#ffa600] stroke-[1]"><BsArrowRight /></div></div>
+        <Link href={`/referral/${level}`}>
+          <a className="py-2 px-6 text-center text-[17px] font-[Metric] border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] flex items-center gap-3 hover:text-[black] transition-colors">
+            <div className="">Details</div> <div className="stroke-[#ffa600] stroke-[1]"><BsArrowRight /></div>
+          </a>
+        </Link>
       </div>
 
       <table className="pb-[20px] w-full">
@@ -70,7 +81,7 @@ const TableCard = ({ level, router }) => {
             <td className="p-1 font-[fona] text-center text-[.8rem]">
               Total
             </td>
-            <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">0/0</td>
+            <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">0</td>
             <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦0</td>
             <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦0</td>
           </tr>
@@ -88,3 +99,13 @@ const TableCard = ({ level, router }) => {
     </section>
   )
 }
+
+
+// export async function getStaticProps(context) {
+//   const session = await getSession(context)
+
+//   return {
+//     props: { session },
+//     revalidate: 1
+//   }
+// }
