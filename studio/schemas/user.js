@@ -79,7 +79,7 @@ export default {
       myTicket: 'myTicket',
     },
     prepare(selection) {
-      const {ri, roi, tbalance, vrs} = selection
+      const {ri, roi, tbalance, vrs, myTicket} = selection
       return Object.assign({}, selection, {
         subtitle: `${ri && roi &&  ri + roi + tbalance + vrs} Ticket: ${myTicket}`
       })

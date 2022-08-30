@@ -17,17 +17,47 @@ export default function Pervalidrefer() {
     if (status === 'unauthenticated') {
       router.replace('/login')
     }
-
+  }, [status])
+  
+  useEffect(() => {
     const fetch = async () => {
+      // if (user) {
+      //   const refers = await getValidRefers(user._id).catch(err => {
+      //     console.log(err)
+      //   })
+      //   console.log(refers)
+      //   refers?.refer && setValidRefers(refers.refer)
+      // }
+
       if (user) {
-        const refers = await getValidRefers(user._id).catch(err => {
+        document.querySelector('#generalLoading').classList.remove('hidden')
+        document.querySelector('#generalLoading').classList.add('grid')
+        try {
+          const response = await fetch('/api/user', {
+            method: 'POST',
+            body: JSON.stringify(['getValidRefers', user._id]),
+            type: 'application/json'
+          })
+          if (response.status == 200) {
+            res = response.json()
+            console.log(res)
+            // res?.refer && setValidRefers(res.refer)
+
+            document.querySelector('#generalLoading').classList.remove('grid')
+            document.querySelector('#generalLoading').classList.add('hidden')
+            return;
+          }
+        } catch (err) {
           console.log(err)
-        })
-        refers?.refer && setValidRefers(refers.refer)
+          document.querySelector('#generalLoading').classList.remove('grid')
+          document.querySelector('#generalLoading').classList.add('hidden')
+        }
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
       }
     }
     fetch()
-  }, [status])
+  }, [])
 
   if (status === 'loading') {
     return (
