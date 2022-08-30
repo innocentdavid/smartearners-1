@@ -152,7 +152,7 @@ export default function Deposit() {
 
           <div className="bg-[#ffa500] text-white h-[40px] w-full flex justify-center items-center mt-8 text-lg font-bold rounded-[10px] font-[fona] cursor-pointer" onClick={deposit}>Deposit</div>
 
-          <p className="text-center mt-5"><a href="#" className="text-[#ffa500] underline">{`I paid, but I didn't get ticket?`}</a></p>
+          {/* <p className="text-center mt-5"><a href="#" className="text-[#ffa500] underline">{`I paid, but I didn't get ticket?`}</a></p> */}
         </div>
       </main>
     </div>

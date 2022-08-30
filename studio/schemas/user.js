@@ -8,6 +8,7 @@ export default {
     roi: 0,
     ri: 0,
     vrs: 0,
+    isAdmin: false,
   },
   fields: [
     {
@@ -60,6 +61,11 @@ export default {
       name: 'password',
       title: 'Password',
       type: 'string',
+    },
+    {
+      name: 'isAdmin',
+      title: 'Is User Admin?',
+      type: 'boolean',
     },
   ],
 

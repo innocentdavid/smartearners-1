@@ -95,13 +95,26 @@ export default async function user(req, res) {
     await client.create({
       _type: 'paymentProof',
       amount, imageUrl,
+      approved: false,
       userId: user?._id,
       userTel: user?.tel,
     }).catch(error => {
       console.log('paymentProof', error)
       return res.status(500).json({ message: "an error occured", error })
     })
+    return res.status(200).json({ message: "success" })
+  }
 
+  if (b[0] === 'confirmProof') {
+    const itemId = b[1]
+
+    await client
+      .patch(itemId)
+      .set({ approved: true })
+      .commit()
+      .catch(error => {
+        console.log('update user profile', error)
+      })
 
     // commission....
     return res.status(200).json({ message: "success" })

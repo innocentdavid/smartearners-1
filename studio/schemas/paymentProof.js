@@ -2,6 +2,9 @@ export default {
   name: 'paymentProof',
   title: 'PaymentProof',
   type: 'document',
+  initialValue: {
+    approved: false,
+  },
   fields: [
     {
       name: 'amount',
@@ -12,6 +15,11 @@ export default {
       name: 'imageUrl',
       title: 'Image Url',
       type: 'string',
+    },
+    {
+      name: 'approved',
+      title: 'Approved',
+      type: 'boolean',
     },
     {
       name: 'userId',

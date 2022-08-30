@@ -115,7 +115,7 @@ export default function ImageUploader({ user, amount }) {
           <img
             className="rounded-lg"
             src={image.replace("upload/", "upload/w_600/")}
-            style={{ height: 400, width: 600 }}
+            style={{ height: 400, width: '100%' }}
           />
           <div className="flex justify-between items-center mt-2">
             <button
@@ -137,7 +137,7 @@ export default function ImageUploader({ user, amount }) {
       ) : (
         <div
           className="bg-gray-200 border-4 border-dashed border-gray-400 rounded-lg"
-          style={{ height: 400, width: 600 }}
+          style={{ height: 400, width: '100%' }}
         >
           <form className="flex justify-center items-center h-full">
             {progress === 0 ? (

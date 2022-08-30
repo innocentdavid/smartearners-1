@@ -66,7 +66,7 @@ export default function Gateway1() {
 
           <p className="my-8 text-center font-bold text-xl">upload your payment proof below</p>
 
-          <div className="flex flex-col justify-center items-center mx-10">
+          <div className="mx-3">
             <ImageUploader user={user} amount={ticket} />
             {/* <div className="w-[200px] h-[200px] border bg-gray-400"></div>
 
@@ -79,7 +79,7 @@ export default function Gateway1() {
         <div className="my-10"></div>
       </main>
 
-      <footer className="my-8 text-center text-gray-400">smart energy.</footer>
+      <footer className="my-8 text-center text-gray-400">@smartenergy.</footer>
     </>
   )
 }
