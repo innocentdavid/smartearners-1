@@ -67,6 +67,11 @@ export default {
       title: 'Is User Admin?',
       type: 'boolean',
     },
+    {
+      name: 'lastWithdrawDate',
+      title: 'Last Withdraw Date',
+      type: 'string',
+    },
   ],
 
   preview: {

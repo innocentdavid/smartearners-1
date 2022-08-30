@@ -1,6 +1,7 @@
+import moment from 'moment';
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { BsArrowUp } from 'react-icons/bs'
 import { TbCurrencyNaira } from 'react-icons/tb'
 import AuthContext from '../context/authContext';
@@ -8,6 +9,7 @@ import AuthContext from '../context/authContext';
 export default function Withdraw() {
   const router = useRouter()
   const user = useContext(AuthContext)
+  console.log(user)
   const tabsData = [
     {
       label: "Withdrawal Record",
@@ -21,6 +23,54 @@ export default function Withdraw() {
     },
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [amountToWithdraw, setAmountToWithdraw] = useState();
+
+  const [withdrawRecord, setWithdrawRecord] = useState([])
+  const [balanceRecord, setBalanceRecord] = useState([])
+
+  useEffect(() => {
+    const fetch = async () => {
+      const wr = await getAllWithDrawRecord(user?._id);
+      const br = await getAllBalanceRecord(user?._id);
+      wr && setWithdrawRecord(wr);
+      br && setBalanceRecord(br);
+    }
+  }, [])
+
+
+  const handleWithdraw = async (e) => {
+    e.prevenDefault();
+
+    if (amountToWithdraw < 1000) {
+      alert('The minimum you can withdraw is 1000')
+      return;
+    }
+
+
+    // run withdraw
+    document.querySelector('#generalLoading').classList.remove('hidden')
+    document.querySelector('#generalLoading').classList.add('grid')
+    try {
+      const response = await fetch('/api/withdraw', {
+        method: 'POST',
+        body: JSON.stringify(['withdraw', user, amountToWithdraw]),
+        type: 'application/json'
+      })
+      if (response.status == 200) {
+        alert('Your request has been submited successfully')
+        router.reload();
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
+        return;
+      }
+    } catch (err) {
+      console.log(err)
+      document.querySelector('#generalLoading').classList.remove('grid')
+      document.querySelector('#generalLoading').classList.add('hidden')
+    }
+    document.querySelector('#generalLoading').classList.remove('grid')
+    document.querySelector('#generalLoading').classList.add('hidden')
+  }
 
   return (
     <>
@@ -40,7 +90,7 @@ export default function Withdraw() {
           <div className="flex items-center gap-3">
             <div><img src="/images/withdraw-1.png" alt="" width="42px" height="42px" /></div>
             <div className="">
-              <div className="font-black flex items-center"><TbCurrencyNaira size="20px" /><span>450</span></div>
+              <div className="font-black flex items-center"><TbCurrencyNaira size="20px" /><span>{user?.tblance + user?.roi + user?.ri + user?.vrs}</span></div>
               <div className="font-semibold">Balance</div>
             </div>
           </div>
@@ -60,12 +110,15 @@ export default function Withdraw() {
           <div className="">
             <div className="flex gap-2 items-center w-screen px-3 mb-2">
               <TbCurrencyNaira size="30px" />
-              <input type="text" name="amount" id="amount" placeholder="Enter the amount you want to withdraw" className="border-none outline-none w-full text-sm focus-within:text-base" />
+              <input type="number" name="amount" id="amount" placeholder="Enter the amount you want to withdraw" className="border-none outline-none w-full text-sm focus-within:text-base"
+                onChange={(e) => { setAmountToWithdraw(e.target.value) }}
+                value={amountToWithdraw && amountToWithdraw}
+              />
             </div>
             <div className="min-w-full border-t"></div>
           </div>
 
-          <div className="flex justify-center mt-5"><button type="submit" className="bg-[#ffa600] text-white font-semibold px-16 py-2">Withdraw</button></div>
+          <div className="flex justify-center mt-5"><button type="submit" className="bg-[#ffa600] text-white font-semibold px-16 py-2" onClick={handleWithdraw}>Withdraw</button></div>
         </form>
 
         <section className="mt-16 mb-8 px-4">
@@ -91,6 +144,7 @@ export default function Withdraw() {
             {activeTabIndex == 0 ? <>
               <div className="">
                 <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
+                  <div></div>
                   <div>Time</div>
                   <div className="text-gray-200">|</div>
                   <div>Amount</div>
@@ -98,20 +152,53 @@ export default function Withdraw() {
                   <div>Status</div>
                 </div>
               </div>
+              <br />
+
+              {withdrawRecord?.map((record, index) => {
+                return (<>
+                  <div key={index + 1} className="">
+                    <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
+                      <div>{index + 1}</div>
+                      <div>{record?._createdAt && moment(new Date(record?._createdAt)).format('MM-Do-YY')}</div>
+                      <div className="text-gray-200">|</div>
+                      <div>N{record?.amount}</div>
+                      <div className="text-gray-200">|</div>
+                      <div>{record?.pending ? 'Confirmed' : 'Pending...'}</div>
+                    </div>
+                  </div>
+                </>)
+              })}
             </> : <>
               <div className="">
                 <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
+                  <div></div>
                   <div>Time</div>
                   <div className="text-gray-200">|</div>
                   <div>Item</div>
                   <div className="text-gray-200">|</div>
                   <div>Amount</div>
-                  <div className="text-gray-200">|</div>
-                  <div>Status</div>
-                  <div className="text-gray-200">|</div>
-                  <div>Remaining</div>
+                  {/* <div className="text-gray-200">|</div>
+                  <div>Remaining</div> */}
                 </div>
               </div>
+              <br />
+
+              {balanceRecord?.map((record, index) => {
+                return (<>
+                  <div key={index+1} className="">
+                    <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
+                      <div>{index+1}</div>
+                      <div>{moment(new Date(record?._createdAt)).format('MM-Do-YY')}</div>
+                      <div className="text-gray-200">|</div>
+                      <div>{record.title}</div>
+                      <div className="text-gray-200">|</div>
+                      <div>{record.amount}</div>
+                      {/* <div className="text-gray-200">|</div>
+                      <div>{record.remaining}</div> */}
+                    </div>
+                  </div>
+                </>)
+              })}
 
             </>}
           </div>
