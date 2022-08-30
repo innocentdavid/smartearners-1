@@ -6,20 +6,21 @@ import { MdOutlineSwitchRight } from 'react-icons/md'
 import { BsArrowUp, BsPatchCheckFill } from 'react-icons/bs'
 import Head from "next/head"
 import moment from "moment"
-import { getSession, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
-export default function Admin({ session, allPaymentProofs }) {
+export default function Admin({ allPaymentProofs }) {
   const router = useRouter()
   const user = useContext(AuthContext)
-  const { status, data } = useSession({
-    required: true,
-    onUnauthenticated() {
-      // The user is not authenticated, handle it here.
-      console.log("The user is not authenticated")
-    },
-  });
+  const { status, data } = useSession(
+    // {
+    //   required: true,
+    //   onUnauthenticated() {
+    //     // The user is not authenticated, handle it here.
+    //     console.log("The user is not authenticated")
+    //   },
+    // }
+  );
 
-  console.log(session)
 
   // useEffect(() => {
   //   // if(!user || !user.isAdmin){
@@ -29,6 +30,28 @@ export default function Admin({ session, allPaymentProofs }) {
   //   // }
   //   // console.log(user)
   // }, [user])
+
+  const clearAllOrder = () => {
+    const mutations = [
+      {
+        "delete": {
+          "query": "*[_type == 'order']",
+        }
+      },
+  ]
+
+    fetch(`https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}?dryRun=true`, {
+      method: 'post',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${process.env.SANITY_API_TOKEN}`
+      },
+      body: JSON.stringify({ mutations })
+    })
+      .then(response => response.json())
+      .then(result => console.log(result))
+      .catch(error => console.error(error))
+  }
 
   const approve = async (itemId) => {
     document.querySelector('#generalLoading').classList.remove('hidden')
@@ -70,6 +93,8 @@ export default function Admin({ session, allPaymentProofs }) {
         <div className="cursor-pointer rotate-[270deg]" onClick={() => { router.back() }}><BsArrowUp size="20px" className="stroke-1" /></div>
         <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold uppercase ">Proof Of Payment</div>
       </header>
+
+      <div className="my-5 mx-5"><div className="h-20 w-28 bg-black text-white cursor-pointer" onClick={clearAllOrder}>clearAllOrder</div></div>
 
       <section className="">
         <table className="pb-[20px] w-full">
@@ -113,11 +138,10 @@ export default function Admin({ session, allPaymentProofs }) {
 
 
 export async function getStaticProps(context) {
-  const session = await getSession(context)
   const allPaymentProofs = await getAllPaymentProofs();
 
   return {
-    props: { session, allPaymentProofs },
+    props: { allPaymentProofs },
     revalidate: 1
   }
 }
