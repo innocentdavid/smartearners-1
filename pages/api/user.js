@@ -94,6 +94,13 @@ export default async function user(req, res) {
         }).catch(error => {
           console.log('update user profile', error)
         })
+
+        // irc Record for referrer
+        await client.create({
+          _type: 'irc', user: {_type: 'reference', _ref: user._id}, referrer: {_type: 'reference', _ref: user.referrer_ref}, commission
+        }).catch(error => {
+          console.log('update user profile', error)
+        })
       }
     });
   }
@@ -185,7 +192,6 @@ export default async function user(req, res) {
   if (b[0] === 'getValidRefers') {
     const referrerId = b[1]
     return res.status(500).json({ message: "error", referrerId })
-    console.log(referrerId)
     // const refer = await client.fetch(`*[_type == "validRef" && referrer._ref == $referrerId] | order(_createdAt desc)
     //   {
     //     'date': _createdAt,
