@@ -169,7 +169,7 @@ export default function Admin({ allPaymentProofs, allWithdrawRequest }) {
                             <img src={data.imageUrl} alt="" width="40px" height="30px" className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" />
                           </td>
                           <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center relative">
-                            {data.approved ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <MdOutlineSwitchRight className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
+                            {data.approved ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <MdOutlineSwitchRight className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] cursor-pointer"
                               onClick={() => { approvePayment(data._id, data.amount) }}
                             />}
                           </td>
@@ -185,6 +185,8 @@ export default function Admin({ allPaymentProofs, allWithdrawRequest }) {
                   <div></div>
                   <div>Time</div>
                   <div className="text-gray-200">|</div>
+                  <div>User</div>
+                  <div className="text-gray-200">|</div>
                   <div>Amount</div>
                   <div className="text-gray-200">|</div>
                   <div>Status</div>
@@ -197,15 +199,17 @@ export default function Admin({ allPaymentProofs, allWithdrawRequest }) {
               {allWithdrawRequest?.map((request, index) => {
                 return (<>
                   <div key={request._id} className="">
-                    <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
+                    <div className="flex justify-around items-center text-xs md:text-base mt-2 text-black">
                       <div>{index + 1}</div>
                       <div>{moment(new Date(request?._createdAt)).format('MM-D-YY')}</div>
                       <div className="text-gray-200">|</div>
-                      <div>{request.amount}</div>
+                      <div>{request.userTel}</div>
+                      <div className="text-gray-200">|</div>
+                      <div>₦{request.amount}</div>
                       <div className="text-gray-200">|</div>
                       <div>{request.status ? <span className="text-green-700">Confirmed</span> : <span className="text-yellow-700">Pending</span>}</div>
                       <div className="text-gray-200">|</div>
-                      <div className="relative">{request.status ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl" /> : <MdOutlineSwitchRight className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl"
+                      <div className="relative">{request.status ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl" /> : <MdOutlineSwitchRight className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl cursor-pointer"
                               onClick={() => { approveWithdraw(request._id, request.amount) }}
                             />}</div>
                     </div>
