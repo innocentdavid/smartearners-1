@@ -16,6 +16,15 @@ export default async function user(req, res) {
     // if(!canUserWithdraw(user?._id)){
     //   return res.status(500).json({ message: 'You cannot withdraw at this minute.' })
     // }
+    // update user balance - dec
+    await client
+      .patch(user._id)
+      .dec({ tbalance: amount })
+      .commit()
+      .catch(error => {
+        // console.log('update user profile', error)
+        res.status(500).json({ message: 'An error occured', error })
+      })
 
     // createWithdrawal Record
     await client.create({
@@ -30,20 +39,11 @@ export default async function user(req, res) {
         // console.log('createWithdrawal Record', error)
         res.status(500).json({ message: 'An error occured', error })
       })
-      
-      // update user balance - dec
-      await client
-      .patch(user._id)
-      .dec({ tbalance: amount })
-      .commit()
-      .catch(error => {
-        // console.log('update user profile', error)
-        res.status(500).json({ message: 'An error occured', error })
-      })
+
     return res.status(200).json({ message: 'success' })
   }
 
-  if(b[0] === 'getWithdrawRecord') {
+  if (b[0] === 'getWithdrawRecord') {
     const userId = b[1]
     const data = await client.fetch(`*[_type == "withdraw" && userId == $userId] | order(_createdAt desc)`, { userId }
     ).catch(error => {
@@ -55,7 +55,7 @@ export default async function user(req, res) {
     }
     return res.status(500).json({ message: "error" })
   }
-  
+
   if (b[0] === 'approveWithdraw') {
     const itemId = b[1]
     const user = b[2]
