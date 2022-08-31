@@ -9,6 +9,7 @@ export default {
     ri: 0,
     vrs: 0,
     isAdmin: false,
+    isValid: false,
   },
   fields: [
     {
@@ -65,6 +66,11 @@ export default {
     {
       name: 'isAdmin',
       title: 'Is User Admin?',
+      type: 'boolean',
+    },
+    {
+      name: 'isValid',
+      title: 'isValid - User has Made Payment atleast once?',
       type: 'boolean',
     },
     {

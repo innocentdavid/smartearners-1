@@ -12,16 +12,8 @@ export default function Withdraw() {
   const user = useContext(AuthContext)
   const balance = user?.tbalance + user?.roi + user?.ri + user?.vrs
   const tabsData = [
-    {
-      label: "Withdrawal Record",
-      content:
-        "Ut irure mollit nulla eiusmod excepteur laboris elit sit anim magna tempor excepteur labore nulla.",
-    },
-    {
-      label: "Balance Record",
-      content:
-        "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
-    },
+    {label: "Withdrawal Record", content:""},
+    {label: "Balance Record", content:""},
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [amountToWithdraw, setAmountToWithdraw] = useState();
@@ -226,6 +218,7 @@ export default function Withdraw() {
             </>}
           </div>
         </section>
+      
       </main>
     </>
   )

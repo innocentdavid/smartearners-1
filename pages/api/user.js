@@ -127,10 +127,11 @@ export default async function user(req, res) {
 
   if (b[0] === 'confirmProof') {
     const itemId = b[1]
-    const userId = b[2]
+    const user = b[2]
     const amount = b[3]
-    const UserWasValid = b[4]
-    const referrerId = b[5]
+    const userId = user._id
+    const referrerId = user.referrer._ref
+    const UserWasValid = user.isValid
 
     await client
       .patch(itemId)

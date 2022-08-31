@@ -27,8 +27,18 @@ export default async function user(req, res) {
       userTel: user?.tel
     })
       .catch(error => {
-        console.log('createWithdrawal Record', error)
-        res.status(500).json({ message: error })
+        // console.log('createWithdrawal Record', error)
+        res.status(500).json({ message: 'An error occured', error })
+      })
+      
+      // update user balance - dec
+      await client
+      .patch(user._id)
+      .dec({ tbalance: amount })
+      .commit()
+      .catch(error => {
+        // console.log('update user profile', error)
+        res.status(500).json({ message: 'An error occured', error })
       })
     return res.status(200).json({ message: 'success' })
   }
@@ -44,6 +54,46 @@ export default async function user(req, res) {
       return res.status(200).json({ message: "success", data })
     }
     return res.status(500).json({ message: "error" })
+  }
+  
+  if (b[0] === 'approveWithdraw') {
+    const itemId = b[1]
+    const user = b[2]
+    const amount = b[3]
+    const userId = user._id
+    const referrerId = user.referrer._ref
+    const UserWasValid = user.isValid
+
+    await client
+      .patch(itemId)
+      .set({ status: true })
+      .commit()
+      .catch(error => {
+        // console.log('update user profile', error)
+      })
+
+    // if user was not valid then this is his new time to be validated, so add him to valid refer and credit his referrer if any
+    if (!UserWasValid && referrerId) {
+      await client.create({
+        _type: 'validRef',
+        user: { _type: 'reference', _ref: userId, },
+        referrer: { _type: 'reference', _ref: referrerId, },
+      }).catch(error => {
+        console.log('paymentProof', error)
+        return res.status(500).json({ message: "an error occured", error })
+      })
+
+      await client
+        .patch(referrerId)
+        .inc({ myTicket: amount })
+        .commit()
+        .catch(error => {
+          console.log('update user profile', error)
+        })
+    }
+
+    // commission....
+    return res.status(200).json({ message: "success" })
   }
 
   res.status(200).json({ message: '...' })
