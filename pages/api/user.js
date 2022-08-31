@@ -50,7 +50,7 @@ export default async function user(req, res) {
       console.log('userInvestments error', error)
     })
     userInvestments.forEach(async (item) => {
-      const lastRoi = user.roi
+      // const lastRoi = user.roi
       // const lastUpdated = new Date(item._updatedAt).getTime()
       // const today = new Date().getTime()
       // const gapFromCreatedDate = Math.floor((today - lastUpdated)/(1000*3600*24))
@@ -61,6 +61,7 @@ export default async function user(req, res) {
       await client
         .patch(user._id)
         .inc({ roi: item.dr })
+        .set({ lastChecked: new Date() })
         .commit()
         .catch(error => {
           console.log('update user profile', error)

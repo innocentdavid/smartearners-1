@@ -55,6 +55,8 @@ export default function Profile() {
     }
     if(canMine){
       const res = await updateUserPortfolio(user)
+      console.log(res)
+      setCanMine(false)
     }
   }
 
