@@ -21,13 +21,14 @@ export default {
 
   preview: {
     select: {
-      title: 'user.tel'
+      title: 'user.tel',
+      referrer: 'referrer.tel'
     },
-    // prepare(selection) {
-    //   const {da} = selection
-    //   return Object.assign({}, selection, {
-    //     subtitle: da
-    //   })
-    // }
+    prepare(selection) {
+      const {referrer} = selection
+      return Object.assign({}, selection, {
+        subtitle: referrer && `referred by ${referrer}`
+      })
+    }
   }
 }

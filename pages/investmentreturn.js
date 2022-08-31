@@ -22,13 +22,13 @@ export default function Investmentreturn() {
         <div className="cursor-pointer rotate-[270deg]" onClick={() => { router.back() }}><BsArrowUp size="20px" /></div>
 
         <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
-          <div className="flex flex-col items-center text-center text-[.6rem]">{"I've"} <br /> earned <strong className="font-Josefin text-lg">{user?.roi || 0}</strong></div>
-          <div className="border-r border-[#fff3dc] h-[60%]"></div>
-          <div className="flex flex-col items-center text-center text-[.6rem]">{"I'm earning"} <br /> today <strong className="font-Josefin text-lg">₦<span>{user?.balance}</span></strong></div>
+          <div className="flex flex-col items-center text-center text-[.8rem]">{"I've"} earned <strong className="font-Josefin text-lg">{user?.roi || 0}</strong></div>
+          {/* <div className="border-r border-[#fff3dc] h-[60%]"></div> */}
+          {/* <div className="flex flex-col items-center text-center text-[.6rem]">{"I'm earning"} <br /> today <strong className="font-Josefin text-lg">₦<span>{user?.balance}</span></strong></div> */}
         </div>
       </nav>
 
-      <header className="bg-[#242931] text-[#fff] py-4 px-5 font-Josefin text-[14px]">
+      <header className="bg-[#242931] text-[#fff] py-4 px-5 font-Josefin text-[14px] md:text-center">
         <div className="flex items-center gap-4">
           <div className=""><img src="/images/901789.png" width="20px" height="20px" /></div>
           <div className="font-bold text-[.9rem] md:text-[1rem] -mb-1">{`2% Share of Lv.1's Daily Return`}</div>
@@ -40,10 +40,10 @@ export default function Investmentreturn() {
       <section className="mt-4">
         <div className="">
           <ul className="flex w-full text-[#333] text-[.8rem]">
-            <li className="font-['Metric-Regular'] border-r border-gray-300 flex flex-col justify-center items-center text-center w-[25%]"><p>Time</p> </li>
-            <li className="font-['Metric-Regular'] border-r border-gray-300 flex flex-col justify-center items-center text-center w-[25%]"><p>ID</p> </li>
-            <li className="font-['Metric-Regular'] border-r border-gray-300 flex flex-col justify-center items-center text-center w-[25%]"><p>Total<br />Deposit</p></li>
-            <li className="font-['Metric-Regular'] flex flex-col justify-center items-center text-center w-[25%]">
+            <li className="font-['Metric-Regular'] border-r border-gray-300 flex flex-col justify-center items-center text-center w-[10%]"><p>sn</p> </li>
+            <li className="font-['Metric-Regular'] border-r border-gray-300 flex flex-col justify-center items-center text-center w-[30%]"><p>Time</p> </li>
+            <li className="font-['Metric-Regular'] border-r border-gray-300 flex flex-col justify-center items-center text-center w-[30%]"><p>Total<br />Deposit</p></li>
+            <li className="font-['Metric-Regular'] flex flex-col justify-center items-center text-center w-[30%]">
               <p>My<br /> Commission</p>
             </li>
           </ul>

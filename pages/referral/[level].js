@@ -1,3 +1,4 @@
+import moment from "moment";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
@@ -10,12 +11,26 @@ export default function ReferralLevel({ level }) {
   const user = useContext(AuthContext)
   const [data, setData] = useState([])
 
+  const getTotalDetails = (array) => {
+    var tc = 0
+    var tda = 0
+    var tr = 0
+    if (array) {
+      array?.forEach(item => {
+        tc += item.commission
+        tda += item.depositedAmount
+        tr += 1
+      });
+    }
+    return { tc, tda, tr }
+  }
+
   useEffect(() => {
     const fetch = async () => {
-      const res = await fetchRfCommission(level, user).catch(err => {
+      const res = await fetchRfCommission(level, user._id).catch(err => {
         console.log(err)
       })
-      console.log(res)
+      // console.log(res)
       res && res.resp && setData(res.resp)
     }
     if(user){
@@ -41,7 +56,7 @@ export default function ReferralLevel({ level }) {
           <tbody id="level1">
             <tr className="">
               <td></td>
-              <td className="w-[27%] h-[38px] p-1 font-[fona] italic text-center">Referral<br />number</td>
+              <td className="w-[27%] h-[38px] p-1 font-[fona] italic text-center">Total<br />Referral</td>
               <td className="w-[27%] h-[38px] p-1 font-[fona] italic text-center">Total<br />deposit</td>
               <td className="w-[27%] h-[38px] p-1 font-[fona] italic text-center">My<br />commission</td>
             </tr>
@@ -49,18 +64,18 @@ export default function ReferralLevel({ level }) {
               <td className="p-1 font-[fona] text-center text-[.7rem]">
                 Total
               </td>
-              <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">0/0</td>
-              <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦0</td>
-              <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦0</td>
+              <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">{getTotalDetails(data).tr}</td>
+              <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦{getTotalDetails(data).tda}</td>
+              <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦{getTotalDetails(data).tc}</td>
             </tr>
-            <tr className="">
+            {/* <tr className="">
               <td className="p-1 font-[fona] text-center text-[.7rem]">
                 Today
               </td>
               <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">0/0</td>
               <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦0</td>
               <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦0</td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </div>
@@ -83,13 +98,13 @@ export default function ReferralLevel({ level }) {
       <section className="">
         <table className="pb-[20px] w-full">
           <tbody id="level1">
-            {data?.map((item, index) => {
+            {data?.length>0 && data?.map((item, index) => {
               return (<>
                 <tr className={(index+1)%2 !== 0 && 'bg-[#f5f5f5]'}>
                   <td className="border-r border-gray-300  w-[16%] h-[38%] p-1 font-[fona] text-center text-[.8rem]">
                     {index+1}
                   </td>
-                  <td className="border-r border-gray-300 w-[28%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">-</td>
+                  <td className="border-r border-gray-300 w-[28%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">{moment(new Date(item._createdAt)).format('MM-D-YY')}</td>
                   <td className="border-r border-gray-300 w-[28%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦{item?.depositedAmount}</td>
                   <td className="w-[28%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦{item?.commission}</td>
                 </tr>

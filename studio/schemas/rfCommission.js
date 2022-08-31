@@ -43,7 +43,7 @@ export default {
     prepare(selection) {
       const { level, commission } = selection
       return Object.assign({}, selection, {
-        subtitle: referrer && `received level${level} ${commission}`
+        subtitle: level && commission && `received level${level} ${commission}`
       })
     }
   }

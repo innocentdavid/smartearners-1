@@ -57,7 +57,7 @@ export default function Pervalidrefer() {
       }
     }
     fetch()
-  }, [])
+  }, [user])
 
   if (status === 'loading') {
     return (
@@ -84,10 +84,10 @@ export default function Pervalidrefer() {
           <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold ">Per Valid Refer</div>
         </nav>
 
-        <header className="bg-[#242931] text-[#fff] py-4 px-5 font-Josefin text-[14px]">
-          <div className="flex gap-4">
+        <header className="bg-[#242931] text-[#fff] py-4 px-5 font-Josefin text-[14px] md:text-center">
+          <div className="flex gap-4 md:justify-center">
             <ImUsers />
-            <div className="font-bold text-[.9rem] md:text-[1rem]">₦20,000 Monthly Salary</div>
+            <div className="font-bold text-[.9rem] md:text-[1rem] ">₦20,000 Monthly Salary</div>
           </div>
 
           <p className="mt-3 text-[.75rem]">{'Receive ₦20,000 monthly salary when you have up to 50 active downlines.'}</p>

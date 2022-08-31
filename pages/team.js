@@ -10,6 +10,7 @@ import AuthContext from '../context/authContext'
 export default function Team() {
   const router = useRouter()
   const user = useContext(AuthContext)
+  // console.log(user)
 
   const showModal = () => {
     const modal = document.querySelector('#modal')
@@ -29,16 +30,16 @@ export default function Team() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="fixed top-[30%] right-0 flex items-center gap-2 rounded-l-[30px] px-3 py-2 bg-[#ffa500] text-white font-['Metric-Light'] cursor-pointer" 
-      style={{ boxShadow: '0px 0px 14px -3px #707377' }} 
-      onClick={() => { showModal() }}>
+      <div className="fixed top-[30%] right-0 flex items-center gap-2 rounded-l-[30px] px-3 py-2 bg-[#ffa500] text-white font-['Metric-Light'] cursor-pointer"
+        style={{ boxShadow: '0px 0px 14px -3px #707377' }}
+        onClick={() => { showModal() }}>
         <div className=""><AiOutlineShareAlt /></div>
         <div className="">My Link</div>
       </div>
 
       <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-4 md:px-36">
         <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center cursor-pointer uppercase" onClick={() => { router.push('/') }}>SMART Earners</div>
-                 
+
         <div className="flex flex-col items-end text-sm md:text-base font-bold">
           <div className="text-white flex items-center gap-1">
             <FcMoneyTransfer /> <div className="">Total Referral Income</div>
@@ -52,32 +53,33 @@ export default function Team() {
         </div> */}
       </nav>
 
-      <header className="bg-[#242931] text-[#fff] py-3 px-5 font-Josefin text-[14px]">
+      <header className="bg-[#242931] text-[#fff] py-3 px-5 font-Josefin text-[14px] md:text-center">
         <div>{`The referral income you obtain from "My Team" consist of 3 parts below.`} <span className="text-[#ffa500] select-none cursor-pointer" onClick={() => { showModal() }}>Please click here to buy tickets if needed.</span></div>
       </header>
 
-      <main className="mt-5 px-5 max-w-[500px]">
-        <div>
-          <div className="">
-            <div style={{ fontFamily: "Metric-SemiBold" }} className="text-[17px] md:text-[19px] text-black font-bold ">• 10%+5%+2% / One-Time Commission</div>
-            <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">{`When your Level 1 referrals make a payment, you will obtain 10% of his payment amount as referral commission immediately. And you obtain 5% of your Level 2's payment amount, and 2% of your Level 3's.`}</p>
-            <div className="py-3 text-center text-[17px] md:text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/bonus') }}>Check my stats in this part</div>
-          </div>
+      <div className="flex flex-col items-center">
+        <main className="mt-5 px-5 max-w-[500px]">
+          <div>
+            <div className="">
+              <div style={{ fontFamily: "Metric-SemiBold" }} className="text-[17px] md:text-[19px] text-black font-bold ">• 10%+5%+2% / One-Time Commission</div>
+              <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">{`When your Level 1 referrals make a payment, you will obtain 10% of his payment amount as referral commission immediately. And you obtain 5% of your Level 2's payment amount, and 2% of your Level 3's.`}</p>
+              <div className="py-3 text-center text-[17px] md:text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/bonus') }}>Check my stats in this part</div>
+            </div>
 
-          <div className="">
-            <div className="font-['Metric-SemiBold'] text-[17px] md:text-[19px] text-black font-bold ">{`• 2% Share of Lv.1's Daily Return`}</div>
-            <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">{`When your Level 1 referrals start to obtain daily return from his investment plans, you will obtain a 2% extra share of that return on a daily basis as well.`}</p>
-            <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/investmentreturn') }}>Check my stats in this part</div>
-          </div>
+            <div className="">
+              <div className="font-['Metric-SemiBold'] text-[17px] md:text-[19px] text-black font-bold ">{`• 2% Share of Lv.1's Daily Return`}</div>
+              <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">{`When your Level 1 referrals start to obtain daily return from his investment plans, you will obtain a 2% extra share of that return on a daily basis as well.`}</p>
+              <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/investmentreturn') }}>Check my stats in this part</div>
+            </div>
 
-          <div className="">
-            <div className="font-['Metric-SemiBold'] text-[17px] md:text-[19px] text-black font-bold ">{`• ₦20,000 Monthly Salary`}</div>
-            <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">{`Receive ₦20,000 monthly salary when you have up to 50 active downlines.`}</p>
-            <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/pervalidrefer') }}>Check my stats in this part</div>
+            <div className="">
+              <div className="font-['Metric-SemiBold'] text-[17px] md:text-[19px] text-black font-bold ">{`• ₦20,000 Monthly Salary`}</div>
+              <p className="font-['Metric Light'] text-[14px] text-[#242931] mb-[15px] ">{`Receive ₦20,000 monthly salary when you have up to 50 active downlines.`}</p>
+              <div className="py-3 text-center text-[19px] font-[fona] mb-8 border border-[#ffa600] text-[#ffa600] font-semibold rounded-[10px] cursor-pointer" onClick={() => { router.push('/pervalidrefer') }}>Check my stats in this part</div>
+            </div>
           </div>
-        </div>
-      </main>
-
+        </main>
+      </div>
       <Footer />
 
 
@@ -100,7 +102,7 @@ export default function Team() {
               <p><a href={`http://smartearners.com/login?rf=${user?._id}`}>http://smartearners.com/login?rf={user?._id}</a></p>
             </div>
 
-            <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer" onClick={() => {navigator.clipboard.writeText(`https://smartearnersdev.vercel.app/login?rf=${user?._id}`); alert('copied!')}}>Copy</div>
+            <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer" onClick={() => { navigator.clipboard.writeText(`https://smartearnersdev.vercel.app/login?rf=${user?._id}`); alert('copied!') }}>Copy</div>
           </div>
         </div>
       </div>

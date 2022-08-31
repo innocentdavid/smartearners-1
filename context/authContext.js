@@ -4,7 +4,10 @@ import { getUser } from '../lib/api'
 import { createContext, useEffect, useState } from 'react'
 
 const AuthContext = createContext({
-  user: null,
+  _id: '',
+  tel: '',
+  isAdmin: '',
+  isValid: '',
   authReady: false
 })
 

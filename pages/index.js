@@ -15,11 +15,11 @@ export default function Home({ allInvestmentPlan }) {
   const user = useContext(AuthContext)
   const router = useRouter()
 
-  // useEffect(() => {
-  //   if (status === 'unauthenticated') {
-  //     router.replace('/login')
-  //   }
-  // }, [status])
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.replace('/login')
+    }
+  }, [status])
 
   if (status === 'loading') {
     return (
