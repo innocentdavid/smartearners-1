@@ -40,54 +40,61 @@ export default async function user(req, res) {
     res.status(500).json({ message: 'error' })
   }
 
+  // page == profile.js through lib/api.js
   if (b[0] === 'updateUserPortfolio') {
-    // page == 
     const user = b[1]
-    const lastChecked = new Date(user?.lastChecked)
-    var lcMonth = lastChecked?.getUTCMonth() + 1;
-    const tMonth = new Date().getUTCMonth() + 1;
-    var lcDay = lastChecked?.getUTCDay() + 1;
-    const tDay = new Date().getUTCDay() + 1;
 
-    if (tMonth > lcMonth || tDay > lcDay) {
-      const userInvestments = await client.fetch(`*[_type == "order" && userId == $id] | order(_createdAt desc)`,
-        { id: user._id }
-      ).catch(error => {
-        console.log('userInvestments error', error)
+    const userInvestments = await client.fetch(`*[_type == "order" && userId == $id] | order(_createdAt desc)`,
+      { id: user._id }
+    ).catch(error => {
+      console.log('userInvestments error', error)
+    })
+    userInvestments.forEach(async (item) => {
+      const lastRoi = user.roi
+      // const lastUpdated = new Date(item._updatedAt).getTime()
+      // const today = new Date().getTime()
+      // const gapFromCreatedDate = Math.floor((today - lastUpdated)/(1000*3600*24))
+      // const totalEarning = gapFromCreatedDate * item.dr
+      // const newEarning = totalEarning - lastRoi;
+      // update the users earning with the difference or gap between the createdAt and current date 
+      // update user
+      await client
+        .patch(user._id)
+        .inc({ roi: item.dr })
+        .commit()
+        .catch(error => {
+          console.log('update user profile', error)
+        })
+
+      // createBalanceRecord for user
+      await client.create({
+        _type: 'record', title: item.planTitle, category: 'balanceRecord', type: 'income', amount: item.dr, remaining: 0, userId: user._id, userTel: user.tel
+      }).catch(error => {
+        console.log('update user profile', error)
       })
-      userInvestments.forEach(async (item) => {
-        const lastRoi = user.roi
-        const lastUpdated = new Date(item._updatedAt)
-        const today = new Date()        
-        const gapFromCreatedDate = today - lastUpdated
-        const totalEarning = gapFromCreatedDate * item.dr
-        const newEarning = totalEarning - lastRoi;
-        // update the users earning with the difference or gap between the createdAt and current date 
-        // update user
+
+
+      // give referrer 2% of the earning
+      if (user.referrer?._ref) {
+        const dr = parseInt(item.dr)
+        const commission = 0.02 * dr
+
         await client
-          .patch(user._id)
-          .set({ roi: totalEarning })
+          .patch(user.referrer?._ref)
+          .inc({ ri: commission })
           .commit()
           .catch(error => {
             console.log('update user profile', error)
           })
 
-        if(user.referrer?._ref){
-
-        }
-
-        // createRecord
-        const createRecord = await client.create({
-          _type: 'record', title: item.planTitle, category: 'balanceRecord', type: 'income', amount: newEarning, remaining: totalEarning, userId: user._id, userTel: user.tel
+        // createBalanceRecord for referrer
+        await client.create({
+          _type: 'record', title: 'L12%Commission', category: 'balanceRecord', type: 'income', amount: item.dr, remaining: 0, userId: user._id, userTel: user.tel
+        }).catch(error => {
+          console.log('update user profile', error)
         })
-          .catch(error => {
-            console.log('update user profile', error)
-          })
-        console.log(createRecord)
-
-
-      });
-    }
+      }
+    });
   }
 
   if (b[0] === 'depositWithBalance') {
@@ -193,7 +200,7 @@ export default async function user(req, res) {
     // return res.status(500).json({ message: "error" })
   }
 
-  if(b[0] === 'getAllBalanceRecord') {
+  if (b[0] === 'getAllBalanceRecord') {
     const userId = b[1]
     const data = await client.fetch(`*[_type == "record" && userId == $userId] | order(_createdAt desc)`, { userId }
     ).catch(error => {
@@ -210,7 +217,7 @@ export default async function user(req, res) {
 
 
 
-// from backend
+  // from backend
   if (b[0] === 'confirmedPayment') {
     const user = b[1]
     const data = b[2]

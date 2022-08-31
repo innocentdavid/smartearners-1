@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Footer from '../components/footer'
 import { AiOutlineUser } from 'react-icons/ai'
 import { FiLogOut } from 'react-icons/fi'
@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import AuthContext from '../context/authContext'
 import { signOut } from "next-auth/react"
+import { updateUserPortfolio } from '../lib/api'
 
 export default function Profile() {
   const router = useRouter()
@@ -20,6 +21,42 @@ export default function Profile() {
       router.replace('/login')
     }
   }, [status])
+
+  useEffect(() => {
+    if (user) {
+      if(!user?.lastChecked){
+        const resgisteredAt = new Date(user._createdAt).getTime()
+        const now = new Date().getTime()
+        const gap = now - resgisteredAt
+        const dif = Math.floor(gap/(1000*3600*24))
+        if(dir >= 1){
+          setCanMine(true)
+          return
+        }
+        return
+      }
+      const lastChecked = new Date(user?.lastChecked).getTime()
+      const now = new Date().getTime()
+      const gap = now - lastChecked
+      const dif = (gap) / (1000 * 3600 * 24)
+      if(Math.floor(dif) >= 1) {
+        setCanMine(true)
+      }else{
+        setCanMine(false);
+      }
+    }
+  }, [user])
+
+  const mine = async () => {
+    // console.log(user)
+    if (!user?._id) {
+      alert('You have to login first!')
+      return;
+    }
+    if(canMine){
+      const res = await updateUserPortfolio(user)
+    }
+  }
 
 
   if (status === 'loading') {
@@ -64,10 +101,11 @@ export default function Profile() {
         <main className="mt-8 font-Josefin text-xs">
           <div className="flex flex-col items-center mb-6">
             <div className="text-center text-lg">Check in daily to mine your rewards</div>
-            
-            {canMine ? <button type="button" className="bg-[#ffaa00] h-6 w-[6rem] cursor-pointer">Mine now</button> : 
-            <button type="button" disabled className="bg-gray-400 h-6 w-[6rem] cursor-pointer">Mine now</button>}
-            
+
+            {canMine ? <button type="button" className="bg-[#ffaa00] h-6 w-[6rem] cursor-pointer"
+              onClick={mine}>Mine now</button> :
+              <button type="button" className="bg-gray-400 h-6 w-[6rem] cursor-pointer"
+                onClick={() => { alert("You can't mine right now, check back later"); }}>Mine now</button>}
           </div>
 
           <div className="flex flex-wrap mb-8">
