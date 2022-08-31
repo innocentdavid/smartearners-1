@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 import { BiTrendingUp } from 'react-icons/bi'
+import { FaLock } from 'react-icons/fa'
 import Footer from '../components/footer'
 import Slider from '../components/slider'
 import { getAllInvestmentPlan } from '../lib/api'
@@ -35,13 +36,13 @@ export default function Home({ allInvestmentPlan }) {
     return (
       <div className="relative h-screen">
         <Head>
-          <title>Smart Energy</title>
+          <title>Smart Earners</title>
           <meta name="description" content="" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
         <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-4 md:px-36">
-          <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase cursor-pointer">SMART Energy</div>
+          <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase cursor-pointer">SMART Earners</div>
 
           <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
             <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit') }}>Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket ? user?.myTicket : 0}</strong></div>
@@ -158,11 +159,11 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
   return (<>
     <div className="mb-8 w-full md:w-fit cursor-pointer" onClick={() => { showModal() }}>
       <div className="h-[60px] px-4 flex justify-between md:gap-16 items-center bg-[#ffa600] text-white rounded-t-[10px]">
-        <div className="font-bold font-[poppins] ">SMART <br /> Energy</div>
+        <div className="font-bold font-[poppins] uppercase ">SMART <br /> Earners</div>
         <div className="flex items-center md:gap-2 gap-1 font-bold text-sm md:text-base ">
           {/* <div>PC-{id}</div>  */}
-          <div>{title}</div>
-          <div className="text-[#eee]">|</div> <div>Total <span className="font-[fona]">{totalReturnPercentage}</span>%</div>
+          <div className="uppercase flex flex-col items-center justify-center">{title} {title.slice(-2) >= 9 && <><br /><FaLock /></>}</div>
+          <div className="text-[#eee]">|</div> <div>Total <br /><span className="font-[fona]">{totalReturnPercentage}</span>%</div>
         </div>
       </div>
 
@@ -208,7 +209,7 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
       <div className="z-[5] fixed top-[50%] md:top-[30%] left-[50%] translate-x-[-50%] translate-y-[-50%] md:translate-y-[-30%] w-[90%] lg:w-[60%] ">
 
         <div className="h-[70px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa600] text-white rounded-t-[10px]">
-          <div className="font-bold font-[poppins] ">SMART <br /> Energy</div>
+          <div className="font-bold font-[poppins] ">SMART <br /> Earners</div>
           <div className="text-end">
             <div className="text-black font-semibold">PLEASE</div>
             <div className="text-2xl font-bold">CONFIRM</div>

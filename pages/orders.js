@@ -53,7 +53,7 @@ export default function Orders() {
         </Head>
 
         <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-8 md:px-36">
-          <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center select-none cursor-pointer" onClick={() => { router.push('/') }}>SMART ENERGY</div>
+          <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center select-none cursor-pointer uppercase" onClick={() => { router.push('/') }}>SMART Earners</div>
 
           <div className="flex items-center gap-5 text-[.8rem] ">
             {/* <div className="flex flex-col items-center"><div>Obtained</div><div>Already</div><strong id="oa">N{user?.roi}</strong></div> */}
@@ -132,7 +132,7 @@ const OrderCard = ({ order }) => {
 
       <div className="mb-8 w-full md:w-[60%]" onClick={() => { showModal() }}>
         <div className="h-[60px] px-4 flex justify-between md:gap-16 items-center bg-[#ffa500] text-white rounded-t-[10px]">
-          <div className="font-bold font-[poppins] ">SMART <br /> ENERGY</div>
+          <div className="font-bold font-[poppins] uppercase">SMART <br /> Earners</div>
           <div className="flex items-center md:gap-2 gap-1 font-bold text-sm md:text-base ">
             <div>{title}</div> <div className="text-[#eee]">|</div> <div>Total {totalReturnPercentage}%</div>
           </div>

@@ -13,7 +13,7 @@ export default function Investmentreturn() {
   return (
     <>
       <Head>
-        <title>{"20% Share of Lv.1's Daily Return"} - Smart energy</title>
+        <title>{"20% Share of Lv.1's Daily Return"} - Smart Earners</title>
         <meta name="description" content="20% Share of Lv.1's Daily Return" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

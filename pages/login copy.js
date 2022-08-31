@@ -80,7 +80,7 @@ export default function Login() {
     <div className="h-screen overflow-x-hidden overflow-y-auto">
       <header className="h-[28%] flex flex-col justify-end px-5 bg-[#ffa600] ">
         <div className="grid place-items-center">
-          <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase ">SMART Energy</div>
+          <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase ">SMART Earners</div>
         </div>
 
         <div className="mt-5 flex items-center justify-around text-white text-lg font-bold">

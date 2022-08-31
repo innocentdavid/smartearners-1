@@ -24,7 +24,7 @@ export default function Team() {
   return (
     <div className="relative h-screen">
       <Head>
-        <title>Team - SMART ENERGY</title>
+        <title>Team - SMART Earners</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -37,7 +37,7 @@ export default function Team() {
       </div>
 
       <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-4 md:px-36">
-        <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center cursor-pointer " onClick={() => { router.push('/') }}>SMART ENERGY</div>
+        <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center cursor-pointer uppercase" onClick={() => { router.push('/') }}>SMART Earners</div>
                  
         <div className="flex flex-col items-end text-sm md:text-base font-bold">
           <div className="text-white flex items-center gap-1">
@@ -87,7 +87,7 @@ export default function Team() {
 
         <div className="z-[5] fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[90%] mx-auto">
           <div className="h-[70px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
-            <div className="font-bold font-[poppins] ">SMART <br /> ENERGY</div>
+            <div className="font-bold font-[poppins] uppercase">SMART <br /> Earners</div>
             <div className="text-end">
               <div className="text-black font-semibold">COPY YOUR</div>
               <div className="text-2xl font-bold">REFERRAL LINK</div>

@@ -31,13 +31,13 @@ export default function Profile() {
     return (
       <div className="relative h-screen">
         <Head>
-          <title>Profile - SMART ENERGY</title>
+          <title>Profile - SMART EARNERS</title>
           <meta name="description" content="" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
         <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-8 md:px-36">
-          <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center ">SMART ENERGY</div>
+          <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase">SMART Earners</div>
 
           <div className="flex items-center gap-5 text-[.8rem] ">
             <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>

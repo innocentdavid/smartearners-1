@@ -79,7 +79,7 @@ export default function Gateway1() {
         <div className="my-10"></div>
       </main>
 
-      <footer className="my-8 text-center text-gray-400">@smartenergy.</footer>
+      <footer className="my-8 text-center text-gray-400">@smartearners.</footer>
     </>
   )
 }
