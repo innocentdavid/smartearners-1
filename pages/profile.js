@@ -1,13 +1,11 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import Footer from '../components/footer'
 import { AiOutlineUser } from 'react-icons/ai'
 import { FiLogOut } from 'react-icons/fi'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
-import { getUser } from '../lib/api'
-import { useAppContext } from '../context/AppContext'
 import AuthContext from '../context/authContext'
 import { signOut } from "next-auth/react"
 
@@ -15,6 +13,13 @@ export default function Profile() {
   const router = useRouter()
   const { status, data } = useSession();
   const user = useContext(AuthContext)
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.replace('/login')
+    }
+  }, [status])
+
 
   if (status === 'loading') {
     return (
