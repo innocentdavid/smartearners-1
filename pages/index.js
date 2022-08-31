@@ -47,7 +47,7 @@ export default function Home({ allInvestmentPlan }) {
           <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
             <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit') }}>Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket ? user?.myTicket : 0}</strong></div>
             <div className="border-r border-[#fff3dc] h-[60%]"></div>
-            <div onClick={() => { router.push('/withdraw') }} className="flex flex-col items-center">Balance <strong className="font-bold font-Josefin select-none">N<span>{user?.balance}</span></strong></div>
+            <div onClick={() => { router.push('/withdraw') }} className="flex flex-col items-center cursor-pointer">Balance <strong className="font-bold font-Josefin select-none">N<span>{user?.balance}</span></strong></div>
           </div>
         </nav>
 

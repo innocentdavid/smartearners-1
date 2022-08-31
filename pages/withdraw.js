@@ -114,12 +114,12 @@ export default function Withdraw() {
 
           <div className="flex gap-3 font-['Metric-Medium'] text-[15px] mt-10">
             <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">24 / 7 Auto</div>
-            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">Daily Max 5 Requests</div>
+            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">Daily Max 1 Requests</div>
           </div>
           <div className="flex gap-3 font-['Metric-Medium'] text-[15px] mt-3">
-            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">24 / 7 Auto</div>
-            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">24 / 7 Auto</div>
-            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">24 / 7 Auto</div>
+            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">Min withdrawal N1,000</div>
+            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">7% charges update on withdrawal</div>
+            {/* <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">24 / 7 Auto</div> */}
           </div>
         </div>
 

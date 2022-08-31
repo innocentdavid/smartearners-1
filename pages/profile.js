@@ -40,15 +40,15 @@ export default function Profile() {
           <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center uppercase">SMART Earners</div>
 
           <div className="flex items-center gap-5 text-[.8rem] ">
-            <div className="flex flex-col items-center">Ticket <strong>{user?.myTicket}</strong></div>
-            <div className="flex flex-col items-center">Balance <strong className="">N<span>{user?.balance}</span></strong></div>
+            <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit') }}>Ticket <strong>{user?.myTicket}</strong></div>
+            <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/withdraw') }}>Balance <strong className="">N<span>{user?.balance}</span></strong></div>
           </div>
         </nav>
 
         <header className="bg-gray-800 text-white py-3 px-5 font-[Poppins]">
           <div className="flex items-center justify-end gap-1 font-Josefin">
             <div className="text-[#ffa500]"><AiOutlineUser size="20px" /></div>
-            {user?.tel ? <div className="flex items-center gap-3">My ID: <span>{user?.tel}</span><FiLogOut className="cursor-pointer" onClick={() => { signOut(); router.push('/login') }}/></div> :
+            {user?.tel ? <div className="flex items-center gap-3">My ID: <span>{user?.tel}</span><FiLogOut className="cursor-pointer" onClick={() => { signOut(); router.push('/login') }} /></div> :
               <div className="flex items-center gap-2">
                 <div className="text-xs py-1 px-3 border border-[#ffa600] cursor-pointer" onClick={() => { router.push('/login') }}>Log in / Sign up</div>
               </div>}
@@ -56,6 +56,11 @@ export default function Profile() {
         </header>
 
         <main className="mt-8 font-Josefin text-xs">
+          <div className="flex flex-col items-center mb-6">
+            <div className="text-center text-lg">Check in daily to mine your rewards</div>
+            <button type="button" className="bg-[#ffaa00] h-6 w-[6rem] cursor-pointer">Mine now</button>
+          </div>
+
           <div className="flex flex-wrap mb-8">
             <Link href="/deposit">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
