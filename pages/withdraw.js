@@ -25,19 +25,20 @@ export default function Withdraw() {
     const fetch = async () => {
       const wr = await getAllWithDrawRecord(user?._id);
       const br = await getAllBalanceRecord(user?._id);
-      if(wr.message === 'success'){
+      
+      if(wr?.message === 'success'){
         // console.log('setWithdrawRecord(wr?.res?.data)', wr?.res?.data)
         setWithdrawRecord(wr?.res?.data)
       }else{
-        alert(wr.message)
-        console.log(wr.err)
+        alert(wr?.message)
+        console.log(wr?.err)
       }
-      if(br.message === 'success'){
-        // console.log('setBalanceRecord(br.res?.data)', br.res?.data)
-        setBalanceRecord(br.res?.data)
+      if(br?.message === 'success'){
+        // console.log('setBalanceRecord(br?.res?.data)', br?.res?.data)
+        setBalanceRecord(br?.res?.data)
       }else{
-        alert(br.message)
-        console.log(br.err)
+        alert(br?.message)
+        console.log(br?.err)
       }
     }
     if(user){
@@ -103,7 +104,7 @@ export default function Withdraw() {
       </header>
 
       <main>
-        <div className="flex flex-col items-center mt-10">
+        <div className="flex flex-col items-center mt-10 px-4">
           <div className="flex items-center gap-3">
             <div><img src="/images/withdraw-1.png" alt="" width="42px" height="42px" /></div>
             <div className="">
@@ -117,8 +118,8 @@ export default function Withdraw() {
             <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">Daily Max 1 Requests</div>
           </div>
           <div className="flex gap-3 font-['Metric-Medium'] text-[15px] mt-3">
-            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">Min withdrawal N1,000</div>
-            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">7% charges update on withdrawal</div>
+            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px] text-center">Min withdrawal N1,000</div>
+            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px] text-center">7% charges update on withdrawal</div>
             {/* <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">24 / 7 Auto</div> */}
           </div>
         </div>
