@@ -13,6 +13,7 @@ export default function Profile() {
   const router = useRouter()
   const { status, data } = useSession();
   const user = useContext(AuthContext)
+  const [canMine, setCanMine] = useState(false)
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -63,7 +64,10 @@ export default function Profile() {
         <main className="mt-8 font-Josefin text-xs">
           <div className="flex flex-col items-center mb-6">
             <div className="text-center text-lg">Check in daily to mine your rewards</div>
-            <button type="button" className="bg-[#ffaa00] h-6 w-[6rem] cursor-pointer">Mine now</button>
+            
+            {canMine ? <button type="button" className="bg-[#ffaa00] h-6 w-[6rem] cursor-pointer">Mine now</button> : 
+            <button type="button" disabled className="bg-gray-400 h-6 w-[6rem] cursor-pointer">Mine now</button>}
+            
           </div>
 
           <div className="flex flex-wrap mb-8">
