@@ -210,7 +210,7 @@ export default async function user(req, res) {
 
 
 
-
+// from backend
   if (b[0] === 'confirmedPayment') {
     const user = b[1]
     const data = b[2]

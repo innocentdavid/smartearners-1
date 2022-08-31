@@ -37,9 +37,9 @@ export default function Slider() {
       <SwiperSlide className="flex justify-center">
         <img src="/images/03.jpg" alt="" className="w-full md:h-[300px] lg:h-[500px]" />
       </SwiperSlide>
-      {/* <SwiperSlide className="flex justify-center">
-        <img src="/images/IMG-20220824-WA0020.jpg" alt="" className="w-full md:h-[300px] lg:h-[500px]" />
-      </SwiperSlide> */}
+      <SwiperSlide className="flex justify-center">
+        <img src="/images/04.jpg" alt="" className="w-full md:h-[300px] lg:h-[500px]" />
+      </SwiperSlide>
 
       {/* <div className="snp" ref={sNextRef}></div>
       <div className="snn" ref={sPrevRef}></div> */}

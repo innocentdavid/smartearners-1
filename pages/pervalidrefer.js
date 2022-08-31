@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -5,7 +6,8 @@ import { useContext, useEffect, useState } from "react";
 import { BsArrowUp } from "react-icons/bs";
 import { ImUsers } from "react-icons/im";
 import AuthContext from "../context/authContext";
-import { getValidRefers } from "../lib/api";
+import { getAllValidRefer } from "../lib/functions";
+// import { getValidRefers } from "../lib/api";
 
 export default function Pervalidrefer() {
   const router = useRouter()
@@ -18,45 +20,19 @@ export default function Pervalidrefer() {
       router.replace('/login')
     }
   }, [status])
-  
+
   useEffect(() => {
     const fetch = async () => {
-      // if (user) {
-      //   const refers = await getValidRefers(user._id).catch(err => {
-      //     console.log(err)
-      //   })
-      //   console.log(refers)
-      //   refers?.refer && setValidRefers(refers.refer)
-      // }
-
-      if (user) {
-        document.querySelector('#generalLoading').classList.remove('hidden')
-        document.querySelector('#generalLoading').classList.add('grid')
-        try {
-          const response = await fetch('/api/user', {
-            method: 'POST',
-            body: JSON.stringify(['getValidRefers', user._id]),
-            type: 'application/json'
-          })
-          if (response.status == 200) {
-            res = response.json()
-            console.log(res)
-            // res?.refer && setValidRefers(res.refer)
-
-            document.querySelector('#generalLoading').classList.remove('grid')
-            document.querySelector('#generalLoading').classList.add('hidden')
-            return;
-          }
-        } catch (err) {
-          console.log(err)
-          document.querySelector('#generalLoading').classList.remove('grid')
-          document.querySelector('#generalLoading').classList.add('hidden')
-        }
-        document.querySelector('#generalLoading').classList.remove('grid')
-        document.querySelector('#generalLoading').classList.add('hidden')
+      let res = await getAllValidRefer(user._id)
+      if (res.message == 'success') {
+        const data = res.res.data
+        console.log(data)
+        setValidRefers(data)
       }
     }
-    fetch()
+    if (user) {
+      fetch()
+    }
   }, [user])
 
   if (status === 'loading') {
@@ -116,13 +92,14 @@ export default function Pervalidrefer() {
           <table className="pb-[20px] w-full mx-[4%]">
             <tbody id="level1">
               {validRefers?.map((item, index) => {
+                // console.log(item)
                 return (<>
                   <tr className={(index + 1) % 2 !== 0 && 'bg-[#f5f5f5]'}>
                     <td className="border-r border-gray-300  w-[8%] h-[38%] p-1 font-[fona] text-center text-[.8rem]">
                       {index + 1}
                     </td>
-                    <td className="border-r border-gray-300 w-[20%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">{item.date}</td>
-                    <td className="border-r border-gray-300 w-[36%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">{item.tel}</td>
+                    <td className="border-r border-gray-300 w-[20%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">{moment(new Date(item._createdAt)).format('MM-D-YY')}</td>
+                    <td className="border-r border-gray-300 w-[36%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">{item.user.tel}</td>
                   </tr>
                 </>)
               })}

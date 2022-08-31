@@ -23,6 +23,43 @@ export default async function user(req, res) {
     }
     return res.status(500).json({ message: "error" })
   }
+  
+  if(b[0] === 'getAllValidRefer') {
+    const userId = b[1]
+
+    const data = await client.fetch(`*[_type == "validRef" && referrer._ref == $userId] | order(_createdAt desc){
+      '_id': _id,
+      '_createdAt': _createdAt,
+      ${userAndReferrerFields}
+    }`, { userId }
+    ).catch(error => {
+      console.log('getAllValidRefer error', error)
+      return res.status(500).json({ message: "error", error })
+    })
+    if (data) {
+      return res.status(200).json({ message: "success", data })
+    }
+    return res.status(500).json({ message: "error" })
+  }
+  
+  if(b[0] === 'getAllIrc') {
+    const userId = b[1]
+
+    const data = await client.fetch(`*[_type == "irc" && referrer._ref == $userId] | order(_createdAt desc){
+      '_id': _id,
+      '_createdAt': _createdAt,
+      'commission': commission,
+      ${userAndReferrerFields}
+    }`, { userId }
+    ).catch(error => {
+      console.log('getAllValidRefer error', error)
+      return res.status(500).json({ message: "error", error })
+    })
+    if (data) {
+      return res.status(200).json({ message: "success", data })
+    }
+    return res.status(500).json({ message: "error" })
+  }
 
   res.status(200).json({ message: '...' })
 }
