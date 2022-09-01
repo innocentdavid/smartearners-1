@@ -14,6 +14,7 @@ import record from './record'
 import paymentProof from './paymentProof'
 import withdraw from './withdraw'
 import irc from './investmentReturnCommission'
+import company from './company'
 
 export default createSchema({
   name: 'default',
@@ -29,5 +30,6 @@ export default createSchema({
     referral,
     record,
     withdraw,
+    company,
   ]),
 })

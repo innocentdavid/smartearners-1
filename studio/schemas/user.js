@@ -78,6 +78,21 @@ export default {
       title: 'Last Withdraw Date',
       type: 'string',
     },
+    {
+      name: 'accountNumber',
+      title: 'Account Number',
+      type: 'number',
+    },
+    {
+      name: 'accountName',
+      title: 'Account Name',
+      type: 'string',
+    },
+    {
+      name: 'bank',
+      title: 'Bank',
+      type: 'string',
+    },
   ],
 
   preview: {

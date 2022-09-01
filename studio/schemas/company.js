@@ -1,6 +1,6 @@
 export default {
-  name: 'paymentProof',
-  title: 'PaymentProof',
+  name: 'company',
+  title: 'Company',
   type: 'document',
   fields: [
     {

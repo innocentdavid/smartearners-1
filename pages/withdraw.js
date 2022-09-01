@@ -46,7 +46,6 @@ export default function Withdraw() {
     }
   }, [user])
 
-
   const handleWithdraw = async (e) => {
     e.preventDefault();
 
@@ -63,31 +62,44 @@ export default function Withdraw() {
       return;
     }
 
-    // run withdraw
-    document.querySelector('#generalLoading').classList.remove('hidden')
-    document.querySelector('#generalLoading').classList.add('grid')
-    try {
-      const response = await fetch('/api/withdraw', {
-        method: 'POST',
-        body: JSON.stringify(['withdraw', user, amountToWithdraw]),
-        type: 'application/json'
-      })
-      const res = await response.json()
-      console.log(res)
-      if (response.status == 200) {
-        alert('Your request has been submited successfully')
-        router.reload();
+    if(!user.accountNumber){
+      alert("You have not provided your account number")
+      router.push('/updateAccount')
+      return;
+    }
+
+    if(user){
+      // run withdraw
+      document.querySelector('#generalLoading').classList.remove('hidden')
+      document.querySelector('#generalLoading').classList.add('grid')
+      try {
+        const response = await fetch('/api/withdraw', {
+          method: 'POST',
+          body: JSON.stringify(['withdraw', user, parseInt(amountToWithdraw)]),
+          type: 'application/json'
+        })
+        const res = await response.json()
+        console.log(res)
+        if (response.status == 200) {
+          alert('Your request has been submited successfully')
+          router.reload();
+          document.querySelector('#generalLoading').classList.remove('grid')
+          document.querySelector('#generalLoading').classList.add('hidden')
+          return;
+        }
+      } catch (err) {
+        console.log(err)
         document.querySelector('#generalLoading').classList.remove('grid')
         document.querySelector('#generalLoading').classList.add('hidden')
-        return;
       }
-    } catch (err) {
-      console.log(err)
       document.querySelector('#generalLoading').classList.remove('grid')
       document.querySelector('#generalLoading').classList.add('hidden')
+    }else{
+      alert('you have to login to be here!');
+      document.querySelector('#generalLoading').classList.remove('grid')
+      document.querySelector('#generalLoading').classList.add('hidden')
+      return;
     }
-    document.querySelector('#generalLoading').classList.remove('grid')
-    document.querySelector('#generalLoading').classList.add('hidden')
   }
 
   return (
