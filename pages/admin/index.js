@@ -92,6 +92,8 @@ export default function Admin({ allPaymentProofs, allWithdrawRequest }) {
         type: 'application/json'
       })
       if (response.status == 200) {
+        const res = await response.json()
+        console.log(res)
         router.reload();
         document.querySelector('#generalLoading').classList.remove('grid')
         document.querySelector('#generalLoading').classList.add('hidden')
