@@ -184,7 +184,7 @@ export default async function user(req, res) {
     const user = b[2]
     const amount = b[3]
     const userId = user._id
-    const referrerId = user.referrer._ref
+    const referrerId = user?.referrer?._ref
     const UserWasValid = user.isValid
 
     await client
