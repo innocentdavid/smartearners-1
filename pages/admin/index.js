@@ -31,6 +31,8 @@ export default function Admin({ allPaymentProofs, allWithdrawRequest }) {
     }
   }, [status, user])
 
+  // hello
+
   const clearAllOrder = () => {
     const mutations = [
       {
