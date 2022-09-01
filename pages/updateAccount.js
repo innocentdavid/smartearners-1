@@ -9,7 +9,7 @@ export default function UpdateAccount() {
   const router = useRouter()
   const user = useContext(AuthContext)
   const [accDetails, setAccDetails] = useState({ number: null, name: '', bank: "" })
-  const { status, data } = useSession();
+  const { status } = useSession();
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -84,7 +84,6 @@ export default function UpdateAccount() {
               <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                 {/* <BsPhone size="20px" /> */}
                 <input required type="number" name="tel" id="redTel" className="w-full bg-transparent outline-none border-none"
-                  required
                   onChange={(e) => { setAccDetails({ ...accDetails, number: e.target.value }) }}
                   value={accDetails.number} />
               </div>
@@ -95,7 +94,6 @@ export default function UpdateAccount() {
               <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                 {/* <BsLock size="20px" /> */}
                 <input required type="text" name="name" className="w-full bg-transparent outline-none border-none"
-                  required
                   onChange={(e) => { setAccDetails({ ...accDetails, name: e.target.value }) }}
                   value={accDetails.name} />
               </div>
@@ -106,7 +104,6 @@ export default function UpdateAccount() {
               <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                 {/* <BsLock size="20px" /> */}
                 <input required type="text" name="bank" className="w-full bg-transparent outline-none border-none"
-                  required
                   onChange={(e) => { setAccDetails({ ...accDetails, bank: e.target.value }) }}
                   value={accDetails.bank} />
               </div>
