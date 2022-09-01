@@ -11,7 +11,7 @@ import { useSession } from 'next-auth/react';
 export default function Admin({ allPaymentProofs, allWithdrawRequest }) {
   const router = useRouter()
   const user = useContext(AuthContext)
-  const { status, data } = useSession();
+  const { status } = useSession();
   const tabsData = [
     { label: "Proof Of Payment", content: "" },
     { label: "Withdraw Request", content: "" },
