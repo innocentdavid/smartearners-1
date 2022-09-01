@@ -20,6 +20,7 @@ export default async function user(req, res) {
     await client
       .patch(user._id)
       .dec({ tbalance: amount })
+      .set({ lastWithdrawDate: new Date() })
       .commit()
       .catch(error => {
         // console.log('update user profile', error)

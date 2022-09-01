@@ -29,8 +29,10 @@ export default function Orders() {
         orders?.order && setOrderItems(orders.order)
       }
     }
-    fetch()
-  }, [])
+    if(user){
+      fetch()
+    }
+  }, [user])
 
   if (status === 'loading') {
     return (
@@ -52,11 +54,13 @@ export default function Orders() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <nav className="flex justify-between border-b border-[#ccc] bg-black text-white py-5 px-8 md:px-36">
+        <nav className="flex justify-between items-center border-b border-[#ccc] bg-black text-white py-5 px-8 md:px-36">
           <div className="bg-[#fff] text-black font-['Poppins'] font-bold px-3 h-[35px] flex items-center select-none cursor-pointer uppercase" onClick={() => { router.push('/') }}>SMART Earners</div>
 
           <div className="flex items-center gap-5 text-[.8rem] ">
-            {/* <div className="flex flex-col items-center"><div>Obtained</div><div>Already</div><strong id="oa">N{user?.roi}</strong></div> */}
+            <div className="flex flex-col items-center">
+              <div className="text-center">Obtained<br />Already</div><strong id="oa">N{user?.roi}</strong>
+            </div>
             {/* <div className="flex flex-col items-center"><div>Current</div><div>Daily Return</div> <strong className="">N<span id="cdr">0</span></strong></div> */}
           </div>
         </nav>
@@ -100,7 +104,7 @@ const OrderCard = ({ order }) => {
     const launchedTime = moment(order._createdAt).format('h:mm, MMM Do, YYYY')
     var now = new Date().getTime();
     var gap = now - createdAt;
-    const daysServed = Math.floor(gap/(1000*3600*24))
+    const daysServed = Math.floor(gap / (1000 * 3600 * 24))
     const obtained = daysServed * dailyReturn;
     const daysRemaining = returnPeriod - daysServed;
 

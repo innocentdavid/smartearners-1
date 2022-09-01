@@ -56,6 +56,12 @@ export default {
       readOnly: true,
     },
     {
+      name: 'lastMined',
+      title: 'Last Mined',
+      type: 'string',
+      // readOnly: true,
+    },
+    {
       name: 'userId',
       title: 'User Id',
       type: 'string',
@@ -73,7 +79,14 @@ export default {
 
   preview: {
     select: {
-      title: 'planTitle'
+      title: 'planTitle',
+      user: 'userTel'
     }
+  },
+  prepare(selection) {
+    const {user} = selection
+    return Object.assign({}, selection, {
+      subtitle: user
+    })
   }
 }

@@ -13,46 +13,73 @@ export default function Withdraw() {
   const user = useContext(AuthContext)
   const balance = user?.tbalance + user?.roi + user?.ri + user?.vrs
   const tabsData = [
-    {label: "Withdrawal Record", content:""},
-    {label: "Balance Record", content:""},
+    { label: "Withdrawal Record", content: "" },
+    { label: "Balance Record", content: "" },
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [amountToWithdraw, setAmountToWithdraw] = useState();
 
   const [withdrawRecord, setWithdrawRecord] = useState([])
   const [balanceRecord, setBalanceRecord] = useState([])
+  const [canWithdraw, setCanWithdraw] = useState(false)
 
   useEffect(() => {
     const fetch = async () => {
       const wr = await getAllWithDrawRecord(user?._id);
       const br = await getAllBalanceRecord(user?._id);
-      
-      if(wr?.message === 'success'){
+
+      if (wr?.message === 'success') {
         // console.log('setWithdrawRecord(wr?.res?.data)', wr?.res?.data)
         setWithdrawRecord(wr?.res?.data)
-      }else{
+      } else {
         alert(wr?.message)
         console.log(wr?.err)
       }
-      if(br?.message === 'success'){
+      if (br?.message === 'success') {
         // console.log('setBalanceRecord(br?.res?.data)', br?.res?.data)
         setBalanceRecord(br?.res?.data)
-      }else{
+      } else {
         alert(br?.message)
         console.log(br?.err)
       }
     }
-    if(user){
+    if (user) {
       fetch()
     }
   }, [user])
 
   useEffect(() => {
     // console.log(p)
-    if(p){
+    if (p) {
       setActiveTabIndex(parseInt(p))
     }
   }, [p])
+
+  const canWithdrawCheck = () => {
+    if(!user.lastWithdrawDate){
+      console.log(user.lastWithdrawDate)
+      return true
+    }
+    // console.log(user.lastWithdrawDate)
+    const lastWithdrawDate = new Date(user.lastWithdrawDate).getTime()
+    const now = new Date().getTime()
+    const gap = now - lastWithdrawDate
+    const dif = Math.floor(gap / (1000 * 3600 * 24))
+    // console.log(dif)
+    if (dif >= 1) {
+      return true
+    }
+    return false
+  }
+
+  useEffect(() => {
+    // console.log(p)
+    if (user) {
+      const cw = canWithdrawCheck()
+      // console.log(cw)
+      setCanWithdraw(cw)
+    }
+  }, [user])
 
   const handleWithdraw = async (e) => {
     e.preventDefault();
@@ -70,13 +97,17 @@ export default function Withdraw() {
       return;
     }
 
-    if(!user.accountNumber){
-      alert("You have not provided your account number")
-      router.push('/updateAccount')
-      return;
-    }
+    if (user) {
+      if (!user.accountNumber) {
+        alert("You have not provided your account number")
+        router.push('/updateAccount')
+        return;
+      }
+      if (!canWithdraw) {
+        alert('You can only withdraw once a day')
+        return;
+      }
 
-    if(user){
       // run withdraw
       document.querySelector('#generalLoading').classList.remove('hidden')
       document.querySelector('#generalLoading').classList.add('grid')
@@ -102,7 +133,7 @@ export default function Withdraw() {
       }
       document.querySelector('#generalLoading').classList.remove('grid')
       document.querySelector('#generalLoading').classList.add('hidden')
-    }else{
+    } else {
       alert('you have to login to be here!');
       document.querySelector('#generalLoading').classList.remove('grid')
       document.querySelector('#generalLoading').classList.add('hidden')
@@ -223,7 +254,7 @@ export default function Withdraw() {
                 return (<>
                   <div key={record._id} className="">
                     <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
-                      <div>{index+1}</div>
+                      <div>{index + 1}</div>
                       <div>{moment(new Date(record?._createdAt)).format('MM-D-YY')}</div>
                       <div className="text-gray-200">|</div>
                       <div>{record.title}</div>
@@ -239,7 +270,7 @@ export default function Withdraw() {
             </>}
           </div>
         </section>
-      
+
       </main>
     </>
   )

@@ -130,7 +130,7 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#9e9292] mb-1 ">Password</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
-                  <input required type="password" name="password" id="lPassword" autoComplete="new-password" className="w-full bg-transparent outline-none border-none"
+                  <input required type="password" name="password" id="lPassword" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setLoginDetails({ ...loginDetails, password: e.target.value }) }}
                     value={loginDetails.password} />
                 </div>
@@ -164,7 +164,7 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Password</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
-                  <input required type="password" name="password" id="RegPassword" autoComplete="new-password" className="w-full bg-transparent outline-none border-none"
+                  <input required type="password" name="password" id="RegPassword" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setUserDetails({ ...userDetails, password: e.target.value }) }}
                     value={userDetails.password} />
                 </div>
@@ -174,7 +174,7 @@ export default function Login() {
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Confirm Password</p>
                 <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
                   <BsLock size="20px" />
-                  <input required type="password" name="cpassword" id="cRegPassword" autoComplete="current-password" className="w-full bg-transparent outline-none border-none"
+                  <input required type="password" name="cpassword" id="cRegPassword" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setUserDetails({ ...userDetails, cPassword: e.target.value }) }}
                     value={userDetails.cPassword} />
                 </div>

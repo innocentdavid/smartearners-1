@@ -60,11 +60,12 @@ export default function Profile() {
     }
     if (canMine) {
       const res = await updateUserPortfolio(user)
-      console.log(res)
-      setCanMine(false)
+      if(res.message === 'success'){
+        alert('You have successfully mined all your reward')
+        setCanMine(false)
+      }
     }
   }
-
 
   if (status === 'loading') {
     return (

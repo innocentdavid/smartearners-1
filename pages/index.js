@@ -137,19 +137,23 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
           type: 'application/json'
         })
         const res = await response.json()
-        console.log(res.message)
-        if(res.message !== 'error'){
+        if (res.message !== 'error') {
           res.message && alert(res?.message)
           hideModal()
-          router.push('/orders')
+          window.location="/orders"
+          document.querySelector('#generalLoading').classList.remove('grid')
+          document.querySelector('#generalLoading').classList.add('hidden')
           return;
         }
+        hideModal()
+        console.log(res)
       } catch (err) {
         console.log(err)
+        hideModal()
       }
-      router.push('/orders')
       hideModal()
-    }else{
+      router.push('/orders')
+    } else {
       alert('You have to log in first!')
     }
     document.querySelector('#generalLoading').classList.remove('grid')

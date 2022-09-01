@@ -9,13 +9,29 @@ export default async function user(req, res) {
     console.log(user?.myTicket, plan?.da)
 
     if (user?.myTicket >= plan?.da) {
-      const createOrder = await client.create({
+      const userValidRefers = await client.fetch(`*[_type == "validRef" && referrer._ref == $userId] | order(_createdAt desc)`, { userId: user._id }
+      ).catch(error => {
+        // console.log('getAllBalanceRecord error', error)
+        // return res.status(500).json({ message: "error", error })
+      })
+      
+      if(plan.title === 'Level 07' && userValidRefers?.length < 3){
+        return res.status(500).json({ message: "You must have 3 active level 3 members" })
+      }
+      
+      if(plan.title === 'Level 08' && userValidRefers?.length < 4){
+        return res.status(500).json({ message: "You must have 3 active level 4 members" })
+      }
+
+      // const createOrder = 
+      await client.create({
         _type: 'order',
         planId: plan?._id,
         planTitle: plan?.title,
         percentage: plan?.percentage,
         da: plan?.da,
         dr: plan?.dr,
+        active: true,
         returnPeriod: plan?.returnPeriod,
         drTime: plan?.drTime,
         userId: user?._id,
@@ -27,12 +43,12 @@ export default async function user(req, res) {
         })
       // console.log('createOrder', createOrder)
 
-      const updateTbalance = await client.patch(user?._id).dec({ myTicket: plan.da }).commit()
+      // const updateTbalance = 
+      await client.patch(user?._id).dec({ myTicket: plan.da }).commit()
         .catch(error => {
-          console.log('update user profile', error)
-          res.status(500).json({ message: error })
+          // console.log('update user profile', error)
+          res.status(500).json({ message: 'error', error })
         })
-      // console.log('updateTbalance', updateTbalance)
 
       res.status(200).json({ message: 'success' })
     }
@@ -52,7 +68,7 @@ export default async function user(req, res) {
         console.log('update user profile', error)
         return res.status(500).json({ message: 'failed', error })
       })
-      return res.status(200).json({ message: 'success' })
+    return res.status(200).json({ message: 'success' })
   }
 
   // page == profile.js through lib/api.js
@@ -76,11 +92,11 @@ export default async function user(req, res) {
           return res.status(500).json({ message: 'failed', error })
         })
 
-      if(a){
+      if (a) {
         // create daily return record
         await client.create({
           _type: 'dailyReturn',
-          investmentPlan: {_type: 'reference', _ref: item.planId},
+          investmentPlan: { _type: 'reference', _ref: item.planId },
         }).catch(error => {
           console.log('update user profile', error)
         })
@@ -91,12 +107,12 @@ export default async function user(req, res) {
         }).catch(error => {
           console.log('update user profile', error)
         })
-  
+
         // give referrer 2% of the earning
         if (user.referrer?._ref) {
           const dr = parseInt(item.dr)
           const commission = 0.02 * dr
-  
+
           await client
             .patch(user.referrer?._ref)
             .inc({ ri: commission })
@@ -105,7 +121,7 @@ export default async function user(req, res) {
               console.log('update user profile', error)
               // return res.status(500).json({ message: 'failed', error })
             })
-  
+
           // createBalanceRecord for referrer
           await client.create({
             _type: 'record', title: 'L12%Commission', category: 'balanceRecord', type: 'income', amount: commission, remaining: 0, userId: user.referrer?._ref,
@@ -113,7 +129,7 @@ export default async function user(req, res) {
             console.log('update user profile', error)
             // return res.status(500).json({ message: 'failed', error })
           })
-  
+
           // irc Record for referrer
           await client.create({
             _type: 'irc', user: { _type: 'reference', _ref: user._id }, referrer: { _type: 'reference', _ref: user?.referrer._ref }, commission
