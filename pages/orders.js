@@ -100,16 +100,9 @@ const OrderCard = ({ order }) => {
     const launchedTime = moment(order._createdAt).format('h:mm, MMM Do, YYYY')
     var now = new Date().getTime();
     var gap = now - createdAt;
-    var second = 1000;
-    var minute = second * 60;
-    var hour = minute * 60;
-    var day = hour * 24;
-
-    const d = Math.floor(gap / (day))
-
-    const daysServed = d;
-    const obtained = d * dailyReturn;
-    const daysRemaining = returnPeriod - d;
+    const daysServed = Math.floor(gap/(1000*3600*24))
+    const obtained = daysServed * dailyReturn;
+    const daysRemaining = returnPeriod - daysServed;
 
     const showModal = () => {
       const modal = document.querySelector(`#modal${id}`)
@@ -155,7 +148,7 @@ const OrderCard = ({ order }) => {
             <div className="flex justify-between mt-5">
               <div className="">
                 <div className="">Status</div>
-                <div className="font-bold ">{order && order.status ? order.status : 'Active'} | Day {d}</div>
+                <div className="font-bold ">{order && order.status ? order.status : 'Active'} | Day {daysServed}</div>
               </div>
 
               <div className="text-end">
