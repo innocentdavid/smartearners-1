@@ -1,6 +1,6 @@
 import { getSession, signIn, providers, csrfToken } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsPhone, BsLock } from 'react-icons/bs'
 
 export default function Login() {
@@ -13,6 +13,13 @@ export default function Login() {
     { label: "Sign up", content: "" },
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+  useEffect(() => {
+    console.log(rf)
+    if(rf){
+      setActiveTabIndex(1)
+    }
+  }, [rf])
 
   const handleLogIn = async (e) => {
     e.preventDefault();

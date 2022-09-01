@@ -9,6 +9,7 @@ import { getAllBalanceRecord, getAllWithDrawRecord } from '../lib/functions';
 
 export default function Withdraw() {
   const router = useRouter()
+  const { p } = router.query
   const user = useContext(AuthContext)
   const balance = user?.tbalance + user?.roi + user?.ri + user?.vrs
   const tabsData = [
@@ -45,6 +46,13 @@ export default function Withdraw() {
       fetch()
     }
   }, [user])
+
+  useEffect(() => {
+    // console.log(p)
+    if(p){
+      setActiveTabIndex(parseInt(p))
+    }
+  }, [p])
 
   const handleWithdraw = async (e) => {
     e.preventDefault();
@@ -126,7 +134,7 @@ export default function Withdraw() {
           </div>
 
           <div className="flex gap-3 font-['Metric-Medium'] text-[15px] mt-10">
-            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">24 / 7 Auto</div>
+            <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">Daily Mining</div>
             <div className="px-3 py-1 bg-[#fff3dc] text-[#ffa600] rounded-[5px]">Daily Max 1 Requests</div>
           </div>
           <div className="flex gap-3 font-['Metric-Medium'] text-[15px] mt-3">
@@ -168,7 +176,7 @@ export default function Withdraw() {
               );
             })}
           </div>
-          <div className="py-4">
+          <div className="py-4" id="record">
             {activeTabIndex == 0 ? <>
               <div className="">
                 <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">

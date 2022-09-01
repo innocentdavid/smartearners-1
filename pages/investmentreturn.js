@@ -34,7 +34,7 @@ export default function Investmentreturn() {
       let res = await getAllIrc(user._id)
       if (res.message == 'success') {
         const data = res.res.data
-        console.log(data)
+        // console.log(data)
         setRecords(data)
       }
     }
@@ -103,7 +103,7 @@ export default function Investmentreturn() {
                   <li className="font-['Metric-Regular'] border-r border-gray-300 flex flex-col justify-center items-center text-center w-[30%]"><p>{moment(new Date(record._createdAt)).format('MM-D-YY')}</p> </li>
                   <li className="font-['Metric-Regular'] border-r border-gray-300 flex flex-col justify-center items-center text-center w-[30%]"><p>{record.user.tel}</p></li>
                   <li className="font-['Metric-Regular'] flex flex-col justify-center items-center text-center w-[30%]">
-                    <p>{record.commission}</p>
+                    <p>₦{record.commission}</p>
                   </li>
                 </ul>
               </div>

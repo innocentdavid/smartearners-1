@@ -24,25 +24,29 @@ export default function Profile() {
 
   useEffect(() => {
     if (user) {
-      if(!user?.lastChecked){
-        const resgisteredAt = new Date(user._createdAt).getTime()
-        const now = new Date().getTime()
-        const gap = now - resgisteredAt
-        const dif = Math.floor(gap/(1000*3600*24))
-        if(dir >= 1){
-          setCanMine(true)
-          return
-        }
-        return
+      if (!user?.lastChecked) {
+        setCanMine(true)
+        return;
+        // const resgisteredAt = new Date(user._createdAt).getTime()
+        // const now = new Date().getTime()
+        // const gap = now - resgisteredAt
+        // const dif = Math.floor(gap/(1000*3600*24))
+        // if(dif >= 1){
+        //   setCanMine(true)
+        //   return
+        // }
+        // return
       }
       const lastChecked = new Date(user?.lastChecked).getTime()
-      const now = new Date().getTime()
-      const gap = now - lastChecked
-      const dif = (gap) / (1000 * 3600 * 24)
-      if(Math.floor(dif) >= 1) {
-        setCanMine(true)
-      }else{
-        setCanMine(false);
+      if(lastChecked){
+        const now = new Date().getTime()
+        const gap = now - lastChecked
+        const dif = (gap) / (1000 * 3600 * 24)
+        if (Math.floor(dif) >= 1) {
+          setCanMine(true)
+        } else {
+          setCanMine(false);
+        }
       }
     }
   }, [user])
@@ -51,9 +55,10 @@ export default function Profile() {
     // console.log(user)
     if (!user?._id) {
       alert('You have to login first!')
+      router.push('/')
       return;
     }
-    if(canMine){
+    if (canMine) {
       const res = await updateUserPortfolio(user)
       console.log(res)
       setCanMine(false)
@@ -127,14 +132,14 @@ export default function Profile() {
               </a>
             </Link>
 
-            <Link href="/team">
-              <a className="w-1/2 md:w-1/3 flex justify-center items-center">
-                <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">My Team</div>
-              </a>
-            </Link>
             <Link href="/withdraw">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Withdraw</div>
+              </a>
+            </Link>
+            <Link href="/team">
+              <a className="w-1/2 md:w-1/3 flex justify-center items-center">
+                <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">My Team</div>
               </a>
             </Link>
             {/* <Link href="#">
@@ -162,6 +167,16 @@ export default function Profile() {
             <Link href="/orders">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">My Orders</div>
+              </a>
+            </Link>
+            <Link href="/withdraw?p=1#record">
+              <a className="w-1/2 md:w-1/3 flex justify-center items-center">
+                <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Balance Record</div>
+              </a>
+            </Link>
+            <Link href="/withdraw?p=0#record">
+              <a className="w-1/2 md:w-1/3 flex justify-center items-center">
+                <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Withraw Record</div>
               </a>
             </Link>
             <Link href="#">

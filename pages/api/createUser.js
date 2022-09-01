@@ -27,18 +27,19 @@ export default async function createUser(req, res) {
           var data = {}
           if (rf) {
             data = {
-              _type: 'user', tel, password: hash, level: 1, lastChecked: new Date(), roi: 0, ri: 0, myTicket: 0, vrs: 0, tbalance: 300, referrer: { _type: 'reference', _ref: rf, },
+              _type: 'user', tel, password: hash, level: 1, roi: 0, ri: 0, myTicket: 0, vrs: 0, tbalance: 300, referrer: { _type: 'reference', _ref: rf, },
             }
           } else {
             data = {
-              _type: 'user', tel, password: hash, level: 1, lastChecked: new Date(), roi: 0, ri: 0, myTicket: 0, vrs: 0, tbalance: 300,
+              _type: 'user', tel, password: hash, level: 1, roi: 0, ri: 0, myTicket: 0, vrs: 0, tbalance: 300,
             }
           }
   
           const newUser = await client.create(data)
-          console.log(newUser)
+          // console.log(newUser)
   
-          const createOrder = await client.create({
+          const createOrder = 
+          await client.create({
             _type: 'order',
             planId: 'drafts.a73d9975-f00c-4078-81c2-209ac7776584',
             planTitle: 'Signup Bonus',
@@ -51,7 +52,8 @@ export default async function createUser(req, res) {
             userTel: newUser?.tel
           })
   
-          const createBalanceRecord = await client.create({
+          // const createBalanceRecord = 
+          await client.create({
             _type: 'record',
             title: 'Signup Bonus',
             category: 'balanceRecord',
@@ -63,10 +65,13 @@ export default async function createUser(req, res) {
           })
   
           if (rf) {
-            const create_Referral_Record = await client.create({
+            // const create_Referral_Record = 
+            await client.create({
               _type: 'referral',
               user: { _type: 'reference', _ref: newUser?._id, },
               referrer: { _type: 'reference', _ref: rf, },
+            }).catch(err => {
+              console.log(err)
             })
           }
   

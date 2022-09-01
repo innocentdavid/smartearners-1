@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 
 export default function ImageUploader({ user, amount }) {
+  const router = useRouter()
   const dropbox = useRef(null);
   const fileSelect = useRef(null);
   const [image, setImage] = useState(); // '/images/withdraw-1.png'
@@ -13,17 +15,17 @@ export default function ImageUploader({ user, amount }) {
   }
 
   function handleFiles(files) {
-    console.log("handling Files");
-    console.log(files);
+    // console.log("handling Files");
+    // console.log(files);
     for (let i = 0; i < files.length; i++) {
-      console.log(files[i]);
+      // console.log(files[i]);
       uploadFile(files[i]);
     }
   }
 
   function uploadFile(file) {
-    const NEXT_PUBLIC_CLOUDINARY_CLOUDNAME = 'code-cent' // get this from .env
-    const NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET = 'sjoawypm' // get this from .env
+    const NEXT_PUBLIC_CLOUDINARY_CLOUDNAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUDNAME // 'code-cent' // get this from .env
+    const NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET // 'sjoawypm' // get this from .env
 
     const url = `https://api.cloudinary.com/v1_1/${NEXT_PUBLIC_CLOUDINARY_CLOUDNAME}/upload`;
     const xhr = new XMLHttpRequest();
@@ -33,16 +35,16 @@ export default function ImageUploader({ user, amount }) {
 
     // Update progress (can be used to show progress indicator)
     xhr.upload.addEventListener("progress", (e) => {
+      // console.log(Math.round((e.loaded * 100.0) / e.total));
       setProgress(Math.round((e.loaded * 100.0) / e.total));
-      console.log(Math.round((e.loaded * 100.0) / e.total));
     });
 
     xhr.onreadystatechange = (e) => {
       if (xhr.readyState == 4 && xhr.status == 200) {
         const response = JSON.parse(xhr.responseText);
 
+        // console.log(response.secure_url);
         setImage(response.secure_url);
-        console.log(response.secure_url);
       }
     };
 
@@ -60,7 +62,7 @@ export default function ImageUploader({ user, amount }) {
   }
 
   async function handleSave() {
-    console.log(image);
+    // console.log(image);
     try {
       const response = await fetch('/api/user', {
         method: 'POST',
@@ -68,9 +70,11 @@ export default function ImageUploader({ user, amount }) {
         type: 'application/json'
       })
       const res = await response.json()
-      console.log(res.message)
-      alert(res.message)
-      router.push('/')
+      // console.log(res.message)
+      if(res.message === 'success'){
+        alert('Your request has been received and will be processed.');
+        router.push('/')
+      }
     } catch (err) {
       console.log(err)
     }
@@ -97,14 +101,14 @@ export default function ImageUploader({ user, amount }) {
       handleFiles(files);
     }
 
-    dropbox.current.addEventListener("dragenter", dragEnter, false);
-    dropbox.current.addEventListener("dragover", dragOver, false);
-    dropbox.current.addEventListener("drop", drop, false);
+    dropbox?.current?.addEventListener("dragenter", dragEnter, false);
+    dropbox?.current?.addEventListener("dragover", dragOver, false);
+    dropbox?.current?.addEventListener("drop", drop, false);
 
     return () => {
-      dropbox.current.removeEventListener("dragenter", dragEnter);
-      dropbox.current.removeEventListener("dragover", dragOver);
-      dropbox.current.removeEventListener("drop", drop);
+      dropbox?.current?.removeEventListener("dragenter", dragEnter);
+      dropbox?.current?.removeEventListener("dragover", dragOver);
+      dropbox?.current?.removeEventListener("drop", drop);
     };
   }, []);
 

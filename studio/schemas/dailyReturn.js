@@ -12,7 +12,7 @@ export default {
     },
     {
       name: 'order',
-      title: 'Lv1s Orders',
+      title: 'Level 1 Orders',
       type: 'number',
     }
   ],

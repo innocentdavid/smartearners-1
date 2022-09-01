@@ -60,9 +60,13 @@ export default async function user(req, res) {
     const itemId = b[1]
     const user = b[2]
     const amount = b[3]
-    const userId = user._id
-    const referrerId = user.referrer._ref
-    const UserWasValid = user.isValid
+    const userId = user?._id
+    const referrerId = user?.referrer?._ref
+    const UserWasValid = user?.isValid
+
+    if (!itemId) {
+      return res.status(500).json({ message: "an error occured", error })
+    }
 
     await client
       .patch(itemId)
@@ -70,26 +74,29 @@ export default async function user(req, res) {
       .commit()
       .catch(error => {
         // console.log('update user profile', error)
+        return res.status(500).json({ message: "an error occured", error })
       })
 
     // if user was not valid then this is his new time to be validated, so add him to valid refer and credit his referrer if any
-    if (!UserWasValid && referrerId) {
+    if (!UserWasValid) {
       await client.create({
         _type: 'validRef',
         user: { _type: 'reference', _ref: userId, },
         referrer: { _type: 'reference', _ref: referrerId, },
       }).catch(error => {
-        console.log('paymentProof', error)
-        return res.status(500).json({ message: "an error occured", error })
+        // console.log('paymentProof', error)
+        // return res.status(500).json({ message: "an error occured", error })
       })
+      if (referrerId) {
+        await client
+          .patch(referrerId)
+          .inc({ myTicket: amount })
+          .commit()
+          .catch(error => {
+            // console.log('update user profile', error)
+          })
+      }
 
-      await client
-        .patch(referrerId)
-        .inc({ myTicket: amount })
-        .commit()
-        .catch(error => {
-          console.log('update user profile', error)
-        })
     }
 
     // commission....

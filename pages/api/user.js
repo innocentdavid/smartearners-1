@@ -77,7 +77,15 @@ export default async function user(req, res) {
         })
 
       if(a){
-        // createBalanceRecord for user
+        // create daily return record
+        await client.create({
+          _type: 'dailyReturn',
+          investmentPlan: {_type: 'reference', _ref: item.planId},
+        }).catch(error => {
+          console.log('update user profile', error)
+        })
+
+        // createBalance Record for user
         await client.create({
           _type: 'record', title: item.planTitle, category: 'balanceRecord', type: 'income', amount: item.dr, remaining: 0, userId: user._id, userTel: user.tel
         }).catch(error => {
@@ -100,7 +108,7 @@ export default async function user(req, res) {
   
           // createBalanceRecord for referrer
           await client.create({
-            _type: 'record', title: 'L12%Commission', category: 'balanceRecord', type: 'income', amount: item.dr, remaining: 0, userId: user._id, userTel: user.tel
+            _type: 'record', title: 'L12%Commission', category: 'balanceRecord', type: 'income', amount: commission, remaining: 0, userId: user.referrer?._ref,
           }).catch(error => {
             console.log('update user profile', error)
             // return res.status(500).json({ message: 'failed', error })
@@ -108,7 +116,7 @@ export default async function user(req, res) {
   
           // irc Record for referrer
           await client.create({
-            _type: 'irc', user: { _type: 'reference', _ref: user._id }, referrer: { _type: 'reference', _ref: user.referrer_ref }, commission
+            _type: 'irc', user: { _type: 'reference', _ref: user._id }, referrer: { _type: 'reference', _ref: user?.referrer._ref }, commission
           }).catch(error => {
             console.log('update user profile', error)
             return res.status(500).json({ message: 'failed', error })

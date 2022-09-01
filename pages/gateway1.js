@@ -10,12 +10,6 @@ export default function Gateway1() {
   const router = useRouter()
   const { ticket } = router.query
   const user = useContext(AuthContext)
-  const tabsData = [
-    { label: "Withdrawal Record", content: "", },
-    { label: "Balance Record", content: "", },
-  ];
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
-
   const [company, setCompany] = useState(null)
 
   useEffect(() => {
@@ -53,7 +47,7 @@ export default function Gateway1() {
           <p className="my-8 text-center font-bold text-xl">Transfer the sum of <span className="text-[#ffa600]">₦{ticket}</span> to the account below</p>
 
           <div className="flex flex-col justify-center items-center font-bold">
-            <div className="px-8 py-3 text-[#ffa600] border border-[#ffa600] text-center ">{company && company.accNo ? company.accNo : 34342334090}</div>
+            <div className="px-8 py-3 text-[#ffa600] border border-[#ffa600] text-center ">{company?.accNo}</div>
             <div>{company?.accName}</div>
             <div>{company?.bank}</div>
           </div>
@@ -68,9 +62,6 @@ export default function Gateway1() {
 
           <div className="mx-3">
             <ImageUploader user={user} amount={ticket} />
-            {/* <div className="w-[200px] h-[200px] border bg-gray-400"></div>
-
-            <div className="bg-[#ffa600] py-2 px-5 mt-4 font-bold">UPLOAD PROOF OF PAYMENT</div> */}
           </div>
           <br />
           <hr />
