@@ -99,7 +99,7 @@ export default function Team() {
           <div className="px-4 py-4 shadow-lg rounded-b-[10px] text-[.9rem] bg-[#fff] text-black">
             <div className="">
               <p>Please copy your exclusive referral link:</p>
-              <p><a href={`https://smartearners.vercel.app/login/login?rf=${user?._id}`}>https://smartearners.vercel.app/login/login?rf={user?._id}</a></p>
+              <p><a href={`https://smartearners.vercel.app/login?rf=${user?._id}`}>https://smartearners.vercel.app/login?rf={user?._id}</a></p>
             </div>
 
             <div className="bg-[#ffa500] text-white h-[35px] w-full flex justify-center items-center mt-8 text-lg font-bold cursor-pointer" onClick={() => { navigator.clipboard.writeText(`https://smartearners.vercel.app/login?rf=${user?._id}`); alert('copied!') }}>Copy</div>

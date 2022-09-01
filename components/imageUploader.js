@@ -24,8 +24,8 @@ export default function ImageUploader({ user, amount }) {
   }
 
   function uploadFile(file) {
-    const NEXT_PUBLIC_CLOUDINARY_CLOUDNAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUDNAME // 'code-cent' // get this from .env
-    const NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET // 'sjoawypm' // get this from .env
+    const NEXT_PUBLIC_CLOUDINARY_CLOUDNAME = 'code-cent' // get this from .env
+    const NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET = 'sjoawypm' // get this from .env
 
     const url = `https://api.cloudinary.com/v1_1/${NEXT_PUBLIC_CLOUDINARY_CLOUDNAME}/upload`;
     const xhr = new XMLHttpRequest();
