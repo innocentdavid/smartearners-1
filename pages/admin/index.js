@@ -31,6 +31,8 @@ export default function Admin({ allPaymentProofs, allWithdrawRequest }) {
     }
   }, [status, user])
 
+  // hello
+
   const clearAllOrder = () => {
     const mutations = [
       {
@@ -166,7 +168,9 @@ export default function Admin({ allPaymentProofs, allWithdrawRequest }) {
                           <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">{data.userTel}</td>
                           <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦{data.amount}</td>
                           <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] relative">
-                            <img src={data.imageUrl} alt="" width="40px" height="30px" className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" />
+                            <Link href={data.imageUrl}><a target="_blank">
+                              <img src={data.imageUrl} alt="" width="40px" height="30px" className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" />
+                            </a></Link>
                           </td>
                           <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center relative">
                             {data.approved ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <MdOutlineSwitchRight className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] cursor-pointer"
@@ -210,8 +214,8 @@ export default function Admin({ allPaymentProofs, allWithdrawRequest }) {
                       <div>{request.status ? <span className="text-green-700">Confirmed</span> : <span className="text-yellow-700">Pending</span>}</div>
                       <div className="text-gray-200">|</div>
                       <div className="relative">{request.status ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl" /> : <MdOutlineSwitchRight className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl cursor-pointer"
-                              onClick={() => { approveWithdraw(request._id, request.amount) }}
-                            />}</div>
+                        onClick={() => { approveWithdraw(request._id, request.amount) }}
+                      />}</div>
                     </div>
                   </div>
                 </>)
