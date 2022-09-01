@@ -14,7 +14,7 @@ export default function Bonus() {
   const [level1, setLevel1] = useState()
   const [level2, setLevel2] = useState()
   const [level3, setLevel3] = useState()
-  // hello
+  // yes
 
   const getTotalDetails = (array) => {
     var tc = 0
