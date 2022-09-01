@@ -5,6 +5,7 @@ import { getAllPaymentProofs, getAllWithdrawRequest } from "../../lib/api"
 import { MdOutlineSwitchRight } from 'react-icons/md'
 import { BsArrowUp, BsPatchCheckFill } from 'react-icons/bs'
 import Head from "next/head"
+import Link from "next/link"
 import moment from "moment"
 import { useSession } from 'next-auth/react';
 
