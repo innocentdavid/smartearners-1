@@ -9,10 +9,12 @@ import Link from "next/link"
 import moment from "moment"
 import { useSession } from 'next-auth/react';
 
-export default function Admin({ allPaymentProofs, allWithdrawRequest }) {
+export default function Admin() {
   const router = useRouter()
   const user = useContext(AuthContext)
   const { status } = useSession();
+  const [allPaymentProofs, setAllPaymentProofs] = useState()
+  const [allWithdrawRequest, setAllWithdrawRequest] = useState()
   const tabsData = [
     { label: "Proof Of Payment", content: "" },
     { label: "Withdraw Request", content: "" },
@@ -31,6 +33,18 @@ export default function Admin({ allPaymentProofs, allWithdrawRequest }) {
       return;
     }
   }, [status, user])
+
+  useEffect(() => {
+    const fetch = async () => {
+      const app = await getAllPaymentProofs();
+      const awr = await getAllWithdrawRequest();
+      app && setAllPaymentProofs(app)
+      awr && setAllWithdrawRequest(awr)
+    }
+    if (user) {
+      fetch()
+    }
+  }, [user])
 
   // hello
 
@@ -233,14 +247,4 @@ export default function Admin({ allPaymentProofs, allWithdrawRequest }) {
     )
   }
   return (<>You are not allowed here!</>)
-}
-
-export async function getStaticProps(context) {
-  const allPaymentProofs = await getAllPaymentProofs();
-  const allWithdrawRequest = await getAllWithdrawRequest();
-
-  return {
-    props: { allPaymentProofs, allWithdrawRequest },
-    revalidate: 1
-  }
 }
