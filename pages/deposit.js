@@ -49,12 +49,15 @@ export default function Deposit() {
           type: 'application/json'
         })
         const res = await response.json()
-        // console.log(res)
-        alert(`You have successfully purchase ${ticket} tickets with your balance`)
-        setShowPaymentGateWay(false)
-        // signOut()
-        router.reload()
-        return;
+        if (res) {
+          alert(`You have successfully purchase ${ticket} tickets with your balance`)
+          setShowPaymentGateWay(false)
+          // signOut()
+          router.reload()
+          return;
+        } else {
+          console.log(res)          
+        }
       } catch (err) {
         console.log(err)
         alert('something went wrong!')

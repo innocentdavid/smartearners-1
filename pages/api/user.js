@@ -230,20 +230,20 @@ export default async function user(req, res) {
 
   if (b[0] === 'getValidRefers') {
     const referrerId = b[1]
-    return res.status(500).json({ message: "error", referrerId })
-    // const refer = await client.fetch(`*[_type == "validRef" && referrer._ref == $referrerId] | order(_createdAt desc)
-    //   {
-    //     'date': _createdAt,
-    //     'tel': user->{tel}
-    //   }`, { referrerId }
-    // ).catch(error => {
-    //   console.log('getrefers error', error)
-    //   return res.status(500).json({ message: "error", error })
-    // })
-    // if (refer) {
-    //   return res.status(200).json({ message: "success", refer })
-    // }
-    // return res.status(500).json({ message: "error" })
+    // return res.status(500).json({ message: "error", referrerId })
+    const refer = await client.fetch(`*[_type == "validRef" && referrer._ref == $referrerId] | order(_createdAt desc)
+      {
+        'date': _createdAt,
+        'tel': user->{tel}
+      }`, { referrerId }
+    ).catch(error => {
+      // console.log('getrefers error', error)
+      // return res.status(500).json({ message: "error", error })
+    })
+    if (refer) {
+      return res.status(200).json({ message: "success", refer })
+    }
+    return res.status(500).json({ message: "error" })
   }
 
   if (b[0] === 'getAllBalanceRecord') {
