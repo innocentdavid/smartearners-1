@@ -83,7 +83,7 @@ export default function Deposit() {
 
       <header className="bg-gray-800 text-white py-3 px-5 font-Josefin text-[16px]">
         <ul>
-          <li>All investment plans at Phoenix can only be purchased with tickets. Please click on any of packages below to buy some tickets first before you invest:</li>
+          <li>All investment plans at Smartearners can only be purchased with tickets. Please click on any of packages below to buy some tickets first before you invest:</li>
         </ul>
       </header>
 
