@@ -173,7 +173,7 @@ export default function Admin() {
         const res = await response.json()
         
         if (res.message === 'success') {
-          alert('success')
+          alert('success') //fgg
           console.log(res)
 
           router.reload();

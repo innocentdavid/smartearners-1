@@ -222,7 +222,7 @@ export default async function user(req, res) {
     const UserWasValid = user.isValid
 
     // credit user's 'myTicket' and make user a valid user
-    const res = await client
+    const resp = await client
       .patch(userId)
       .inc({ myTicket: amount })
       .commit()
@@ -233,8 +233,8 @@ export default async function user(req, res) {
 
     // return res.status(200).json({ message: "success", user })
 
-    if (!res) {
-      return res.status(500).json({ message: "an error occured", res })
+    if (!resp) {
+      return res.status(500).json({ message: "an error occured", resp })
     }
 
     const a = await client
@@ -249,16 +249,21 @@ export default async function user(req, res) {
 
 
     // if user was not valid then this is his new time to be validated, so add him to valid refer
-    if (!UserWasValid) {
-      await client.create({
-        _type: 'validRef',
-        user: { _type: 'reference', _ref: userId, },
-        referrer: { _type: 'reference', _ref: referrerId, },
-      }).catch(error => {
-        // console.log('paymentProof', error)
-        // res.status(500).json({ message: "an error occured", error })
-      })
+    try{
+      if (!UserWasValid && referrerId) {
+        await client.create({
+          _type: 'validRef',
+          user: { _type: 'reference', _ref: userId, },
+          referrer: { _type: 'reference', _ref: referrerId, },
+        }).catch(error => {
+          // console.log('paymentProof', error)
+          // res.status(500).json({ message: "an error occured", error })
+        })
+      }
+    }catch(error){
+
     }
+    
 
     // commission....
     try {
@@ -296,6 +301,7 @@ export default async function user(req, res) {
     } catch (error) {
       console.log(error)
     }
+
     return res.status(200).json({ message: "success" })
   }
 
