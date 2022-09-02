@@ -164,7 +164,7 @@ export default function Admin() {
     try {
       const response = await fetch('/api/user', {
         method: 'POST',
-        body: JSON.stringify(['approvePayment', itemId, user, amount]),
+        body: JSON.stringify(['approvePayment', itemId, userId, amount]),
         type: 'application/json'
       })
       if (response.status == 200) {
