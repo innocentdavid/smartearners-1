@@ -13,8 +13,8 @@ function MyApp({ Component, pageProps }) {
     </div>
     <SessionProvider 
     session={pageProps.session}
-    // Re-fetch session every 5 minutes
-    refetchInterval={5 * 60}
+    // Re-fetch session every 0.5 minutes
+    refetchInterval={30}
     // Re-fetches session when window is focused
     refetchOnWindowFocus={true}
     >

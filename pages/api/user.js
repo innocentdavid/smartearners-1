@@ -274,13 +274,11 @@ export default async function user(req, res) {
 
 
     // commission....
-    try {
+    // try {
       if (referrerId) {
         // Level 1 commission
         const commission1 = (10 * amount) / 100
-        await createRfCommision(referrerId, commission1, amount, 1).catch(err => {
-          console.log("user1111111111", err)
-        })
+        await createRfCommision(user, referrerId, commission1, amount, 1)
         
         const user1 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
         { id: referrerId }
@@ -292,7 +290,7 @@ export default async function user(req, res) {
         // Level 2 commission
         if (user1?.referrer?._id) {
           const commission2 = (5 * amount) / 100
-          await createRfCommision(user1.referrer._id, commission2, amount, 2)
+          await createRfCommision(user, user1.referrer._id, commission2, amount, 2)
           
           // Level 3 commission
           const user2 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
@@ -303,16 +301,16 @@ export default async function user(req, res) {
           })
           if (user2?.referrer?._id) {
             const commission3 = (2 * amount) / 100
-            await createRfCommision(user2.referrer._id, commission3, amount, 3)
+            await createRfCommision(user, user2.referrer._id, commission3, amount, 3)
           }
         } else {
           // return res.status(500).json({ message: 'an error occured', error })
         }
 
       }
-    } catch (error) {
-      console.log(error)
-    }
+    // } catch (error) {
+    //   console.log(error)
+    // }
 
     return res.status(200).json({ message: "success" })
   }
@@ -364,11 +362,12 @@ export default async function user(req, res) {
   res.status(200).json({ message: '...' })
 }
 
-const createRfCommision = async (user, commission, amount, level) => {
-  if (user.referrer) {
+const createRfCommision = async (user, referrerId, commission, amount, level) => {
+  console.log({user, referrerId, commission, amount, level})
+  if (user && referrerId) {
     // update referrer
     await client
-      .patch(user.referrer._id)
+      .patch(referrerId)
       .inc({ ri: commission })
       .commit()
       .catch(error => {
@@ -379,7 +378,7 @@ const createRfCommision = async (user, commission, amount, level) => {
       _type: 'rfCommission',
       commission, depositedAmount: amount, level,
       user: { _type: 'reference', _ref: user._id },
-      referrer: { _type: 'reference', _ref: user.referrer._id },
+      referrer: { _type: 'reference', _ref: referrerId },
     }).catch(error => {
       console.log('update user profile', error)
     })
