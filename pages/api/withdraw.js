@@ -37,8 +37,8 @@ export default async function withdraw(req, res) {
       status: 'pending',
       userId: user?._id,
       userTel: user?.tel,
-      accNo: user?.accNo,
-      accName: user?.accName,
+      accNo: user?.accountNumber,
+      accName: user?.accountName,
       bank: user?.bank,
     }).catch(error => {
       // console.log('createWithdrawal Record', error)
