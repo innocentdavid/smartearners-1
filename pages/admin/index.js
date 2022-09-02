@@ -173,8 +173,8 @@ export default function Admin() {
         const res = await response.json()
         
         if (res.message === 'success') {
-          alert('success') //fgg
-          console.log(res)
+          alert('success') 
+          console.log(res) //
 
           router.reload();
           document.querySelector('#generalLoading').classList.remove('grid')
