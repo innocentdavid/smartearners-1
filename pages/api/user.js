@@ -99,6 +99,7 @@ export default async function user(req, res) {
       // create daily return record
       let b = await client.create({
         _type: 'dailyReturn',
+        user: { _type: 'reference', _ref: user._id },
         investmentPlan: { _type: 'reference', _ref: item.planId },
       }).catch(error => {
         console.log('dailyReturn', error)
