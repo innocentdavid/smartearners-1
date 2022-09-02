@@ -75,6 +75,11 @@ export default {
       type: 'boolean',
     },
     {
+      name: 'lastPurchaseDate',
+      title: 'Last Purchase Date',
+      type: 'string',
+    },
+    {
       name: 'lastWithdrawDate',
       title: 'Last Withdraw Date',
       type: 'string',

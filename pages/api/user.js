@@ -8,6 +8,7 @@ export default async function user(req, res) {
     const plan = b[1]
     const u = b[2]
     const user = await getUserById(u?._id)
+    console.log(user)
 
     // console.log(user?.myTicket, plan?.da)
     // return res.status(500).json({ message: 'unexpected' })

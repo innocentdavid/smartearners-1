@@ -22,9 +22,12 @@ export default function Home({ allInvestmentPlan }) {
   }, [status])
 
   useEffect(() => {
-    if (user) {
+    const fetch = async () => {
       const u = await getUserById(user?._id)
       setUser(u)
+    }
+    if (user) {
+      fetch()
     }
   }, [user])
 
