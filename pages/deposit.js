@@ -33,16 +33,18 @@ export default function Deposit() {
     }
     setShowPaymentGateWay(true)
   }
-  
+
   const makeDeposit = async () => {
-    if(paymentGateWay === 2){
+    if (paymentGateWay === 2) {
       // paywithBalance
-      if(!(user.balance >= parseInt(ticket))){
+      if (!(user.balance >= parseInt(ticket))) {
         alert('Your balance is not enough')
         return
       }
       // const res = await depositWithBalance(user, ticket)
       try {
+        document.querySelector('#generalLoading').classList.remove('hidden')
+        document.querySelector('#generalLoading').classList.add('grid')
         const response = await fetch('/api/user', {
           method: 'POST',
           body: JSON.stringify(['depositWithBalance', user, parseInt(ticket)]),
@@ -50,16 +52,23 @@ export default function Deposit() {
         })
         const res = await response.json()
         if (res) {
+          setTimeout(async () => {
+            const u1 = await getUserById(user._id)
+            const u2 = await getUserById(user._id)
+            const u3 = await getUserById(user._id)
+            router.reload();
+          }, 10000);
           alert(`You have successfully purchase ${ticket} tickets with your balance`)
           setShowPaymentGateWay(false)
           // signOut()
           router.reload()
           return;
         } else {
-          console.log(res)          
+          console.log(res)
         }
       } catch (err) {
         console.log(err)
+        router.reload()
         alert('something went wrong!')
       }
     }

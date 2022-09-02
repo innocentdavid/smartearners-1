@@ -122,36 +122,38 @@ export default function Withdraw() {
       }
 
       // run withdraw
-      document.querySelector('#generalLoading').classList.remove('hidden')
-      document.querySelector('#generalLoading').classList.add('grid')
       try {
+        document.querySelector('#generalLoading').classList.remove('hidden')
+        document.querySelector('#generalLoading').classList.add('grid')
         const response = await fetch('/api/withdraw', {
           method: 'POST',
           body: JSON.stringify(['withdraw', Nuser, parseInt(amountToWithdraw)]),
           type: 'application/json'
         })
         const res = await response.json()
-        console.log(res)
+        // console.log(res)
         if (response.status == 200) {
-          alert('Your request has been submited successfully')
           const u = await getUserById(Nuser?._id)
+          setTimeout(async () => {
+            const u1 = await getUserById(user._id)
+            const u2 = await getUserById(user._id)
+            const u3 = await getUserById(user._id)
+            router.reload();
+          }, 10000);
+          alert('Your request has been submited successfully')
           console.log(u)
           router.reload();
-          document.querySelector('#generalLoading').classList.remove('grid')
-          document.querySelector('#generalLoading').classList.add('hidden')
           return;
         }
       } catch (err) {
+        alert('somthing went wrong, please try again later')
         console.log(err)
-        document.querySelector('#generalLoading').classList.remove('grid')
-        document.querySelector('#generalLoading').classList.add('hidden')
+        // document.querySelector('#generalLoading').classList.remove('grid')
+        // document.querySelector('#generalLoading').classList.add('hidden')
       }
-      document.querySelector('#generalLoading').classList.remove('grid')
-      document.querySelector('#generalLoading').classList.add('hidden')
     } else {
       alert('you have to login to be here!');
-      document.querySelector('#generalLoading').classList.remove('grid')
-      document.querySelector('#generalLoading').classList.add('hidden')
+      router.reload();
       return;
     }
   }

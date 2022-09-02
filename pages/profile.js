@@ -64,21 +64,21 @@ export default function Profile() {
       const res = await updateUserPortfolio(user)
       const u = await getUserById(user._id)
       console.log(u)
-      if (res.message === 'success') {
+      if (res?.message === 'success') {
         setCanMine(false)
         setTimeout(async () => {
-          // alert('You have successfully mined all your reward')
           const u1 = await getUserById(user._id)
           const u2 = await getUserById(user._id)
           const u3 = await getUserById(user._id)
           router.reload();
         }, 10000);
+        alert('You have successfully mined all your reward')
       } else {
         alert("An error occured! please try again")
         router.reload();
       }
-      document.querySelector('#generalLoading').classList.remove('grid')
-      document.querySelector('#generalLoading').classList.add('hidden')
+      // document.querySelector('#generalLoading').classList.remove('grid')
+      // document.querySelector('#generalLoading').classList.add('hidden')
     }
   }
 

@@ -137,26 +137,25 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
           type: 'application/json'
         })
         const res = await response.json()
-        setTimeout(async () => {
-          const u1 = await getUserById(user?._id)
-          const u2 = await getUserById(user?._id)
-          const u3 = await getUserById(user?._id)
-          console.log({u1,u2,u3})
-        }, 5000);
-        console.log('done!')
         if(res?.message === 'unexpected'){
           signOut()
           hideModal()
-          document.querySelector('#generalLoading').classList.remove('grid')
-          document.querySelector('#generalLoading').classList.add('hidden')
+          alert('Somthing went wrong!');
+          router.reload();
           return;
         }
-        if (res.message !== 'error') {
-          res.message && alert(res?.message)
+        if (res?.message !== 'error') {
+          setTimeout(async () => {
+            const u1 = await getUserById(user?._id)
+            const u2 = await getUserById(user?._id)
+            const u3 = await getUserById(user?._id)
+            console.log({u1,u2,u3})
+          }, 5000);
+          alert('successful')
           hideModal()
-          router.push("/orders")
-          document.querySelector('#generalLoading').classList.remove('grid')
-          document.querySelector('#generalLoading').classList.add('hidden')
+          window.location = '/orders'
+          // document.querySelector('#generalLoading').classList.remove('grid')
+          // document.querySelector('#generalLoading').classList.add('hidden')
           return;
         }
         hideModal()
@@ -166,12 +165,12 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
         hideModal()
       }
       hideModal()
-      router.push('/orders')
+      window.location = '/orders'
     } else {
       alert('You have to log in first!')
     }
-    document.querySelector('#generalLoading').classList.remove('grid')
-    document.querySelector('#generalLoading').classList.add('hidden')
+    // document.querySelector('#generalLoading').classList.remove('grid')
+    // document.querySelector('#generalLoading').classList.add('hidden')
   }
 
   return (<>
