@@ -116,14 +116,14 @@ export default async function user(req, res) {
           _type: 'dailyReturn',
           investmentPlan: { _type: 'reference', _ref: item.planId },
         }).catch(error => {
-          console.log('update user profile', error)
+          // console.log('update user profile', error)
         })
 
         // createBalance Record for user
         await client.create({
           _type: 'record', title: item.planTitle, category: 'balanceRecord', type: 'income', amount: item.dr, remaining: 0, userId: user._id, userTel: user.tel
         }).catch(error => {
-          console.log('update user profile', error)
+          // console.log('update user profile', error)
         })
 
         // give referrer 2% of the earning
@@ -263,8 +263,8 @@ export default async function user(req, res) {
     // commission....
     if (user?.referrer) {
       // Level 1 commission
-      const commission1 = (10 * depositedAmount) / 100
-      await createRfCommision(user, commission1, depositedAmount, 1)
+      const commission1 = (10 * amount) / 100
+      await createRfCommision(user, commission1, amount, 1)
 
       // Level 2 commission
       const user2 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
@@ -274,8 +274,8 @@ export default async function user(req, res) {
         // return res.status(500).json({ message: 'an error occured', error })
       })
       if (user2) {
-        const commission2 = (5 * depositedAmount) / 100
-        await createRfCommision(user2, commission2, depositedAmount, 2)
+        const commission2 = (5 * amount) / 100
+        await createRfCommision(user2, commission2, amount, 2)
       } else {
         // return res.status(500).json({ message: 'an error occured', error })
       }
@@ -288,8 +288,8 @@ export default async function user(req, res) {
         // return res.status(500).json({ message: 'an error occured', error })
       })
       if (user3) {
-        const commission3 = (2 * depositedAmount) / 100
-        await createRfCommision(user3, commission3, depositedAmount, 3)
+        const commission3 = (2 * amount) / 100
+        await createRfCommision(user3, commission3, amount, 3)
       }
     }
 
