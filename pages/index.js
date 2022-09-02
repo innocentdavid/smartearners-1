@@ -150,7 +150,7 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
             const u2 = await getUserById(user?._id)
             const u3 = await getUserById(user?._id)
             console.log({u1,u2,u3})
-          }, 5000);
+          }, 10000);
           alert('successful')
           hideModal()
           window.location = '/orders'
