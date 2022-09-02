@@ -135,11 +135,10 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
     const gap = now - lastPurchaseDate
     const dif = gap / (1000 * 3600 * 24)
     console.log(dif)
-    // if(dif >= 0.10){
-    //   setCanMine(true)
-    //   return
-    // }
-    return
+    if(dif && dif <= 0.002){
+      alert('Try again in the next 30 seconds')
+      return
+    }
 
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
