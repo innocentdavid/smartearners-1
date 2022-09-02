@@ -63,6 +63,9 @@ export default function Profile() {
       const u = await getUserById(user._id)
       console.log(u)
       if(res.message === 'success'){
+        const u = getUserById(user._id)
+        const u = getUserById(user._id)
+        const u = getUserById(user._id)
         alert('You have successfully mined all your reward')
         setCanMine(false)
         router.reload();
