@@ -98,7 +98,8 @@ export default async function user(req, res) {
     ).catch(error => {
       console.log('userInvestments error', error)
     })
-    userInvestments.forEach(async (item) => {
+
+    userInvestments?.forEach(async (item) => {
       // update user
       let a = await client
         .patch(user._id)
@@ -109,57 +110,64 @@ export default async function user(req, res) {
           console.log('update user profile', error)
           return res.status(500).json({ message: 'failed', error })
         })
+        // console.log("aaaaaaaaaa", a)
 
       if (a) {
         // create daily return record
-        await client.create({
+        let b = await client.create({
           _type: 'dailyReturn',
           investmentPlan: { _type: 'reference', _ref: item.planId },
         }).catch(error => {
-          // console.log('update user profile', error)
+          console.log('dailyReturn', error)
         })
+        // console.log('bbbbbbbbbbbbbbbbbbbbbbbb', b)
 
-        // createBalance Record for user
-        await client.create({
+        // create Balance Record for user
+        const c = await client.create({
           _type: 'record', title: item.planTitle, category: 'balanceRecord', type: 'income', amount: item.dr, remaining: 0, userId: user._id, userTel: user.tel
         }).catch(error => {
-          // console.log('update user profile', error)
+          console.log('cccccccccccccc', error)
         })
+        // console.log('cccccccccccccccc', c)
 
         // give referrer 2% of the earning
-        if (user.referrer?._ref) {
+        if (user?.referrer?._ref) {
           const dr = parseInt(item.dr)
           const commission = 0.02 * dr
 
-          await client
+          let e = await client
             .patch(user.referrer?._ref)
             .inc({ ri: commission })
             .commit()
             .catch(error => {
-              console.log('update user profile', error)
+              console.log('eeeeeeeeeeeeeee', error)
               // return res.status(500).json({ message: 'failed', error })
             })
+          // console.log('eeeeeeeeeeeeeee', e)
 
-          // createBalanceRecord for referrer
-          await client.create({
+          // create BalanceRecord for referrer
+          const d = await client.create({
             _type: 'record', title: 'L12%Commission', category: 'balanceRecord', type: 'income', amount: commission, remaining: 0, userId: user.referrer?._ref,
           }).catch(error => {
-            console.log('update user profile', error)
+            console.log('dddddddddddddddddd', error)
             // return res.status(500).json({ message: 'failed', error })
           })
+          // console.log('ddddddddd', d)
+
 
           // irc Record for referrer
-          await client.create({
+          const f = await client.create({
             _type: 'irc', user: { _type: 'reference', _ref: user._id }, referrer: { _type: 'reference', _ref: user?.referrer._ref }, commission
           }).catch(error => {
-            console.log('update user profile', error)
-            return res.status(500).json({ message: 'failed', error })
+            // console.log('update user profile', error)
+            // return res.status(500).json({ message: 'failed', error })
           })
+          console.log('fffffffffffffff', f)
         }
-        return res.status(200).json({ message: 'success' })
       }
-      return res.status(500).json({ message: 'failed' })
     });
+
+    return res.status(200).json({ message: 'success' })
   }
 
   if (b[0] === 'depositWithBalance') {
@@ -267,21 +275,21 @@ export default async function user(req, res) {
             console.log('update user profile', error)
             // return res.status(500).json({ message: "an error occured", error })
           })
-        }
-      } catch (error) {
+      }
+    } catch (error) {
       console.log('aaaaaaaaaaa', error)
     }
 
 
     // commission....
-    // try {
+    try {
       if (referrerId) {
         // Level 1 commission
         const commission1 = (10 * amount) / 100
         await createRfCommision(user, referrerId, commission1, amount, 1)
-        
+
         const user1 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
-        { id: referrerId }
+          { id: referrerId }
         ).catch(error => {
           console.log('user2222222222', error)
           // return res.status(500).json({ message: 'an error occured', error })
@@ -291,7 +299,7 @@ export default async function user(req, res) {
         if (user1?.referrer?._id) {
           const commission2 = (5 * amount) / 100
           await createRfCommision(user, user1.referrer._id, commission2, amount, 2)
-          
+
           // Level 3 commission
           const user2 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
             { id: user1.referrer._id }
@@ -308,9 +316,9 @@ export default async function user(req, res) {
         }
 
       }
-    // } catch (error) {
-    //   console.log(error)
-    // }
+    } catch (error) {
+      console.log(error)
+    }
 
     return res.status(200).json({ message: "success" })
   }
@@ -363,7 +371,7 @@ export default async function user(req, res) {
 }
 
 const createRfCommision = async (user, referrerId, commission, amount, level) => {
-  console.log({user, referrerId, commission, amount, level})
+  console.log({ user, referrerId, commission, amount, level })
   if (user && referrerId) {
     // update referrer
     await client

@@ -6,7 +6,7 @@ import { BiTrendingUp } from 'react-icons/bi'
 import { FaLock } from 'react-icons/fa'
 import Footer from '../components/footer'
 import Slider from '../components/slider'
-import { getAllInvestmentPlan } from '../lib/api'
+import { getAllInvestmentPlan, getUserById } from '../lib/api'
 import AuthContext from '../context/authContext';
 
 export default function Home({ allInvestmentPlan }) {
@@ -137,6 +137,7 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
           type: 'application/json'
         })
         const res = await response.json()
+        const u = getUserById(user?._id)
         if(res?.message === 'unexpected'){
           signOut()
           hideModal()
