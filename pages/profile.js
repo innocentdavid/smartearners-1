@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import AuthContext from '../context/authContext'
 import { signOut } from "next-auth/react"
-import { updateUserPortfolio } from '../lib/api'
+import { getUserById, updateUserPortfolio } from '../lib/api'
 
 export default function Profile() {
   const router = useRouter()
@@ -60,6 +60,8 @@ export default function Profile() {
     }
     if (canMine) {
       const res = await updateUserPortfolio(user)
+      const u = getUserById(user._id)
+      console.log(u)
       if(res.message === 'success'){
         alert('You have successfully mined all your reward')
         setCanMine(false)
