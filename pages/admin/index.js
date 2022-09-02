@@ -52,14 +52,54 @@ export default function Admin() {
     const mutations = [
       {
         "delete": {
+          "query": "*[_type == 'user']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'order']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'rfCommission']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'validRef']",
+        }
+      },
+      {
+        "delete": {
           "query": "*[_type == 'paymentProof']",
         }
       },
-      // {
-      //   "delete": {
-      //     "query": "*[_type == 'withdraw']",
-      //   }
-      // },
+      {
+        "delete": {
+          "query": "*[_type == 'dailyReturn']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'irc']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'referral']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'record']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'withdraw']",
+        }
+      },
     ]
 
     const tokenWithWriteAccess = process.env.SANITY_API_TOKEN;
@@ -222,7 +262,7 @@ export default function Admin() {
           <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold uppercase text-center ">Smart Energy Dashboard</div>
         </header>
 
-        {/* <div className="my-5 mx-5"><div className="h-7 w-28 text-center text-xs bg-black text-white cursor-pointer" onClick={clearAll}>clearAllOrder</div></div> */}
+        <div className="my-5 mx-5"><div className="h-7 w-28 text-center text-xs bg-black text-white cursor-pointer" onClick={clearAll}>clearAllOrder</div></div>
 
         <section className="mt-16 mb-8 px-4">
           <div className="bg-gray-400 px-[3px] py-[3px] rounded-[10px] flex items-center justify-center text-[.9rem] max-w-[600px] m-auto">
