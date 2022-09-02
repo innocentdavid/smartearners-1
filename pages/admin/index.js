@@ -2,8 +2,9 @@ import { useRouter } from "next/router"
 import { useContext, useEffect, useState } from "react"
 import AuthContext from "../../context/authContext"
 import { getAllPaymentProofs, getAllWithdrawRequest } from "../../lib/api"
-import { MdOutlineSwitchRight } from 'react-icons/md'
+import { MdCheck } from 'react-icons/md'
 import { BsArrowUp, BsPatchCheckFill } from 'react-icons/bs'
+import { TiTimes } from 'react-icons/ti'
 import Head from "next/head"
 import Link from "next/link"
 import moment from "moment"
@@ -46,13 +47,16 @@ export default function Admin() {
     }
   }, [user])
 
-  // hello
-
-  const clearAllOrder = () => {
+  const clearAll = () => {
     const mutations = [
       {
         "delete": {
-          "query": "*[_type == 'order']",
+          "query": "*[_type == 'paymentProof']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'withdraw']",
         }
       },
     ]
@@ -72,13 +76,13 @@ export default function Admin() {
       .catch(error => console.error(error))
   }
 
-  const approveWithdraw = async (itemId, amount) => {
+  const declineWithdraw = async (itemId, amount) => {
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
     try {
       const response = await fetch('/api/withdraw', {
         method: 'POST',
-        body: JSON.stringify(['approveWithdraw', itemId, user, amount]),
+        body: JSON.stringify(['declineWithdraw', itemId, amount, user]),
         type: 'application/json'
       })
       if (response.status == 200) {
@@ -96,18 +100,16 @@ export default function Admin() {
     document.querySelector('#generalLoading').classList.add('hidden')
   }
 
-  const approvePayment = async (itemId, amount) => {
+  const approveWithdraw = async (itemId) => {
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
     try {
-      const response = await fetch('/api/user', {
+      const response = await fetch('/api/withdraw', {
         method: 'POST',
-        body: JSON.stringify(['confirmProof', itemId, user, amount]),
+        body: JSON.stringify(['approveWithdraw', itemId]),
         type: 'application/json'
       })
       if (response.status == 200) {
-        const res = await response.json()
-        console.log(res)
         router.reload();
         document.querySelector('#generalLoading').classList.remove('grid')
         document.querySelector('#generalLoading').classList.add('hidden')
@@ -115,6 +117,71 @@ export default function Admin() {
       }
     } catch (err) {
       console.log(err)
+      document.querySelector('#generalLoading').classList.remove('grid')
+      document.querySelector('#generalLoading').classList.add('hidden')
+    }
+    document.querySelector('#generalLoading').classList.remove('grid')
+    document.querySelector('#generalLoading').classList.add('hidden')
+  }
+
+  const declinePayment = async (itemId) => {
+    document.querySelector('#generalLoading').classList.remove('hidden')
+    document.querySelector('#generalLoading').classList.add('grid')
+    try {
+      const response = await fetch('/api/user', {
+        method: 'POST',
+        body: JSON.stringify(['declineProof', itemId, user, amount]),
+        type: 'application/json'
+      })
+      if (response.status == 200) {
+        const res = await response.json()
+        if (res.message === 'success') {
+          router.reload();
+          document.querySelector('#generalLoading').classList.remove('grid')
+          document.querySelector('#generalLoading').classList.add('hidden')
+          return;
+        } else {
+          alert('Something went wrong!')
+          console.log(res)
+          return;
+        }
+      }
+    } catch (err) {
+      console.log(err)
+      alert('something went wrong!');
+      document.querySelector('#generalLoading').classList.remove('grid')
+      document.querySelector('#generalLoading').classList.add('hidden')
+    }
+    document.querySelector('#generalLoading').classList.remove('grid')
+    document.querySelector('#generalLoading').classList.add('hidden')
+  }
+
+  const approvePayment = async (itemId, amount) => {
+    document.querySelector('#generalLoading').classList.remove('hidden')
+    document.querySelector('#generalLoading').classList.add('grid')
+    try {
+      const response = await fetch('/api/user', {
+        method: 'POST',
+        body: JSON.stringify(['approvePayment', itemId, user, amount]),
+        type: 'application/json'
+      })
+      if (response.status == 200) {
+        const res = await response.json()
+        if (res.message === 'success') {
+          alert('success')
+          router.reload();
+          document.querySelector('#generalLoading').classList.remove('grid')
+          document.querySelector('#generalLoading').classList.add('hidden')
+          return;
+        } else {
+          alert('Something went wrong')
+          console.log(res)
+          return;
+        }
+      }
+    } catch (err) {
+      console.log(err)
+      alert('something went wrong!')
       document.querySelector('#generalLoading').classList.remove('grid')
       document.querySelector('#generalLoading').classList.add('hidden')
     }
@@ -140,10 +207,10 @@ export default function Admin() {
           <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold uppercase text-center ">Smart Energy Dashboard</div>
         </header>
 
-        {/* <div className="my-5 mx-5"><div className="h-7 w-28 text-center text-xs bg-black text-white cursor-pointer" onClick={clearAllOrder}>clearAllOrder</div></div> */}
+        {/* <div className="my-5 mx-5"><div className="h-7 w-28 text-center text-xs bg-black text-white cursor-pointer" onClick={clearAll}>clearAllOrder</div></div> */}
 
         <section className="mt-16 mb-8 px-4">
-          <div className="bg-gray-400 px-[3px] py-[3px] rounded-[10px] flex items-center justify-center text-[.9rem]">
+          <div className="bg-gray-400 px-[3px] py-[3px] rounded-[10px] flex items-center justify-center text-[.9rem] max-w-[600px] m-auto">
             {tabsData.map((tab, idx) => {
               return (
                 <button
@@ -167,8 +234,7 @@ export default function Admin() {
                   <thead className="">
                     <tr className="bg-[#333] font-semibold text-white text-xs">
                       <td></td>
-                      <td className="w-[27%] h-[38px] p-1 font-[fona] text-center">DATE</td>
-                      <td className="w-[27%] h-[38px] p-1 font-[fona] text-center">USER</td>
+                      <td className="w-[27%] h-[38px] p-1 font-[fona] text-center">DATE/USER</td>
                       <td className="w-[27%] h-[38px] p-1 font-[fona] text-center">AMOUNT</td>
                       <td className="w-[27%] h-[38px] p-1 font-[fona] text-center">PROOF</td>
                       <td className="w-[27%] h-[38px] p-1 font-[fona] text-center">APP<br className="md:hidden" />ROVED</td>
@@ -178,24 +244,35 @@ export default function Admin() {
                   <tbody>
                     <tr className="h-3"></tr>
                     {allPaymentProofs?.map((data, index) => {
-                      return (
+                      return (<>
                         <tr key={index} className={`${(index + 1) % 2 === 0 && "bg-[#f5f5f5]"} px-10`}>
                           <td className="p-1 font-[fona] text-center text-[.8rem]">{index + 1}</td>
-                          <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">{moment(data._createdAt).format('MM-D-YY')}</td>
-                          <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">{data.userTel}</td>
+                          <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">
+                            <div className="">{moment(data._createdAt).format('D-MM-YY')}</div>
+                            <div className="">{data.userTel}</div>
+                          </td>
                           <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center">₦{data.amount}</td>
-                          <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] relative">
+                          <td className="w-[27%] h-[38px] overflow-hidden p-1 font-['Metric-SemiBold'] relative">
                             <Link href={data.imageUrl}><a target="_blank">
                               <img src={data.imageUrl} alt="" width="40px" height="30px" className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" />
                             </a></Link>
                           </td>
                           <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center relative">
-                            {data.approved ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <MdOutlineSwitchRight className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] cursor-pointer"
-                              onClick={() => { approvePayment(data._id, data.amount) }}
-                            />}
+                            {data.approved ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <>
+                              <div className="h-full flex flex-col justify-between items-center">
+                                <MdCheck className="border"
+                                  onClick={() => { approvePayment(data._id, data.amount) }}
+                                />
+
+                                <TiTimes className="border"
+                                  onClick={() => { declinePayment(data._id) }}
+                                />
+                              </div>
+                            </>}
                           </td>
                         </tr>
-                      )
+                        <br />
+                      </>)
                     })}
                   </tbody>
                 </table>
@@ -204,11 +281,9 @@ export default function Admin() {
               <div className="">
                 <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
                   <div></div>
-                  <div>Time</div>
+                  <div>Date/User</div>
                   <div className="text-gray-200">|</div>
-                  <div>User</div>
-                  <div className="text-gray-200">|</div>
-                  <div>Amount</div>
+                  <div>Amount/Acc</div>
                   <div className="text-gray-200">|</div>
                   <div>Status</div>
                   <div className="text-gray-200">|</div>
@@ -218,21 +293,38 @@ export default function Admin() {
               <br />
 
               {allWithdrawRequest?.map((request, index) => {
+                console.log(request)
                 return (<>
                   <div key={request._id} className="">
                     <div className="flex justify-around items-center text-xs md:text-base mt-2 text-black">
                       <div>{index + 1}</div>
-                      <div>{moment(new Date(request?._createdAt)).format('MM-D-YY')}</div>
+                      <div className="flex flex-col items-center">
+                        <div className="">{moment(new Date(request?._createdAt)).format('D-MM-YY')}</div>
+                        <div className="">{request.userTel}</div>
+                      </div>
                       <div className="text-gray-200">|</div>
-                      <div>{request.userTel}</div>
+                      <div>
+                        <div className="">₦{request.amount}</div>
+                        <div className="text-[.7rem] bg-[#ffaa00] p-1 rounded-sm">copy account</div>
+                      </div>
                       <div className="text-gray-200">|</div>
-                      <div>₦{request.amount}</div>
+                      <div><span className={request.status === "approved" ? "text-green-700" : "text-red-700"}>{request.status}</span></div>
                       <div className="text-gray-200">|</div>
-                      <div>{request.status ? <span className="text-green-700">Confirmed</span> : <span className="text-yellow-700">Pending</span>}</div>
-                      <div className="text-gray-200">|</div>
-                      <div className="relative">{request.status ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl" /> : <MdOutlineSwitchRight className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl cursor-pointer"
-                        onClick={() => { approveWithdraw(request._id, request.amount) }}
-                      />}</div>
+                      <div className="relative">
+                        {request.status === 'declined' ? <BsPatchCheckFill className="text-red-700 absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl" /> : <>
+                        {request.status === "approved" ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl" /> : <>
+                          <div className="">
+                            <MdCheck className="text-lg border cursor-pointer"
+                              onClick={() => { approveWithdraw(request._id) }}
+                            />
+
+                            <TiTimes className="mt-3 text-lg border cursor-pointer"
+                              onClick={() => { declineWithdraw(request._id, request?.amount) }}
+                            />
+                          </div>
+                        </>}
+                        </>}
+                      </div>
                     </div>
                   </div>
                 </>)

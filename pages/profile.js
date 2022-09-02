@@ -172,12 +172,17 @@ export default function Profile() {
             </Link>
             <Link href="/withdraw?p=1#record">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
-                <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Balance Record</div>
+                <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Balance Records</div>
               </a>
             </Link>
             <Link href="/withdraw?p=0#record">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
-                <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Withraw Record</div>
+                <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Withraw Records</div>
+              </a>
+            </Link>
+            <Link href="/withdraw?p=2#record">
+              <a className="w-1/2 md:w-1/3 flex justify-center items-center">
+                <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Payment Records</div>
               </a>
             </Link>
             <Link href="#">

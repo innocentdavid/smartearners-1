@@ -3,7 +3,7 @@ export default {
   title: 'PaymentProof',
   type: 'document',
   initialValue: {
-    approved: false,
+    approved: 'pending',
   },
   fields: [
     {
@@ -19,7 +19,7 @@ export default {
     {
       name: 'approved',
       title: 'Approved',
-      type: 'boolean',
+      type: 'string',
     },
     {
       name: 'userId',
@@ -37,11 +37,12 @@ export default {
     select: {
       title: 'userTel',
       amount: 'amount',
+      approved: 'approved',
     },
     prepare(selection) {
-      const {amount} = selection
+      const {amount, approved} = selection
       return Object.assign({}, selection, {
-        subtitle: amount &&  `paid ${amount}`
+        subtitle: amount &&  `paid: ${amount}, status: ${approved}`
       })
     }
   }

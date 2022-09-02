@@ -3,7 +3,7 @@ export default {
   title: 'Withdraw',
   type: 'document',
   initialValue: {
-    status: false,
+    status: 'pending',
   },
   fields: [
     {
@@ -14,7 +14,7 @@ export default {
     {
       name: 'status',
       title: 'Status',
-      type: 'boolean',
+      type: 'string',
     },
     {
       name: 'userId',
@@ -24,6 +24,21 @@ export default {
     {
       name: 'userTel',
       title: 'User Tel',
+      type: 'string',
+    },
+    {
+      name: 'accNo',
+      title: 'Account Number',
+      type: 'number',
+    },
+    {
+      name: 'accName',
+      title: 'Account Name',
+      type: 'string',
+    },
+    {
+      name: 'bank',
+      title: 'Bank Name',
       type: 'string',
     }
   ],
@@ -37,7 +52,7 @@ export default {
     prepare(selection) {
       const {amount, status} = selection
       return Object.assign({}, selection, {
-        subtitle: amount && `${amount} - ${status === true ? 'Confirmed' : 'Pending...'}`
+        subtitle: amount && `${amount} - ${status}`
       })
     }
   }
