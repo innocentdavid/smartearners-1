@@ -48,7 +48,7 @@ export default function Home({ allInvestmentPlan }) {
             <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit') }}>Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket ? user?.myTicket : 0}</strong></div>
             <div className="border-r border-[#fff3dc] h-[60%]"></div>
             <div onClick={() => { router.push('/withdraw') }} className="flex flex-col items-center cursor-pointer">Balance <strong className="font-bold font-Josefin select-none">N<span>{
-            user.tbalance + user?.ri + user?.roi + user?.vrs
+            user?.tbalance + user?.ri + user?.roi + user?.vrs
             }</span></strong></div>
           </div>
         </nav>
@@ -146,30 +146,29 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
           router.reload();
           return;
         }
-        if (res?.message !== 'error') {
-          setTimeout(async () => {
-            await getUserById(user?._id)
-            await getUserById(user?._id)
-            await getUserById(user?._id)
-            console.log({u1,u2,u3})
-          }, 10000);
-          const u3 = await getUserById(user?._id)
-          setUser(u3)
-          alert('successful')
-          hideModal()
-          window.location = '/orders'
-          // document.querySelector('#generalLoading').classList.remove('grid')
-          // document.querySelector('#generalLoading').classList.add('hidden')
-          return;
-        }
-        hideModal()
-        console.log(res)
+        // if (res?.message !== 'error') {
+          
+        // }
       } catch (err) {
         console.log(err)
         hideModal()
       }
+      
+      await getUserById(user?._id)
+      setTimeout(async () => {
+        await getUserById(user?._id)
+        await getUserById(user?._id)
+        await getUserById(user?._id)
+        console.log({u1,u2,u3})
+      }, 10000);
+      const u3 = await getUserById(user?._id)
+      setUser(u3)
+      alert('successful')
       hideModal()
       window.location = '/orders'
+      // document.querySelector('#generalLoading').classList.remove('grid')
+      // document.querySelector('#generalLoading').classList.add('hidden')
+      return;      
     } else {
       alert('You have to log in first!')
     }
