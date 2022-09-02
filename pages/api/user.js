@@ -261,38 +261,41 @@ export default async function user(req, res) {
     }
 
     // commission....
-    if (user?.referrer) {
-      // Level 1 commission
-      const commission1 = (10 * amount) / 100
-      await createRfCommision(user, commission1, amount, 1)
-
-      // Level 2 commission
-      const user2 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
-        { id: user.referrer._id }
-      ).catch(error => {
-        // console.log('getAllInvestmentPlan', error)
-        // return res.status(500).json({ message: 'an error occured', error })
-      })
-      if (user2) {
-        const commission2 = (5 * amount) / 100
-        await createRfCommision(user2, commission2, amount, 2)
-      } else {
-        // return res.status(500).json({ message: 'an error occured', error })
+    try {
+      if (referrerId) {
+        // Level 1 commission
+        const commission1 = (10 * amount) / 100
+        await createRfCommision(referrerId, commission1, amount, 1)
+  
+        // Level 2 commission
+        const user2 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
+          { id: referrerId }
+        ).catch(error => {
+          // console.log('getAllInvestmentPlan', error)
+          // return res.status(500).json({ message: 'an error occured', error })
+        })
+        if (user2) {
+          const commission2 = (5 * amount) / 100
+          await createRfCommision(user2, commission2, amount, 2)
+        } else {
+          // return res.status(500).json({ message: 'an error occured', error })
+        }
+  
+        // Level 3 commission
+        const user3 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
+          { id: user.referrer._id }
+        ).catch(error => {
+          // console.log('getAllInvestmentPlan', error)
+          // return res.status(500).json({ message: 'an error occured', error })
+        })
+        if (user3) {
+          const commission3 = (2 * amount) / 100
+          await createRfCommision(user3, commission3, amount, 3)
+        }
       }
-
-      // Level 3 commission
-      const user3 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
-        { id: user.referrer._id }
-      ).catch(error => {
-        // console.log('getAllInvestmentPlan', error)
-        // return res.status(500).json({ message: 'an error occured', error })
-      })
-      if (user3) {
-        const commission3 = (2 * amount) / 100
-        await createRfCommision(user3, commission3, amount, 3)
-      }
+    } catch (error) {
+      console.log(error)
     }
-
     return res.status(200).json({ message: "success" })
   }
 
