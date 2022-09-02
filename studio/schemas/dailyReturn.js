@@ -11,15 +11,24 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'order',
-      title: 'Level 1 Orders',
-      type: 'number',
-    }
+      name: 'user',
+      title: 'user',
+      type: 'reference',
+      to: {type: 'user'},
+      validation: (Rule) => Rule.required(),
+    },
   ],
 
   preview: {
     select: {
-      title: 'percentage'
+      title: 'investmentPlan.title',
+      userTel: 'user.tel',
+    },
+    prepare(selection) {
+      const {userTel} = selection
+      return Object.assign({}, selection, {
+        subtitle: `by ${userTel}`
+      })
     }
   }
 }

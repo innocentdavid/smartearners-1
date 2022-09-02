@@ -38,7 +38,7 @@ export default function Profile() {
         // return
       }
       const lastChecked = new Date(user?.lastChecked).getTime()
-      if(lastChecked){
+      if (lastChecked) {
         const now = new Date().getTime()
         const gap = now - lastChecked
         const dif = (gap) / (1000 * 3600 * 24)
@@ -59,20 +59,26 @@ export default function Profile() {
       return;
     }
     if (canMine) {
+      document.querySelector('#generalLoading').classList.remove('hidden')
+      document.querySelector('#generalLoading').classList.add('grid')
       const res = await updateUserPortfolio(user)
       const u = await getUserById(user._id)
       console.log(u)
-      if(res.message === 'success'){
-        const u1 = await getUserById(user._id)
-        const u2 = await getUserById(user._id)
-        const u3 = await getUserById(user._id)
-        alert('You have successfully mined all your reward')
+      if (res.message === 'success') {
         setCanMine(false)
-        router.reload();
-      }else{
+        setTimeout(async () => {
+          // alert('You have successfully mined all your reward')
+          const u1 = await getUserById(user._id)
+          const u2 = await getUserById(user._id)
+          const u3 = await getUserById(user._id)
+          router.reload();
+        }, 10000);
+      } else {
         alert("An error occured! please try again")
         router.reload();
       }
+      document.querySelector('#generalLoading').classList.remove('grid')
+      document.querySelector('#generalLoading').classList.add('hidden')
     }
   }
 

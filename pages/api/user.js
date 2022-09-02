@@ -81,91 +81,73 @@ export default async function user(req, res) {
   // page == profile.js through lib/api.js
   if (b[0] === 'updateUserPortfolio') {
     const u = b[1]
+    const item = b[2]
     const user = await getUserById(u?._id)
+    // update user
+    let a = await client
+      .patch(user._id)
+      .inc({ roi: item.dr })
+      .set({ lastChecked: new Date() })
+      .commit()
+      .catch(error => {
+        console.log('update user profile', error)
+        return res.status(500).json({ message: 'failed', error })
+      })
+    // console.log("aaaaaaaaaa", a)
 
-    const lastChecked = new Date(user?.lastChecked).getTime()
-    if (lastChecked) {
-      const now = new Date().getTime()
-      const gap = now - lastChecked
-      const dif = (gap) / (1000 * 3600 * 24)
-      if (Math.floor(dif) < 1) {
-        return res.status(500).json({ message: 'You have mined already' })
+    if (a) {
+      // create daily return record
+      let b = await client.create({
+        _type: 'dailyReturn',
+        investmentPlan: { _type: 'reference', _ref: item.planId },
+      }).catch(error => {
+        console.log('dailyReturn', error)
+      })
+      // console.log('bbbbbbbbbbbbbbbbbbbbbbbb', b)
+
+      // create Balance Record for user
+      const c = await client.create({
+        _type: 'record', title: item.planTitle, category: 'balanceRecord', type: 'income', amount: item.dr, remaining: 0, userId: user._id, userTel: user.tel
+      }).catch(error => {
+        console.log('cccccccccccccc', error)
+      })
+      // console.log('cccccccccccccccc', c)
+
+      // give referrer 2% of the earning
+      if (user?.referrer?._ref) {
+        const dr = parseInt(item.dr)
+        const commission = 0.02 * dr
+
+        let e = await client
+          .patch(user.referrer?._ref)
+          .inc({ ri: commission })
+          .commit()
+          .catch(error => {
+            console.log('eeeeeeeeeeeeeee', error)
+            // return res.status(500).json({ message: 'failed', error })
+          })
+        // console.log('eeeeeeeeeeeeeee', e)
+
+        // create BalanceRecord for referrer
+        const d = await client.create({
+          _type: 'record', title: 'L12%Commission', category: 'balanceRecord', type: 'income', amount: commission, remaining: 0, userId: user.referrer?._ref,
+        }).catch(error => {
+          console.log('dddddddddddddddddd', error)
+          // return res.status(500).json({ message: 'failed', error })
+        })
+        // console.log('ddddddddd', d)
+
+
+        // irc Record for referrer
+        const f = await client.create({
+          _type: 'irc', user: { _type: 'reference', _ref: user._id }, referrer: { _type: 'reference', _ref: user?.referrer._ref }, commission
+        }).catch(error => {
+          // console.log('update user profile', error)
+          // return res.status(500).json({ message: 'failed', error })
+        })
+        console.log('fffffffffffffff', f)
       }
     }
-
-    const userInvestments = await client.fetch(`*[_type == "order" && userId == $id] | order(_createdAt desc)`,
-      { id: user._id }
-    ).catch(error => {
-      console.log('userInvestments error', error)
-    })
-
-    userInvestments?.forEach(async (item) => {
-      // update user
-      let a = await client
-        .patch(user._id)
-        .inc({ roi: item.dr })
-        .set({ lastChecked: new Date() })
-        .commit()
-        .catch(error => {
-          console.log('update user profile', error)
-          return res.status(500).json({ message: 'failed', error })
-        })
-        // console.log("aaaaaaaaaa", a)
-
-      if (a) {
-        // create daily return record
-        let b = await client.create({
-          _type: 'dailyReturn',
-          investmentPlan: { _type: 'reference', _ref: item.planId },
-        }).catch(error => {
-          console.log('dailyReturn', error)
-        })
-        // console.log('bbbbbbbbbbbbbbbbbbbbbbbb', b)
-
-        // create Balance Record for user
-        const c = await client.create({
-          _type: 'record', title: item.planTitle, category: 'balanceRecord', type: 'income', amount: item.dr, remaining: 0, userId: user._id, userTel: user.tel
-        }).catch(error => {
-          console.log('cccccccccccccc', error)
-        })
-        // console.log('cccccccccccccccc', c)
-
-        // give referrer 2% of the earning
-        if (user?.referrer?._ref) {
-          const dr = parseInt(item.dr)
-          const commission = 0.02 * dr
-
-          let e = await client
-            .patch(user.referrer?._ref)
-            .inc({ ri: commission })
-            .commit()
-            .catch(error => {
-              console.log('eeeeeeeeeeeeeee', error)
-              // return res.status(500).json({ message: 'failed', error })
-            })
-          // console.log('eeeeeeeeeeeeeee', e)
-
-          // create BalanceRecord for referrer
-          const d = await client.create({
-            _type: 'record', title: 'L12%Commission', category: 'balanceRecord', type: 'income', amount: commission, remaining: 0, userId: user.referrer?._ref,
-          }).catch(error => {
-            console.log('dddddddddddddddddd', error)
-            // return res.status(500).json({ message: 'failed', error })
-          })
-          // console.log('ddddddddd', d)
-
-
-          // irc Record for referrer
-          const f = await client.create({
-            _type: 'irc', user: { _type: 'reference', _ref: user._id }, referrer: { _type: 'reference', _ref: user?.referrer._ref }, commission
-          }).catch(error => {
-            // console.log('update user profile', error)
-            // return res.status(500).json({ message: 'failed', error })
-          })
-          console.log('fffffffffffffff', f)
-        }
-      }
-    });
 
     return res.status(200).json({ message: 'success' })
   }
