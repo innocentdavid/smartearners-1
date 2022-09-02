@@ -92,7 +92,7 @@ export default function Home({ allInvestmentPlan }) {
 
           <section className="my-5 px-5 flex flex-col md:flex-row flex-wrap justify-center items-center md:gap-10">
             {plans?.map((plan, index) => {
-              return <PlanCard key={plan?._id} user={user} id={index + 1} plan={plan} title={plan?.title} returnPeriod={plan?.returnPeriod} percentage={plan?.percentage} da={plan?.da} router={router} />
+              return <PlanCard key={plan?._id} user={user} setUser={setUser} id={index + 1} plan={plan} title={plan?.title} returnPeriod={plan?.returnPeriod} percentage={plan?.percentage} da={plan?.da} router={router} />
             })}
           </section>
         </main>
@@ -103,7 +103,7 @@ export default function Home({ allInvestmentPlan }) {
   }
 }
 
-const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router }) => {
+const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod, router }) => {
   const dailyReturn = (percentage / 100) * da
   const totalReturn = ((percentage / 100) * da) * returnPeriod
   const totalReturnPercentage = percentage * returnPeriod;
