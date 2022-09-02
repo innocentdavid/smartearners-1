@@ -143,11 +143,11 @@ export default function Profile() {
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">My Team</div>
               </a>
             </Link>
-            {/* <Link href="#">
+            <Link href="/updateAccount">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
-                <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Bind Bank Card</div>
+                <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Update Account Details</div>
               </a>
-            </Link> */}
+            </Link>
 
             {/* <Link href="#">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">

@@ -158,7 +158,7 @@ export default function Admin() {
     document.querySelector('#generalLoading').classList.add('hidden')
   }
 
-  const approvePayment = async (itemId, amount) => {
+  const approvePayment = async (itemId, userId, amount) => {
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
     try {
@@ -276,7 +276,7 @@ export default function Admin() {
                               {data.approved === "approved" ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <>
                                 <div className="h-full flex flex-col justify-between items-center">
                                   <MdCheck className="border"
-                                    onClick={() => { approvePayment(data._id, data.amount) }}
+                                    onClick={() => { approvePayment(data._id, data.userId, data.amount) }}
                                   />
 
                                   <TiTimes className="border"
