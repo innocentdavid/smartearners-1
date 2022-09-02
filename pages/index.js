@@ -12,7 +12,7 @@ import AuthContext from '../context/authContext';
 export default function Home({ allInvestmentPlan }) {
   const [plans] = useState(allInvestmentPlan)
   const { status, data } = useSession();
-  const {user, setUser} = useContext(AuthContext)
+  const { user, setUser } = useContext(AuthContext)
   const router = useRouter()
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function Home({ allInvestmentPlan }) {
             <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit') }}>Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket ? user?.myTicket : 0}</strong></div>
             <div className="border-r border-[#fff3dc] h-[60%]"></div>
             <div onClick={() => { router.push('/withdraw') }} className="flex flex-col items-center cursor-pointer">Balance <strong className="font-bold font-Josefin select-none">N<span>{
-            user?.tbalance + user?.ri + user?.roi + user?.vrs
+              user?.tbalance + user?.ri + user?.roi + user?.vrs
             }</span></strong></div>
           </div>
         </nav>
@@ -130,6 +130,17 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
   }
 
   const investNow = async () => {
+    const lastPurchaseDate = new Date(user.lastPurchaseDate).getTime()
+    const now = new Date().getTime()
+    const gap = now - lastPurchaseDate
+    const dif = gap / (1000 * 3600 * 24)
+    console.log(dif)
+    // if(dif >= 0.10){
+    //   setCanMine(true)
+    //   return
+    // }
+    return
+
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
     if (user) {
@@ -149,7 +160,7 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
           type: 'application/json'
         })
         const res = await response.json()
-        if(res?.message === 'unexpected'){
+        if (res?.message === 'unexpected') {
           signOut()
           hideModal()
           alert('Somthing went wrong!');
@@ -157,19 +168,19 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
           return;
         }
         // if (res?.message !== 'error') {
-          
+
         // }
       } catch (err) {
         console.log(err)
         hideModal()
       }
-      
+
       await getUserById(user?._id)
       setTimeout(async () => {
         await getUserById(user?._id)
         await getUserById(user?._id)
         await getUserById(user?._id)
-        console.log({u1,u2,u3})
+        console.log({ u1, u2, u3 })
       }, 10000);
       const u3 = await getUserById(user?._id)
       setUser(u3)
@@ -178,7 +189,7 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
       window.location = '/orders'
       // document.querySelector('#generalLoading').classList.remove('grid')
       // document.querySelector('#generalLoading').classList.add('hidden')
-      return;      
+      return;
     } else {
       alert('You have to log in first!')
     }

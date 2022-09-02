@@ -89,7 +89,7 @@ export default function Deposit() {
 
         <div className="flex items-center gap-5 text-[.8rem] font-semibold font-['Metric-Medium'] ">
           <div className="flex flex-col items-center">Ticket <strong className="text-lg font-Josefin">{user?.myTicket}</strong></div>
-          <div className="flex flex-col items-center">Balance <strong className="text-lg font-Josefin">N<span>{user?.balance}</span></strong></div>
+          <div className="flex flex-col items-center">Balance <strong className="text-lg font-Josefin">N<span>{user.tbalance + user?.ri + user?.roi + user?.vrs}</span></strong></div>
         </div>
       </nav>
 

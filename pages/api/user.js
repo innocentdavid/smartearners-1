@@ -52,8 +52,8 @@ export default async function user(req, res) {
         })
       // console.log('createOrder', createOrder)
 
-      // const updateTbalance = 
-      await client.patch(user?._id).dec({ myTicket: plan.da }).commit()
+      // const update Tbalance = 
+      await client.patch(user?._id).dec({ myTicket: plan.da }).set({lastPurchaseDate: new Date()}).commit()
         .catch(error => {
           // console.log('update user profile', error)
           res.status(500).json({ message: 'error', error })
