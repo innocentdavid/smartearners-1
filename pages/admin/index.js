@@ -159,19 +159,24 @@ export default function Admin() {
   }
 
   const approvePayment = async (itemId, userId, amount) => {
-    document.querySelector('#generalLoading').classList.remove('hidden')
-    document.querySelector('#generalLoading').classList.add('grid')
     try {
+      document.querySelector('#generalLoading').classList.remove('hidden')
+      document.querySelector('#generalLoading').classList.add('grid')
+
       const response = await fetch('/api/user', {
         method: 'POST',
         body: JSON.stringify(['approvePayment', itemId, userId, amount]),
         type: 'application/json'
       })
+
       if (response.status == 200) {
         const res = await response.json()
+        
         if (res.message === 'success') {
           alert('success')
-          router.reload();
+          console.log(res)
+
+          // router.reload();
           document.querySelector('#generalLoading').classList.remove('grid')
           document.querySelector('#generalLoading').classList.add('hidden')
           return;
@@ -187,8 +192,6 @@ export default function Admin() {
       document.querySelector('#generalLoading').classList.remove('grid')
       document.querySelector('#generalLoading').classList.add('hidden')
     }
-    document.querySelector('#generalLoading').classList.remove('grid')
-    document.querySelector('#generalLoading').classList.add('hidden')
   }
 
   const showModal = () => {
@@ -275,11 +278,11 @@ export default function Admin() {
                             </> : <>
                               {data.approved === "approved" ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <>
                                 <div className="h-full flex flex-col justify-between items-center">
-                                  <MdCheck className="border"
+                                  <MdCheck className="border cursor-pointer"
                                     onClick={() => { approvePayment(data._id, data.userId, data.amount) }}
                                   />
 
-                                  <TiTimes className="border"
+                                  <TiTimes className="border cursor-pointer"
                                     onClick={() => { declinePayment(data._id) }}
                                   />
                                 </div>

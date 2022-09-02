@@ -83,6 +83,16 @@ export default async function user(req, res) {
     const u = b[1]
     const user = await getUserById(u?._id)
 
+    const lastChecked = new Date(user?.lastChecked).getTime()
+    if (lastChecked) {
+      const now = new Date().getTime()
+      const gap = now - lastChecked
+      const dif = (gap) / (1000 * 3600 * 24)
+      if (Math.floor(dif) < 1) {
+        return res.status(500).json({ message: 'You have mined already' })
+      }
+    }
+
     const userInvestments = await client.fetch(`*[_type == "order" && userId == $id] | order(_createdAt desc)`,
       { id: user._id }
     ).catch(error => {
@@ -212,27 +222,30 @@ export default async function user(req, res) {
     const UserWasValid = user.isValid
 
     // credit user's 'myTicket' and make user a valid user
-    const res = await client
-      .patch(userId)
-      .inc({ myTicket: amount })
-      .commit()
-      .catch(error => {
-        // console.log('update user profile', error)
-        return res.status(500).json({ message: "an error occured", error })
-      })
+    // const res = await client
+    //   .patch(userId)
+    //   .inc({ myTicket: amount })
+    //   .commit()
+    //   .catch(error => {
+    //     // console.log('update user profile', error)
+    //     return res.status(500).json({ message: "an error occured", error })
+    //   })
+
+    // return res.status(200).json({ message: "success", user })
 
     if (!res) {
       return res.status(500).json({ message: "an error occured", res })
     }
 
-    await client
-    .patch(itemId)
-    .set({ approved: "approved" })
-    .commit()
+    const a = await client
+      .patch(itemId)
+      .set({ approved: "approved" })
+      .commit()
       .catch(error => {
         // console.log('update user profile', error)
         return res.status(500).json({ message: "an error occured", error })
       })
+      console.log(a)
 
 
     // if user was not valid then this is his new time to be validated, so add him to valid refer
@@ -326,7 +339,7 @@ export default async function user(req, res) {
     }
     return res.status(500).json({ message: "error" })
   }
-  
+
   res.status(200).json({ message: '...' })
 }
 

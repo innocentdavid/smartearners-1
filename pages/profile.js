@@ -60,11 +60,15 @@ export default function Profile() {
     }
     if (canMine) {
       const res = await updateUserPortfolio(user)
-      const u = getUserById(user._id)
+      const u = await getUserById(user._id)
       console.log(u)
       if(res.message === 'success'){
         alert('You have successfully mined all your reward')
         setCanMine(false)
+        router.reload();
+      }else{
+        alert("An error occured! please try again")
+        router.reload();
       }
     }
   }
