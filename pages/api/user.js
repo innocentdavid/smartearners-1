@@ -205,10 +205,9 @@ export default async function user(req, res) {
 
   if (b[0] === 'approvePayment') {
     const itemId = b[1]
-    const u = b[2]
-    const user = await getUserById(u?._id)
+    const userId = b[2]
+    const user = await getUserById(userId)
     const amount = b[3]
-    const userId = user._id
     const referrerId = user?.referrer?._ref
     const UserWasValid = user.isValid
 
