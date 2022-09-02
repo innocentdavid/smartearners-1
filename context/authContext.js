@@ -40,10 +40,11 @@ export const AuthContextProvider = ({ children }) => {
 
       const fetch = async () => {
         const cuser = await getUser(dataN.tel)
+
         if (cuser) {
-          var u = { ...cuser, balance: cuser.tbalance + cuser?.ri + cuser?.roi }
+          var u = { ...cuser, balance: cuser.tbalance + cuser?.ri + cuser?.roi + cuser?.vrs }
           if (!cuser.myTicket) {
-            u = { ...cuser, myTicket: 0, balance: cuser.tbalance + cuser.ri + cuser.roi }
+            u = { ...cuser, myTicket: 0, balance: cuser.tbalance + cuser.ri + cuser.roi + cuser?.vrs }
           }
           // console.log(u)
           setUser(u)

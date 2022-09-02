@@ -59,7 +59,7 @@ export default function Orders() {
 
           <div className="flex items-center gap-5 text-[.8rem] ">
             <div className="flex flex-col items-center">
-              <div className="text-center">Obtained<br />Already</div><strong id="oa">N{user?.roi}</strong>
+              <div className="text-center">All Time<br />Earnings</div><strong id="oa">N{user?.roi}</strong>
             </div>
             {/* <div className="flex flex-col items-center"><div>Current</div><div>Daily Return</div> <strong className="">N<span id="cdr">0</span></strong></div> */}
           </div>

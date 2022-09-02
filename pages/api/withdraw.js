@@ -1,10 +1,12 @@
+import { getUserById } from '../../lib/api'
 import { hasWithdrawToday } from '../../lib/functions'
 import client from './config'
 
-export default async function user(req, res) {
+export default async function withdraw(req, res) {
   const b = JSON.parse(req.body)
   if (b[0] === 'withdraw') {
-    const user = b[1]
+    const u = b[1]
+    const user = await getUserById(u?._id)
     const amount = b[2]
 
     // user can only withdraw once a day
@@ -16,6 +18,7 @@ export default async function user(req, res) {
     // if(!canUserWithdraw(user?._id)){
     //   return res.status(500).json({ message: 'You cannot withdraw at this minute.' })
     // }
+
     // update user balance - dec
     await client
       .patch(user._id)
@@ -31,15 +34,16 @@ export default async function user(req, res) {
     await client.create({
       _type: 'withdraw',
       amount,
-      data: new Date(),
-      status: false,
+      status: 'pending',
       userId: user?._id,
-      userTel: user?.tel
+      userTel: user?.tel,
+      accNo: user?.accNo,
+      accName: user?.accName,
+      bank: user?.bank,
+    }).catch(error => {
+      // console.log('createWithdrawal Record', error)
+      res.status(500).json({ message: 'An error occured', error })
     })
-      .catch(error => {
-        // console.log('createWithdrawal Record', error)
-        res.status(500).json({ message: 'An error occured', error })
-      })
 
     return res.status(200).json({ message: 'success' })
   }
@@ -56,51 +60,53 @@ export default async function user(req, res) {
     }
     return res.status(500).json({ message: "error" })
   }
-
-  if (b[0] === 'approveWithdraw') {
+  // change status to string
+  if (b[0] === 'declineWithdraw') {
     const itemId = b[1]
-    const user = b[2]
-    const amount = b[3]
-    const userId = user?._id
-    const referrerId = user?.referrer?._ref
-    const UserWasValid = user?.isValid
-
+    const amount = b[2]
+    const user = b[3]
+    
     if (!itemId) {
       return res.status(500).json({ message: "an error occured", error })
     }
 
     await client
+      .patch(user._id)
+      .inc({ tbalance: amount })
+      .set({ lastWithdrawDate: new Date() })
+      .commit()
+      .catch(error => {
+        // console.log('update user profile', error)
+        res.status(500).json({ message: 'An error occured', error })
+      })
+
+    // approve the withdrawal
+    await client
       .patch(itemId)
-      .set({ status: true })
+      .set({ status: 'declined' })
       .commit()
       .catch(error => {
         // console.log('update user profile', error)
         return res.status(500).json({ message: "an error occured", error })
       })
+    return res.status(200).json({ message: "success" })
+  }
 
-    // if user was not valid then this is his new time to be validated, so add him to valid refer and credit his referrer if any
-    if (!UserWasValid) {
-      await client.create({
-        _type: 'validRef',
-        user: { _type: 'reference', _ref: userId, },
-        referrer: { _type: 'reference', _ref: referrerId, },
-      }).catch(error => {
-        // console.log('paymentProof', error)
-        // return res.status(500).json({ message: "an error occured", error })
-      })
-      if (referrerId) {
-        await client
-          .patch(referrerId)
-          .inc({ myTicket: amount })
-          .commit()
-          .catch(error => {
-            // console.log('update user profile', error)
-          })
-      }
-
+  if (b[0] === 'approveWithdraw') {
+    const itemId = b[1]
+    if (!itemId) {
+      return res.status(500).json({ message: "an error occured", error })
     }
 
-    // commission....
+    // approve the withdrawal
+    await client
+      .patch(itemId)
+      .set({ status: 'approved' })
+      .commit()
+      .catch(error => {
+        // console.log('update user profile', error)
+        return res.status(500).json({ message: "an error occured", error })
+      })
     return res.status(200).json({ message: "success" })
   }
 

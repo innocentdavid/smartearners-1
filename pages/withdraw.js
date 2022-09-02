@@ -5,7 +5,8 @@ import { useContext, useEffect, useState } from 'react';
 import { BsArrowUp } from 'react-icons/bs'
 import { TbCurrencyNaira } from 'react-icons/tb'
 import AuthContext from '../context/authContext';
-import { getAllBalanceRecord, getAllWithDrawRecord } from '../lib/functions';
+import { getUserById } from '../lib/api';
+import { getAllBalanceRecord, getAllPaymentRecord, getAllWithDrawRecord } from '../lib/functions';
 
 export default function Withdraw() {
   const router = useRouter()
@@ -15,18 +16,21 @@ export default function Withdraw() {
   const tabsData = [
     { label: "Withdrawal Record", content: "" },
     { label: "Balance Record", content: "" },
+    { label: "Payment Record", content: "" },
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [amountToWithdraw, setAmountToWithdraw] = useState();
 
   const [withdrawRecord, setWithdrawRecord] = useState([])
   const [balanceRecord, setBalanceRecord] = useState([])
+  const [paymentRecord, setPaymentRecord] = useState([])
   const [canWithdraw, setCanWithdraw] = useState(false)
 
   useEffect(() => {
     const fetch = async () => {
       const wr = await getAllWithDrawRecord(user?._id);
       const br = await getAllBalanceRecord(user?._id);
+      const pr = await getAllPaymentRecord(user?._id);
 
       if (wr?.message === 'success') {
         // console.log('setWithdrawRecord(wr?.res?.data)', wr?.res?.data)
@@ -41,6 +45,13 @@ export default function Withdraw() {
       } else {
         alert(br?.message)
         console.log(br?.err)
+      }
+      if (pr?.message === 'success') {
+        // console.log('setBalanceRecord(pr?.res?.data)', pr?.res?.data)
+        setPaymentRecord(pr?.res?.data)
+      } else {
+        alert(pr?.message)
+        console.log(pr?.err)
       }
     }
     if (user) {
@@ -83,6 +94,7 @@ export default function Withdraw() {
 
   const handleWithdraw = async (e) => {
     e.preventDefault();
+    const Nuser = await getUserById(user?._id)
 
     if (!amountToWithdraw) {
       alert('The minimum you can withdraw is 1000')
@@ -97,14 +109,15 @@ export default function Withdraw() {
       return;
     }
 
-    if (user) {
-      if (!user.accountNumber) {
+    if (Nuser) {
+      if (!Nuser.accountNumber) {
         alert("You have not provided your account number")
         router.push('/updateAccount')
         return;
       }
       if (!canWithdraw) {
         alert('You can only withdraw once a day')
+        router.push('/profile')
         return;
       }
 
@@ -114,13 +127,15 @@ export default function Withdraw() {
       try {
         const response = await fetch('/api/withdraw', {
           method: 'POST',
-          body: JSON.stringify(['withdraw', user, parseInt(amountToWithdraw)]),
+          body: JSON.stringify(['withdraw', Nuser, parseInt(amountToWithdraw)]),
           type: 'application/json'
         })
         const res = await response.json()
         console.log(res)
         if (response.status == 200) {
           alert('Your request has been submited successfully')
+          const u = await getUserById(Nuser?._id)
+          console.log(u)
           router.reload();
           document.querySelector('#generalLoading').classList.remove('grid')
           document.querySelector('#generalLoading').classList.add('hidden')
@@ -191,14 +206,14 @@ export default function Withdraw() {
         </form>
 
         <section className="mt-16 mb-8 px-4">
-          <div className="bg-gray-400 px-[3px] py-[3px] rounded-[10px] flex items-center justify-center text-[.9rem]">
+          <div className="bg-gray-400 px-[3px] py-[3px] rounded-[10px] flex items-center justify-center text-[.9rem] max-w-[600px] m-auto">
             {tabsData.map((tab, idx) => {
               return (
                 <button
                   key={idx}
-                  className={`w-full pt-4 pb-2 text-center rounded-[10px] transition-colors duration-300 ${idx === activeTabIndex
+                  className={`border-r font-bold w-full pt-4 pb-2 text-center rounded-[10px] transition-colors duration-300 text-xs md:text-base ${idx === activeTabIndex
                     ? "bg-white"
-                    : "hover:bg-gray-200"
+                    : "hover:bg-gray-200 hover:text-black text-white"
                     }`}
                   // Change the active tab on click.
                   onClick={() => setActiveTabIndex(idx)}>
@@ -207,10 +222,10 @@ export default function Withdraw() {
               );
             })}
           </div>
-          <div className="py-4" id="record">
-            {activeTabIndex == 0 ? <>
+          <div className="py-4 text-gray-700" id="record">
+            {activeTabIndex == 0 && <>
               <div className="">
-                <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
+                <div className="flex justify-around items-center text-xs md:text-base mt-2">
                   <div></div>
                   <div>Time</div>
                   <div className="text-gray-200">|</div>
@@ -224,20 +239,22 @@ export default function Withdraw() {
               {withdrawRecord && withdrawRecord?.map((record, index) => {
                 return (<>
                   <div key={record._id} className="">
-                    <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
+                    <div className="flex justify-around items-center text-xs md:text-base mt-2">
                       <div>{index + 1}</div>
                       <div>{record?._createdAt && moment(new Date(record?._createdAt)).format('MM-D-YY')}</div>
                       <div className="text-gray-200">|</div>
                       <div>N{record?.amount}</div>
                       <div className="text-gray-200">|</div>
-                      <div>{record?.pending ? 'Confirmed' : 'Pending...'}</div>
+                      <div className={`${record.status === 'declined' && "text-red-700"}`}>{record?.status}</div>
                     </div>
                   </div>
                 </>)
               })}
-            </> : <>
+            </>}
+            
+            {activeTabIndex == 1 && <>
               <div className="">
-                <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
+                <div className="flex justify-around items-center text-xs md:text-base mt-2">
                   <div></div>
                   <div>Time</div>
                   <div className="text-gray-200">|</div>
@@ -253,7 +270,7 @@ export default function Withdraw() {
               {balanceRecord?.map((record, index) => {
                 return (<>
                   <div key={record._id} className="">
-                    <div className="flex justify-around items-center text-xs md:text-base mt-2 text-gray-400">
+                    <div className="flex justify-around items-center text-xs md:text-base mt-2">
                       <div>{index + 1}</div>
                       <div>{moment(new Date(record?._createdAt)).format('MM-D-YY')}</div>
                       <div className="text-gray-200">|</div>
@@ -266,7 +283,40 @@ export default function Withdraw() {
                   </div>
                 </>)
               })}
+            </>}
 
+            {activeTabIndex == 2 && <>
+              <div className="">
+                <div className="flex justify-around items-center text-xs md:text-base mt-2">
+                  <div></div>
+                  <div>Time</div>
+                  <div className="text-gray-200">|</div>
+                  <div>Amount</div>
+                  <div className="text-gray-200">|</div>
+                  <div>Status</div>
+                  {/* <div className="text-gray-200">|</div>
+                  <div>Remaining</div> */}
+                </div>
+              </div>
+              <br />
+
+              {paymentRecord?.map((record, index) => {
+                // if(record.st)
+                return (<>
+                  <div key={record._id} className="">
+                    <div className="flex justify-around items-center text-xs md:text-base mt-2">
+                      <div>{index + 1}</div>
+                      <div>{moment(new Date(record?._createdAt)).format('MM-D-YY')}</div>
+                      <div className="text-gray-200">|</div>
+                      <div>{record.amount}</div>
+                      <div className="text-gray-200">|</div>
+                      <div className={`${record.approved === 'declined' && "text-red-700"}`}>{record.approved}</div>
+                      {/* <div className="text-gray-200">|</div>
+                      <div>{record.remaining}</div> */}
+                    </div>
+                  </div>
+                </>)
+              })}
             </>}
           </div>
         </section>
