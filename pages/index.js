@@ -21,6 +21,13 @@ export default function Home({ allInvestmentPlan }) {
     }
   }, [status])
 
+  useEffect(() => {
+    if (user) {
+      const u = await getUserById(user?._id)
+      setUser(u)
+    }
+  }, [user])
+
   if (status === 'loading') {
     return (
       <div className="fixed top-0 left-0 w-full h-screen grid place-items-center z-[999999999] text-white" style={{ background: 'rgba(0,0,0,.8)' }}>
