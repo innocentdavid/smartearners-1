@@ -137,7 +137,9 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
           type: 'application/json'
         })
         const res = await response.json()
-        const u = getUserById(user?._id)
+        const u1 = await getUserById(user?._id)
+        const u2 = await getUserById(user?._id)
+        const u3 = await getUserById(user?._id)
         if(res?.message === 'unexpected'){
           signOut()
           hideModal()
