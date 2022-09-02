@@ -13,7 +13,7 @@ import { useSession } from 'next-auth/react';
 
 export default function Admin() {
   const router = useRouter()
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const { status } = useSession();
   const [allPaymentProofs, setAllPaymentProofs] = useState()
   const [allWithdrawRequest, setAllWithdrawRequest] = useState()

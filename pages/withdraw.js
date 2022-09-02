@@ -11,7 +11,7 @@ import { getAllBalanceRecord, getAllPaymentRecord, getAllWithDrawRecord } from '
 export default function Withdraw() {
   const router = useRouter()
   const { p } = router.query
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const balance = user?.tbalance + user?.roi + user?.ri + user?.vrs
   const tabsData = [
     { label: "Withdrawal Record", content: "" },
@@ -135,11 +135,13 @@ export default function Withdraw() {
         if (response.status == 200) {
           const u = await getUserById(Nuser?._id)
           setTimeout(async () => {
-            const u1 = await getUserById(user._id)
-            const u2 = await getUserById(user._id)
-            const u3 = await getUserById(user._id)
-            router.reload();
+            await getUserById(user._id)
+            await getUserById(user._id)
+            await getUserById(user._id)
+            // router.reload();
           }, 10000);
+          const u3 = await getUserById(user._id)
+          setUser(u3)
           alert('Your request has been submited successfully')
           console.log(u)
           router.reload();

@@ -12,7 +12,7 @@ import { getAllValidRefer } from "../lib/functions";
 export default function Pervalidrefer() {
   const router = useRouter()
   const { status, data } = useSession();
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const [validRefers, setValidRefers] = useState([])
 
   useEffect(() => {

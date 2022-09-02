@@ -13,7 +13,7 @@ import { getUserById, updateUserPortfolio } from '../lib/api'
 export default function Profile() {
   const router = useRouter()
   const { status, data } = useSession();
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const [canMine, setCanMine] = useState(false)
 
   useEffect(() => {

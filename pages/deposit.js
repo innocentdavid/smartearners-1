@@ -10,7 +10,7 @@ import AuthContext from '../context/authContext'
 import { signOut } from 'next-auth/react'
 
 export default function Deposit() {
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const router = useRouter()
   const [ticket, setTicket] = useState(3000)
   const [ticketPlaceholder, setTicketPlaceholder] = useState()
@@ -37,7 +37,7 @@ export default function Deposit() {
   const makeDeposit = async () => {
     if (paymentGateWay === 2) {
       // paywithBalance
-      if (!(user.balance >= parseInt(ticket))) {
+      if (!((user.tbalance + user?.ri + user?.roi + user?.vrs) >= parseInt(ticket))) {
         alert('Your balance is not enough')
         return
       }

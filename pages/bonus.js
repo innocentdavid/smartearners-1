@@ -9,7 +9,7 @@ import { getAllRfCommisionByUser } from "../lib/functions"
 
 export default function Bonus() {
   const router = useRouter()
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const [allRfCommissionByUser, setAllRfCommissionByUser] = useState()
   const [level1, setLevel1] = useState()
   const [level2, setLevel2] = useState()

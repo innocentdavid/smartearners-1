@@ -25,7 +25,8 @@ export default {
     {
       name: 'myTicket',
       title: 'My Ticket',
-      type: 'number'
+      type: 'number',
+      validation: Rule => Rule.min(0).warning('tickets cannot go beyond 0')
     },
     {
       name: 'referrer',

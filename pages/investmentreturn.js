@@ -10,7 +10,7 @@ import { getAllIrc } from "../lib/functions"
 export default function Investmentreturn() {
   const router = useRouter()
   const { status, data } = useSession();
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const [records, setRecords] = useState()
 
   useEffect(() => {

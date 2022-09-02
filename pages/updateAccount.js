@@ -7,7 +7,7 @@ import AuthContext from "../context/authContext"
 
 export default function UpdateAccount() {
   const router = useRouter()
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const [accDetails, setAccDetails] = useState({ number: null, name: '', bank: "" })
   const { status } = useSession();
 

@@ -9,7 +9,7 @@ import AuthContext from '../context/authContext'
 import { getOrders } from '../lib/api'
 
 export default function Orders() {
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const { status, data } = useSession();
   const router = useRouter()
 

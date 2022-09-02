@@ -12,7 +12,7 @@ import AuthContext from '../context/authContext';
 export default function Home({ allInvestmentPlan }) {
   const [plans] = useState(allInvestmentPlan)
   const { status, data } = useSession();
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const router = useRouter()
 
   useEffect(() => {
@@ -47,7 +47,9 @@ export default function Home({ allInvestmentPlan }) {
           <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
             <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit') }}>Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket ? user?.myTicket : 0}</strong></div>
             <div className="border-r border-[#fff3dc] h-[60%]"></div>
-            <div onClick={() => { router.push('/withdraw') }} className="flex flex-col items-center cursor-pointer">Balance <strong className="font-bold font-Josefin select-none">N<span>{user?.balance}</span></strong></div>
+            <div onClick={() => { router.push('/withdraw') }} className="flex flex-col items-center cursor-pointer">Balance <strong className="font-bold font-Josefin select-none">N<span>{
+            user.tbalance + user?.ri + user?.roi + user?.vrs
+            }</span></strong></div>
           </div>
         </nav>
 
@@ -146,11 +148,13 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
         }
         if (res?.message !== 'error') {
           setTimeout(async () => {
-            const u1 = await getUserById(user?._id)
-            const u2 = await getUserById(user?._id)
-            const u3 = await getUserById(user?._id)
+            await getUserById(user?._id)
+            await getUserById(user?._id)
+            await getUserById(user?._id)
             console.log({u1,u2,u3})
           }, 10000);
+          const u3 = await getUserById(user?._id)
+          setUser(u3)
           alert('successful')
           hideModal()
           window.location = '/orders'

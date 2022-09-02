@@ -9,7 +9,7 @@ import AuthContext from '../context/authContext'
 
 export default function Team() {
   const router = useRouter()
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   // console.log(user)
 
   const showModal = () => {
