@@ -55,14 +55,14 @@ export default function Admin() {
           "query": "*[_type == 'paymentProof']",
         }
       },
-      {
-        "delete": {
-          "query": "*[_type == 'withdraw']",
-        }
-      },
+      // {
+      //   "delete": {
+      //     "query": "*[_type == 'withdraw']",
+      //   }
+      // },
     ]
 
-    const tokenWithWriteAccess = '';
+    const tokenWithWriteAccess = process.env.SANITY_API_TOKEN;
 
     fetch(`https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}?dryRun=false`, {
       method: 'post',
@@ -176,7 +176,7 @@ export default function Admin() {
           alert('success')
           console.log(res)
 
-          // router.reload();
+          router.reload();
           document.querySelector('#generalLoading').classList.remove('grid')
           document.querySelector('#generalLoading').classList.add('hidden')
           return;
