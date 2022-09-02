@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import { useContext, useEffect, useState } from "react"
 import AuthContext from "../../context/authContext"
-import { getAllPaymentProofs, getAllWithdrawRequest } from "../../lib/api"
+import { getAllPaymentProofs, getAllWithdrawRequest, getUserById } from "../../lib/api"
 import { MdCheck } from 'react-icons/md'
 import { BsArrowUp, BsPatchCheckFill } from 'react-icons/bs'
 import { BiCopy } from 'react-icons/bi'
@@ -211,17 +211,23 @@ export default function Admin() {
 
       if (response.status == 200) {
         const res = await response.json()
-        
+        setTimeout(async () => {
+          const u1 = await getUserById(user?._id)
+          const u2 = await getUserById(user?._id)
+          const u3 = await getUserById(user?._id)
+          console.log({u1,u2,u3})          
+        }, 5000);
+        console.log('done!')
         if (res.message === 'success') {
           alert('success') 
           console.log(res) //
-
+          const u4 = await getUserById(user?._id)
           router.reload();
-          document.querySelector('#generalLoading').classList.remove('grid')
-          document.querySelector('#generalLoading').classList.add('hidden')
           return;
         } else {
           alert('Something went wrong')
+          document.querySelector('#generalLoading').classList.remove('grid')
+          document.querySelector('#generalLoading').classList.add('hidden')
           console.log(res)
           return;
         }
