@@ -346,7 +346,7 @@ export default async function user(req, res) {
   res.status(200).json({ message: '...' })
 }
 
-const createRfCommision = async (user, commission, depositedAmount, level) => {
+const createRfCommision = async (user, commission, amount, level) => {
   if (user.referrer) {
     // update referrer
     await client
@@ -359,7 +359,7 @@ const createRfCommision = async (user, commission, depositedAmount, level) => {
 
     await client.create({
       _type: 'rfCommission',
-      commission, depositedAmount, level,
+      commission, depositedAmount: amount, level,
       user: { _type: 'reference', _ref: user._id },
       referrer: { _type: 'reference', _ref: user.referrer._id },
     }).catch(error => {
