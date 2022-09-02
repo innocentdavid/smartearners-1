@@ -197,7 +197,7 @@ export default async function user(req, res) {
       .set({ approved: 'declined' })
       .commit()
       .catch(error => {
-        // console.log('update user profile', error)
+        // console.log('declineProof', error)
         return res.status(500).json({ message: "error", error })
       })
     return res.status(200).json({ message: "success" })

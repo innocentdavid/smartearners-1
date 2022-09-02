@@ -4,6 +4,7 @@ import AuthContext from "../../context/authContext"
 import { getAllPaymentProofs, getAllWithdrawRequest } from "../../lib/api"
 import { MdCheck } from 'react-icons/md'
 import { BsArrowUp, BsPatchCheckFill } from 'react-icons/bs'
+import { BiCopy } from 'react-icons/bi'
 import { TiTimes } from 'react-icons/ti'
 import Head from "next/head"
 import Link from "next/link"
@@ -130,7 +131,7 @@ export default function Admin() {
     try {
       const response = await fetch('/api/user', {
         method: 'POST',
-        body: JSON.stringify(['declineProof', itemId, user, amount]),
+        body: JSON.stringify(['declineProof', itemId]),
         type: 'application/json'
       })
       if (response.status == 200) {
@@ -142,6 +143,7 @@ export default function Admin() {
           return;
         } else {
           alert('Something went wrong!')
+          console.log(response)
           console.log(res)
           return;
         }
@@ -189,12 +191,22 @@ export default function Admin() {
     document.querySelector('#generalLoading').classList.add('hidden')
   }
 
+  const showModal = () => {
+    const modal = document.querySelector('#modal')
+    modal.classList.remove('hidden')
+  }
+
+  const hideModal = () => {
+    const modal = document.querySelector('#modal')
+    modal.classList.add('hidden')
+  }
+
   if (status === "loading") {
     return "Loading or not authenticated..."
   }
 
   if (user?.isAdmin) {
-    return (
+    return (<>
       <div>
         <Head>
           <title>Backend</title>
@@ -258,20 +270,24 @@ export default function Admin() {
                             </a></Link>
                           </td>
                           <td className="w-[27%] h-[38px] p-1 font-['Metric-SemiBold'] text-center relative">
-                            {data.approved ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <>
-                              <div className="h-full flex flex-col justify-between items-center">
-                                <MdCheck className="border"
-                                  onClick={() => { approvePayment(data._id, data.amount) }}
-                                />
+                            {data.approved === "declined" ? <>
+                              <BsPatchCheckFill className="text-red-700 absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" />
+                            </> : <>
+                              {data.approved === "approved" ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <>
+                                <div className="h-full flex flex-col justify-between items-center">
+                                  <MdCheck className="border"
+                                    onClick={() => { approvePayment(data._id, data.amount) }}
+                                  />
 
-                                <TiTimes className="border"
-                                  onClick={() => { declinePayment(data._id) }}
-                                />
-                              </div>
+                                  <TiTimes className="border"
+                                    onClick={() => { declinePayment(data._id) }}
+                                  />
+                                </div>
+                              </>}
                             </>}
                           </td>
                         </tr>
-                        <br />
+                        {/* <br /> */}
                       </>)
                     })}
                   </tbody>
@@ -293,9 +309,11 @@ export default function Admin() {
               <br />
 
               {allWithdrawRequest?.map((request, index) => {
-                console.log(request)
-                return (<>
+                // console.log(request)
+                return (
                   <div key={request._id} className="">
+                    <Modal hideModal={hideModal} bank={request.bank} number={request.accNo} name={request.accName} amount={request.amount} />
+
                     <div className="flex justify-around items-center text-xs md:text-base mt-2 text-black">
                       <div>{index + 1}</div>
                       <div className="flex flex-col items-center">
@@ -305,38 +323,69 @@ export default function Admin() {
                       <div className="text-gray-200">|</div>
                       <div>
                         <div className="">₦{request.amount}</div>
-                        <div className="text-[.7rem] bg-[#ffaa00] p-1 rounded-sm">copy account</div>
+                        <div className="text-[.7rem] bg-[#ffaa00] p-1 rounded-sm" onClick={() => { showModal() }}>copy account</div>
                       </div>
                       <div className="text-gray-200">|</div>
                       <div><span className={request.status === "approved" ? "text-green-700" : "text-red-700"}>{request.status}</span></div>
                       <div className="text-gray-200">|</div>
-                      <div className="relative">
+                      <div className="relative z-[0]">
                         {request.status === 'declined' ? <BsPatchCheckFill className="text-red-700 absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl" /> : <>
-                        {request.status === "approved" ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl" /> : <>
-                          <div className="">
-                            <MdCheck className="text-lg border cursor-pointer"
-                              onClick={() => { approveWithdraw(request._id) }}
-                            />
+                          {request.status === "approved" ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] text-xl" /> : <>
+                            <div className="">
+                              <MdCheck className="text-lg border cursor-pointer"
+                                onClick={() => { approveWithdraw(request._id) }}
+                              />
 
-                            <TiTimes className="mt-3 text-lg border cursor-pointer"
-                              onClick={() => { declineWithdraw(request._id, request?.amount) }}
-                            />
-                          </div>
-                        </>}
+                              <TiTimes className="mt-3 text-lg border cursor-pointer"
+                                onClick={() => { declineWithdraw(request._id, request?.amount) }}
+                              />
+                            </div>
+                          </>}
                         </>}
                       </div>
                     </div>
                   </div>
-                </>)
+                )
               })}
             </>}
           </div>
         </section>
-
-
-
       </div>
-    )
+    </>)
   }
   return (<>You are not allowed here!</>)
+}
+
+const Modal = ({ hideModal, name, bank, number, amount }) => {
+  return (<>
+    <div id="modal" className="hidden fixed">
+      <div onClick={hideModal} className="cursor-pointer fixed top-0 left-0 w-screen h-screen grid place-items-center bg-[rgba(0,0,0,.1)] text-white font-['Poppins']" title="close">
+      </div>
+
+      <div className="z-[5] fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[90%] mx-auto">
+        <div className="h-[70px] px-4 flex justify-between items-center md:gap-10 gap-7 bg-[#ffa500] text-white rounded-t-[10px]">
+          <div className="font-bold font-[poppins] uppercase">SMART <br /> Earners</div>
+          <div className="text-end">
+            <div className="text-black font-semibold">COPY</div>
+            <div className="text-2xl font-bold">Account Details</div>
+          </div>
+        </div>
+
+        <div className="px-4 py-4 shadow-lg rounded-b-[10px] text-[.9rem] bg-[#fff] text-black">
+          <div className="">
+            <p className="flex gap-4">
+              <div className="">ACCOUNT NUMBER: <span className="font-bold">{number}</span></div> <BiCopy onClick={() => { navigator.clipboard.writeText(`${number}`); alert('copied!') }} />
+            </p>
+            <p className="my-3 flex gap-4">
+              <div className="">ACCOUNT NAME: <span className="font-bold">{name}</span></div> <BiCopy onClick={() => { navigator.clipboard.writeText(`${name}`); alert('copied!') }} />
+            </p>
+            <p className="flex gap-4">
+              <div className="">BANK: <span className="font-bold">{bank}</span></div> <BiCopy onClick={() => { navigator.clipboard.writeText(`${bank}`); alert('copied!') }} />
+            </p>
+            <p className="mt-3">AMOUNT: <span className="font-bold">#{amount}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </>)
 }
