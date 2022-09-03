@@ -11,6 +11,7 @@ import AuthContext from '../context/authContext';
 
 export default function Home({ allInvestmentPlan }) {
   const [plans] = useState(allInvestmentPlan)
+  const [canBuy, setCanBuy] = useState(false)
   const { status, data } = useSession();
   const { user, setUser } = useContext(AuthContext)
   const router = useRouter()
@@ -23,8 +24,14 @@ export default function Home({ allInvestmentPlan }) {
 
   useEffect(() => {
     const fetch = async () => {
+      await getUserById(user?._id)
+      await getUserById(user?._id)
       const u = await getUserById(user?._id)
+      let oldTicketBalance = localStorage.getItem('oldTicketBalance')
       setUser(u)
+      if (oldTicketBalance < u.myTicket) {
+        setCanBuy(true)
+      }
     }
     if (user) {
       fetch()
@@ -102,7 +109,7 @@ export default function Home({ allInvestmentPlan }) {
 
           <section className="my-5 px-5 flex flex-col md:flex-row flex-wrap justify-center items-center md:gap-10">
             {plans?.map((plan, index) => {
-              return <PlanCard key={plan?._id} user={user} setUser={setUser} id={index + 1} plan={plan} title={plan?.title} returnPeriod={plan?.returnPeriod} percentage={plan?.percentage} da={plan?.da} router={router} />
+              return <PlanCard key={plan?._id} user={user} setUser={setUser} id={index + 1} plan={plan} title={plan?.title} returnPeriod={plan?.returnPeriod} percentage={plan?.percentage} da={plan?.da} router={router} canBuy={canBuy} setCanBuy={setCanBuy} />
             })}
           </section>
         </main>
@@ -113,7 +120,7 @@ export default function Home({ allInvestmentPlan }) {
   }
 }
 
-const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod, router }) => {
+const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod, router, canBuy, setCanBuy }) => {
   const dailyReturn = (percentage / 100) * da
   const totalReturn = ((percentage / 100) * da) * returnPeriod
   const totalReturnPercentage = percentage * returnPeriod;
@@ -130,70 +137,68 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
   }
 
   const investNow = async () => {
-    alert('your request will be processed, and this might take upto a minute!')
-    const lastPurchaseDate = new Date(user.lastPurchaseDate).getTime()
-    const now = new Date().getTime()
-    const gap = now - lastPurchaseDate
-    const dif = gap / (1000 * 3600 * 24)
-    console.log(dif)
-    if (dif && dif <= 0.002) {
-      // alert('Try again in the next 30 seconds')
-      console.log('Try again in the next 30 seconds')
-      // return
-    }
-    document.querySelector('#generalLoading').classList.remove('hidden')
-    document.querySelector('#generalLoading').classList.add('grid')
-    if (user) {
-      // console.log(user.myTicket, plan.da)
-      if (parseInt(user.myTicket) < parseInt(plan.da)) {
-        alert('You do not have enough ticket, get more ticket to continue');
-        router.push('/deposit')
-        document.querySelector('#generalLoading').classList.remove('grid')
-        document.querySelector('#generalLoading').classList.add('hidden')
-        return
+    if(canBuy){
+      alert('your request will be processed, and this might take upto a 30secs!')
+      const lastPurchaseDate = new Date(user.lastPurchaseDate).getTime()
+      const now = new Date().getTime()
+      const gap = now - lastPurchaseDate
+      const dif = gap / (1000 * 3600 * 24)
+      console.log(dif)
+      if (dif && dif <= 0.002) {
+        // alert('Try again in the next 30 seconds')
+        console.log('Try again in the next 30 seconds')
+        // return
       }
-      // const res = await buyInvestmentPlan(plan, user)
-      try {
-        const response = await fetch('/api/user', {
-          method: 'POST',
-          body: JSON.stringify(['buyInvestmentPlan', plan, user]),
-          type: 'application/json'
-        })
-        const res = await response.json()
-        if (res?.message === 'unexpected') {
-          signOut()
-          hideModal()
-          alert('Somthing went wrong!');
-          router.reload();
-          return;
+      document.querySelector('#generalLoading').classList.remove('hidden')
+      document.querySelector('#generalLoading').classList.add('grid')
+      if (user) {
+        // console.log(user.myTicket, plan.da)
+        if (parseInt(user.myTicket) < parseInt(plan.da)) {
+          alert('You do not have enough ticket, get more ticket to continue');
+          router.push('/deposit')
+          document.querySelector('#generalLoading').classList.remove('grid')
+          document.querySelector('#generalLoading').classList.add('hidden')
+          return
         }
-        // if (res?.message !== 'error') {
-
-        // }
-      } catch (err) {
-        console.log(err)
-        hideModal()
+        // const res = await buyInvestmentPlan(plan, user)
+        try {
+          const response = await fetch('/api/user', {
+            method: 'POST',
+            body: JSON.stringify(['buyInvestmentPlan', plan, user]),
+            type: 'application/json'
+          })
+          const res = await response.json()
+          if (res?.message === 'unexpected') {
+            signOut()
+            hideModal()
+            alert('Somthing went wrong!');
+            router.reload();
+            return;
+          }
+          if (res?.message !== 'error') {
+            localStorage.setItem('oldTicketBalance', user.myTicket)
+          }
+        } catch (err) {
+          console.log(err)
+          hideModal()
+        }
+  
+        await getUserById(user?._id)
+        await getUserById(user?._id)
+        await getUserById(user?._id)
+        await getUserById(user?._id)
+        const u3 = await getUserById(user?._id)
+        setUser(u3)
+      } else {
+        alert('You have to log in first!')
       }
-
-      await getUserById(user?._id)
-      await getUserById(user?._id)
-      await getUserById(user?._id)
-      await getUserById(user?._id)
-      const u3 = await getUserById(user?._id)
-      setUser(u3)
-    } else {
-      alert('You have to log in first!')
+      setTimeout(async () => {
+        await getUserById(user?._id)
+        alert('successful')
+        hideModal()
+        window.location = '/orders'
+      }, 5000);
     }
-    setTimeout(async () => {
-      await getUserById(user?._id)
-      alert('successful')
-      hideModal()
-      window.location = '/orders'
-    }, 20000);
-
-
-    // document.querySelector('#generalLoading').classList.remove('grid')
-    // document.querySelector('#generalLoading').classList.add('hidden')
   }
 
   return (<>
