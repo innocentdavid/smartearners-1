@@ -7,7 +7,7 @@ import { BiTrendingUp } from 'react-icons/bi'
 import { FaLock } from 'react-icons/fa'
 import Footer from '../components/footer'
 import Slider from '../components/slider'
-import { getAllInvestmentPlan, getUserById } from '../lib/api'
+import { getAllInvestmentPlan } from '../lib/api'
 import AuthContext from '../context/authContext';
 
 export default function Home({ allInvestmentPlan }) {
@@ -22,25 +22,6 @@ export default function Home({ allInvestmentPlan }) {
       router.replace('/login')
     }
   }, [status])
-
-  useEffect(() => {
-    const fetch = async () => {
-      await getUserById(user?._id)
-      await getUserById(user?._id)
-      const u = await getUserById(user?._id)
-      let oldTicketBalance = localStorage.getItem('oldTicketBalance')
-      setUser(u)
-      if (oldTicketBalance < u.myTicket) {
-        setCanBuy(true)
-      } else {
-        // console.log({ oldTicketBalance, myTicket: u?.myTicket })
-        setCanBuy(false)
-      }
-    }
-    if (user) {
-      fetch()
-    }
-  }, [user])
 
   if (status === 'loading') {
     return (

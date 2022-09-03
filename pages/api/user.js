@@ -1,5 +1,4 @@
-import { getUser, getUserById } from '../../lib/api'
-import { groq } from 'next-sanity'
+import { getUserById } from '../../lib/api'
 import client from './config'
 
 export default async function user(req, res) {
@@ -7,13 +6,7 @@ export default async function user(req, res) {
   // index investNow()
   if (b[0] === 'buyInvestmentPlan') {
     const plan = b[1]
-    const u = b[2]
-    await getUserById(u?._id)
-    await getUserById(u?._id)
-    await getUserById(u?._id)
-    await getUserById(u?._id)
-    const user = await getUserById(u?._id)
-    console.log(user)
+    const user = b[2]
 
     // console.log(user?.myTicket, plan?.da)
     // return res.status(500).json({ message: 'unexpected' })
@@ -86,9 +79,8 @@ export default async function user(req, res) {
 
   // page == profile.js through lib/api.js
   if (b[0] === 'updateUserPortfolio') {
-    const u = b[1]
+    const user = b[1]
     const item = b[2]
-    const user = await getUserById(u?._id)
     // update user
     let a = await client
       .patch(user._id)
@@ -160,8 +152,7 @@ export default async function user(req, res) {
   }
 
   if (b[0] === 'depositWithBalance') {
-    const u = b[1]
-    const user = await getUserById(u?._id)
+    const user = b[1]
     const amount = b[2]
 
     const resp = await client
@@ -178,8 +169,7 @@ export default async function user(req, res) {
   }
 
   if (b[0] === 'paymentProof') {
-    const u = b[1]
-    const user = await getUserById(u?._id)
+    const user = b[1]
     const amount = b[2]
     const imageUrl = b[3]
 
@@ -346,7 +336,7 @@ export default async function user(req, res) {
   }
 
   if (b[0] === 'claimReward') {
-    const u = b[1]
+    const user = b[1]
     if (u) {
       const user = await getUserById(u._id)
       if(user?.vrs >= 20000){

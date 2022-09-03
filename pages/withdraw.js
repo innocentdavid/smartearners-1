@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from 'react';
 import { BsArrowUp } from 'react-icons/bs'
 import { TbCurrencyNaira } from 'react-icons/tb'
 import AuthContext from '../context/authContext';
-import { getUserById } from '../lib/api';
 import { getAllBalanceRecord, getAllPaymentRecord, getAllWithDrawRecord } from '../lib/functions';
 
 export default function Withdraw() {
@@ -94,7 +93,6 @@ export default function Withdraw() {
 
   const handleWithdraw = async (e) => {
     e.preventDefault();
-    const Nuser = await getUserById(user?._id)
 
     if (!amountToWithdraw) {
       alert('The minimum you can withdraw is 1000')
@@ -109,8 +107,8 @@ export default function Withdraw() {
       return;
     }
 
-    if (Nuser) {
-      if (!Nuser.accountNumber) {
+    if (user) {
+      if (!user.accountNumber) {
         alert("You have not provided your account number")
         router.push('/updateAccount')
         return;
@@ -127,21 +125,21 @@ export default function Withdraw() {
         document.querySelector('#generalLoading').classList.add('grid')
         const response = await fetch('/api/withdraw', {
           method: 'POST',
-          body: JSON.stringify(['withdraw', Nuser, parseInt(amountToWithdraw)]),
+          body: JSON.stringify(['withdraw', user, parseInt(amountToWithdraw)]),
           type: 'application/json'
         })
         const res = await response.json()
         // console.log(res)
         if (response.status == 200) {
-          const u = await getUserById(Nuser?._id)
+          // const u = await getUserById(user?._id)
           setTimeout(async () => {
-            await getUserById(user._id)
-            await getUserById(user._id)
-            await getUserById(user._id)
-            // router.reload();
-          }, 10000);
-          const u3 = await getUserById(user._id)
-          setUser(u3)
+            // await getUserById(user._id)
+            // await getUserById(user._id)
+            // await getUserById(user._id)
+            router.reload();
+          }, 500);
+          // const u3 = await getUserById(user._id)
+          // setUser(u3)
           alert('Your request has been submited successfully')
           console.log(u)
           router.reload();

@@ -6,9 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { BsArrowUp } from "react-icons/bs";
 import { ImUsers } from "react-icons/im";
 import AuthContext from "../context/authContext";
-import { getUserById } from "../lib/api";
 import { getAllValidRefer } from "../lib/functions";
-// import { getValidRefers } from "../lib/api";
 
 export default function Pervalidrefer() {
   const router = useRouter()
@@ -59,8 +57,6 @@ export default function Pervalidrefer() {
         document.querySelector('#generalLoading').classList.add('hidden')
         return;
       }
-      const u3 = await getUserById(user?._id)
-      setUser(u3)
       setTimeout(async () => {
         // await getUserById(user?._id)
         alert('successful')

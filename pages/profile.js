@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import AuthContext from '../context/authContext'
 import { signOut } from "next-auth/react"
-import { getUserById, updateUserPortfolio } from '../lib/api'
+import { updateUserPortfolio } from '../lib/api'
 
 export default function Profile() {
   const router = useRouter()

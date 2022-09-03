@@ -53,11 +53,8 @@ export default function Deposit() {
         const res = await response.json()
         if (res) {
           setTimeout(async () => {
-            const u1 = await getUserById(user._id)
-            const u2 = await getUserById(user._id)
-            const u3 = await getUserById(user._id)
             router.reload();
-          }, 10000);
+          }, 500);
           alert(`You have successfully purchase ${ticket} tickets with your balance`)
           setShowPaymentGateWay(false)
           // signOut()
