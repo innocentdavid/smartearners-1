@@ -50,56 +50,56 @@ export default function Admin() {
 
   const clearAll = () => {
     const mutations = [
-      {
-        "delete": {
-          "query": "*[_type == 'user']",
-        }
-      },
+      // {
+      //   "delete": {
+      //     "query": "*[_type == 'user']",
+      //   }
+      // },
       {
         "delete": {
           "query": "*[_type == 'order']",
         }
       },
-      {
-        "delete": {
-          "query": "*[_type == 'rfCommission']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'validRef']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'paymentProof']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'dailyReturn']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'irc']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'referral']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'record']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'withdraw']",
-        }
-      },
+      // {
+      //   "delete": {
+      //     "query": "*[_type == 'rfCommission']",
+      //   }
+      // },
+      // {
+      //   "delete": {
+      //     "query": "*[_type == 'validRef']",
+      //   }
+      // },
+      // {
+      //   "delete": {
+      //     "query": "*[_type == 'paymentProof']",
+      //   }
+      // },
+      // {
+      //   "delete": {
+      //     "query": "*[_type == 'dailyReturn']",
+      //   }
+      // },
+      // {
+      //   "delete": {
+      //     "query": "*[_type == 'irc']",
+      //   }
+      // },
+      // {
+      //   "delete": {
+      //     "query": "*[_type == 'referral']",
+      //   }
+      // },
+      // {
+      //   "delete": {
+      //     "query": "*[_type == 'record']",
+      //   }
+      // },
+      // {
+      //   "delete": {
+      //     "query": "*[_type == 'withdraw']",
+      //   }
+      // },
     ]
 
     const tokenWithWriteAccess = process.env.SANITY_API_TOKEN;
