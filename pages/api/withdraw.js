@@ -64,19 +64,19 @@ export default async function withdraw(req, res) {
   if (b[0] === 'declineWithdraw') {
     const itemId = b[1]
     const amount = b[2]
-    const user = b[3]
+    const owner = b[3]
     
     if (!itemId) {
       return res.status(500).json({ message: "an error occured", error })
     }
 
     await client
-      .patch(user._id)
+      .patch(owner?._id)
       .inc({ tbalance: amount })
-      .set({ lastWithdrawDate: new Date() })
+      .set({ lastWithdrawDate: '' })
       .commit()
       .catch(error => {
-        // console.log('update user profile', error)
+        // console.log('update owner profile', error)
         res.status(500).json({ message: 'An error occured', error })
       })
 
@@ -86,7 +86,7 @@ export default async function withdraw(req, res) {
       .set({ status: 'declined' })
       .commit()
       .catch(error => {
-        // console.log('update user profile', error)
+        // console.log('update owner profile', error)
         return res.status(500).json({ message: "an error occured", error })
       })
     return res.status(200).json({ message: "success" })

@@ -1,5 +1,6 @@
 import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 import { BiTrendingUp } from 'react-icons/bi'
@@ -32,7 +33,7 @@ export default function Home({ allInvestmentPlan }) {
       if (oldTicketBalance < u.myTicket) {
         setCanBuy(true)
       } else {
-        console.log({oldTicketBalance, myTicket:u?.myTicket})
+        // console.log({ oldTicketBalance, myTicket: u?.myTicket })
         setCanBuy(false)
       }
     }
@@ -93,12 +94,14 @@ export default function Home({ allInvestmentPlan }) {
               <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Referral</div>
             </div>
 
-            <div className="flex flex-col items-center">
-              <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/#support') }}>
-                <img src="/images/icons8-comments-50.png" alt="" width="20px" className="" />
-              </div>
-              <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Support</div>
-            </div>
+            <Link href="https://api.whapsapp.com/send?phone=+2349135060837">
+              <a className="flex flex-col items-center">
+                <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer">
+                  <img src="/images/icons8-comments-50.png" alt="" width="20px" className="" />
+                </div>
+                <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Support</div>
+              </a>
+            </Link>
 
             <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/#investmentPlan') }}>
               <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-black flex justify-center items-center "><BiTrendingUp size="20px" /></div>
@@ -141,62 +144,62 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
 
   const investNow = async () => {
     // if (canBuy) {
-      alert('your request will be processed, and this might take some seconds!')
-      // const lastPurchaseDate = new Date(user.lastPurchaseDate).getTime()
-      // const now = new Date().getTime()
-      // const gap = now - lastPurchaseDate
-      // const dif = gap / (1000 * 3600 * 24)
-      // console.log(dif)
-      // if (dif && dif <= 0.002) {
-      //   // alert('Try again in the next 30 seconds')
-      //   console.log('Try again in the next 30 seconds')
-      //   // return
-      // }
+    alert('your request will be processed, and this might take some seconds!')
+    // const lastPurchaseDate = new Date(user.lastPurchaseDate).getTime()
+    // const now = new Date().getTime()
+    // const gap = now - lastPurchaseDate
+    // const dif = gap / (1000 * 3600 * 24)
+    // console.log(dif)
+    // if (dif && dif <= 0.002) {
+    //   // alert('Try again in the next 30 seconds')
+    //   console.log('Try again in the next 30 seconds')
+    //   // return
+    // }
 
-      document.querySelector('#generalLoading').classList.remove('hidden')
-      document.querySelector('#generalLoading').classList.add('grid')
-      if (user) {
-        // console.log(user.myTicket, plan.da)
-        if (parseInt(user.myTicket) < parseInt(plan.da)) {
-          alert('You do not have enough ticket, get more ticket to continue');
-          router.push('/deposit')
-          document.querySelector('#generalLoading').classList.remove('grid')
-          document.querySelector('#generalLoading').classList.add('hidden')
-          return
-        }
-        // const res = await buyInvestmentPlan(plan, user)
-        try {
-          const response = await fetch('/api/user', {
-            method: 'POST',
-            body: JSON.stringify(['buyInvestmentPlan', plan, user]),
-            type: 'application/json'
-          })
-          const res = await response.json()
-          if (res?.message === 'unexpected') {
-            signOut()
-            hideModal()
-            alert('Somthing went wrong!');
-            router.reload();
-            return;
-          }
-          if (res?.message !== 'error') {
-            localStorage.setItem('oldTicketBalance', user.myTicket)
-          }
-        } catch (err) {
-          console.log(err)
-          hideModal()
-        }
-        const u3 = await getUserById(user?._id)
-        setUser(u3)
-      } else {
-        alert('You have to log in first!')
+    document.querySelector('#generalLoading').classList.remove('hidden')
+    document.querySelector('#generalLoading').classList.add('grid')
+    if (user) {
+      // console.log(user.myTicket, plan.da)
+      if (parseInt(user.myTicket) < parseInt(plan.da)) {
+        alert('You do not have enough ticket, get more ticket to continue');
+        router.push('/deposit')
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
+        return
       }
-      setTimeout(async () => {
-        // await getUserById(user?._id)
-        alert('successful')
+      // const res = await buyInvestmentPlan(plan, user)
+      try {
+        const response = await fetch('/api/user', {
+          method: 'POST',
+          body: JSON.stringify(['buyInvestmentPlan', plan, user]),
+          type: 'application/json'
+        })
+        const res = await response.json()
+        if (res?.message === 'unexpected') {
+          signOut()
+          hideModal()
+          alert('Somthing went wrong!');
+          router.reload();
+          return;
+        }
+        if (res?.message !== 'error') {
+          // localStorage.setItem('oldTicketBalance', user.myTicket)
+        }
+      } catch (err) {
+        console.log(err)
         hideModal()
-        window.location = '/orders'
-      }, 500);
+      }
+      const u3 = await getUserById(user?._id)
+      setUser(u3)
+    } else {
+      alert('You have to log in first!')
+    }
+    setTimeout(async () => {
+      // await getUserById(user?._id)
+      alert('successful')
+      hideModal()
+      window.location = '/orders'
+    }, 500);
     // } else {
     //   alert("can't purchase any plan now, please try again later")
     //   console.log(canBuy)

@@ -117,13 +117,13 @@ export default function Admin() {
       .catch(error => console.error(error))
   }
 
-  const declineWithdraw = async (itemId, amount) => {
+  const declineWithdraw = async (itemId, owner, amount) => {
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
     try {
       const response = await fetch('/api/withdraw', {
         method: 'POST',
-        body: JSON.stringify(['declineWithdraw', itemId, amount, user]),
+        body: JSON.stringify(['declineWithdraw', itemId, amount, owner]),
         type: 'application/json'
       })
       if (response.status == 200) {
@@ -386,7 +386,7 @@ export default function Admin() {
                               />
 
                               <TiTimes className="mt-3 text-lg border cursor-pointer"
-                                onClick={() => { declineWithdraw(request._id, request?.amount) }}
+                                onClick={() => { declineWithdraw(request._id, request?.userId, request?.amount) }}
                               />
                             </div>
                           </>}

@@ -7,8 +7,8 @@ import AuthContext from "../context/authContext"
 
 export default function UpdateAccount() {
   const router = useRouter()
-  const {user, setUser} = useContext(AuthContext)
   const [accDetails, setAccDetails] = useState({ number: null, name: '', bank: "" })
+  const {user, setUser} = useContext(AuthContext)
   const { status } = useSession();
 
   useEffect(() => {
@@ -16,6 +16,12 @@ export default function UpdateAccount() {
       router.replace('/login')
     }
   }, [status])
+
+  useEffect(() => {
+    if (user) {
+      setAccDetails({ ...accDetails, number: user.accountNumber, name: user.accountName, bank: user.bank })
+    }
+  }, [user])
   
   const handleSubmit = async (e) => {
     e.preventDefault()
