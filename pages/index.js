@@ -191,15 +191,17 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
       }
       const u3 = await getUserById(user?._id)
       setUser(u3)
+      setTimeout(async () => {
+        // await getUserById(user?._id)
+        alert('successful')
+        hideModal()
+        window.location = '/orders'
+      }, 500);
+      return;
     } else {
       alert('You have to log in first!')
+      return;
     }
-    setTimeout(async () => {
-      // await getUserById(user?._id)
-      alert('successful')
-      hideModal()
-      window.location = '/orders'
-    }, 500);
     // } else {
     //   alert("can't purchase any plan now, please try again later")
     //   console.log(canBuy)

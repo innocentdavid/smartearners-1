@@ -58,7 +58,7 @@ export default async function user(req, res) {
       // console.log('createOrder', createOrder)
 
       // const update Tbalance = 
-      await client.patch(user?._id).dec({ myTicket: plan.da }).set({lastPurchaseDate: new Date()}).commit()
+      await client.patch(user?._id).dec({ myTicket: plan.da }).set({ lastPurchaseDate: new Date() }).commit()
         .catch(error => {
           // console.log('update user profile', error)
           res.status(500).json({ message: 'error', error })
@@ -243,8 +243,16 @@ export default async function user(req, res) {
         return res.status(500).json({ message: "an error occured", error })
       })
 
-
     // if user was not valid then this is his new time to be validated, so add him to valid refer
+    await client
+      .patch(userId)
+      .set({ isValid: true })
+      .commit()
+      .catch(error => {
+        console.log('update user profile', error)
+        // return res.status(500).json({ message: "an error occured", error })
+      })
+
     try {
       if (!UserWasValid && referrerId) {
         await client.create({
@@ -255,15 +263,6 @@ export default async function user(req, res) {
           console.log('paymentProof', error)
           // res.status(500).json({ message: "an error occured", error })
         })
-
-        await client
-          .patch(userId)
-          .set({ isValid: true })
-          .commit()
-          .catch(error => {
-            console.log('update user profile', error)
-            // return res.status(500).json({ message: "an error occured", error })
-          })
       }
     } catch (error) {
       console.log('aaaaaaaaaaa', error)
@@ -273,37 +272,27 @@ export default async function user(req, res) {
     // commission....
     try {
       if (referrerId) {
-        // Level 1 commission
-        const commission1 = (10 * amount) / 100
-        await createRfCommision(user, referrerId, commission1, amount, 1)
+        const level1user = await getUserById(referrerId)
 
-        const user1 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
-          { id: referrerId }
-        ).catch(error => {
-          console.log('user2222222222', error)
-          // return res.status(500).json({ message: 'an error occured', error })
-        })
+        if (level1user) {
+          // Level 1 commission
+          const commission1 = (10 * amount) / 100
+          level1user && await createRfCommision(user, level1user._id, commission1, amount, 1)
+          
+          if(level1user?.referrer?._id){
+            const level2user = await getUserById(level1user?.referrer?._id)
+            // Level 2 commission
+            const commission2 = (5 * amount) / 100
+            level2user && await createRfCommision(user, level2user?._id, commission2, amount, 2)
 
-        // Level 2 commission
-        if (user1?.referrer?._id) {
-          const commission2 = (5 * amount) / 100
-          await createRfCommision(user, user1.referrer._id, commission2, amount, 2)
-
-          // Level 3 commission
-          const user2 = await client.fetch(`*[_type == "user" && _id == $id] | order(_createdAt asc)[0]`,
-            { id: user1.referrer._id }
-          ).catch(error => {
-            console.log('user33333333333', error)
-            // return res.status(500).json({ message: 'an error occured', error })
-          })
-          if (user2?.referrer?._id) {
-            const commission3 = (2 * amount) / 100
-            await createRfCommision(user, user2.referrer._id, commission3, amount, 3)
+            if(level2user?.referrer?._id){
+              const level3user = await getUserById(level2user?.referrer?._id)
+              // Level 3 commission
+              const commission3 = (2 * amount) / 100
+              level3user && await createRfCommision(user, level3user?._id, commission3, amount, 3)
+            }
           }
-        } else {
-          // return res.status(500).json({ message: 'an error occured', error })
         }
-
       }
     } catch (error) {
       console.log(error)
