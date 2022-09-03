@@ -62,16 +62,11 @@ export default function Profile() {
       document.querySelector('#generalLoading').classList.remove('hidden')
       document.querySelector('#generalLoading').classList.add('grid')
       const res = await updateUserPortfolio(user)
-      const u = await getUserById(user?._id)
-      console.log(u)
       if (res?.message === 'success') {
         setCanMine(false)
-        setTimeout(async () => {
-          const u1 = await getUserById(user._id)
-          const u2 = await getUserById(user._id)
-          const u3 = await getUserById(user._id)
-          router.reload();
-        }, 10000);
+        // setTimeout(async () => {
+        //   router.reload();
+        // }, 10000);
         alert('You have successfully mined all your reward')
       } else {
         alert("An error occured! please try again")

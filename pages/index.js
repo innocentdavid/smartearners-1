@@ -189,8 +189,8 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
         console.log(err)
         hideModal()
       }
-      const u3 = await getUserById(user?._id)
-      setUser(u3)
+      // const u3 = await getUserById(user?._id)
+      // setUser(u3)
       setTimeout(async () => {
         // await getUserById(user?._id)
         alert('successful')

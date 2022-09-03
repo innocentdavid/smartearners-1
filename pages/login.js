@@ -7,7 +7,7 @@ export default function Login() {
   const router = useRouter()
   const { rf } = router.query
   const [loginDetails, setLoginDetails] = useState({ tel: '', password: '' })
-  const [userDetails, setUserDetails] = useState({ tel: '', password: '', cPassword: '', rfCode: rf })
+  const [userDetails, setUserDetails] = useState({ tel: '', password: '', cPassword: '', rfCode: '' })
   const tabsData = [
     { label: "Log in", content: "" },
     { label: "Sign up", content: "" },
@@ -17,6 +17,7 @@ export default function Login() {
   useEffect(() => {
     console.log(rf)
     if(rf){
+      setUserDetails({ ...userDetails, rfCode: rf })
       setActiveTabIndex(1)
     }
   }, [rf])
