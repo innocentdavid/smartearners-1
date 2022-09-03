@@ -62,7 +62,7 @@ export default function Profile() {
       document.querySelector('#generalLoading').classList.remove('hidden')
       document.querySelector('#generalLoading').classList.add('grid')
       const res = await updateUserPortfolio(user)
-      const u = await getUserById(user._id)
+      const u = await getUserById(user?._id)
       console.log(u)
       if (res?.message === 'success') {
         setCanMine(false)
@@ -107,7 +107,9 @@ export default function Profile() {
 
           <div className="flex items-center gap-5 text-[.8rem] ">
             <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit') }}>Ticket <strong>{user?.myTicket}</strong></div>
-            <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/withdraw') }}>Balance <strong className="">N<span>{user?.balance}</span></strong></div>
+            <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/withdraw') }}>Balance <strong className="">₦<span>{
+            user?.tbalance + user?.ri + user?.roi + user?.vrs
+            }</span></strong></div>
           </div>
         </nav>
 
@@ -200,7 +202,7 @@ export default function Profile() {
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Payment Records</div>
               </a>
             </Link>
-            <Link href="#">
+            <Link href="https://api.whapsapp.com/send?phone=+2349135060837">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Customer Support</div>
               </a>
