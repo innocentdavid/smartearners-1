@@ -13,7 +13,7 @@ export default async function user(req, res) {
     // console.log(user?.myTicket, plan?.da)
     // return res.status(500).json({ message: 'unexpected' })
 
-    if (!user?.myTicket || user.myTicket == 0) {
+    if (!user?.myTicket || user.myTicket <= 0) {
       res.status(500).json({ message: 'unexpected' })
     }
 
