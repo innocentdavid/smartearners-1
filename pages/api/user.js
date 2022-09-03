@@ -7,6 +7,10 @@ export default async function user(req, res) {
   if (b[0] === 'buyInvestmentPlan') {
     const plan = b[1]
     const u = b[2]
+    await getUserById(u?._id)
+    await getUserById(u?._id)
+    await getUserById(u?._id)
+    await getUserById(u?._id)
     const user = await getUserById(u?._id)
     console.log(user)
 
