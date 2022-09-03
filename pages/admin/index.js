@@ -1,8 +1,9 @@
 import { useRouter } from "next/router"
 import { useContext, useEffect, useState } from "react"
 import AuthContext from "../../context/authContext"
-import { getAllPaymentProofs, getAllWithdrawRequest, getUserById } from "../../lib/api"
+import { getAllPaymentProofs, getAllWithdrawRequest, getCompanyDetails, getUserById } from "../../lib/api"
 import { MdCheck } from 'react-icons/md'
+import { FaPen } from 'react-icons/fa'
 import { BsArrowUp, BsPatchCheckFill } from 'react-icons/bs'
 import { BiCopy } from 'react-icons/bi'
 import { TiTimes } from 'react-icons/ti'
@@ -46,6 +47,21 @@ export default function Admin() {
     if (user) {
       fetch()
     }
+  }, [user])
+
+  const [company, setCompany] = useState(null)
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (user) {
+        // await delOrders()
+        const r = await getCompanyDetails().catch(err => {
+          console.log(err)
+        })
+        r?.res && setCompany(r.res)
+      }
+    }
+    fetch()
   }, [user])
 
   const clearAll = () => {
@@ -211,17 +227,17 @@ export default function Admin() {
 
       if (response.status == 200) {
         const res = await response.json()
-        setTimeout(async () => {
-          const u1 = await getUserById(user?._id)
-          const u2 = await getUserById(user?._id)
-          const u3 = await getUserById(user?._id)
-          console.log({ u1, u2, u3 })
-        }, 5000);
-        console.log('done!')
+        // setTimeout(async () => {
+        //   const u1 = await getUserById(user?._id)
+        //   const u2 = await getUserById(user?._id)
+        //   const u3 = await getUserById(user?._id)
+        //   console.log({ u1, u2, u3 })
+        // }, 5000);
+        // console.log('done!')
         if (res.message === 'success') {
           alert('success')
           console.log(res) //
-          const u4 = await getUserById(user?._id)
+          // const u4 = await getUserById(user?._id)
           // router.reload();
           document.querySelector('#generalLoading').classList.remove('grid')
           document.querySelector('#generalLoading').classList.add('hidden')
@@ -269,6 +285,15 @@ export default function Admin() {
           <div className="cursor-pointer rotate-[270deg]" onClick={() => { router.back() }}><BsArrowUp size="20px" className="stroke-1" /></div>
           <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold uppercase text-center ">Smart Energy Dashboard</div>
         </header>
+
+        <div className="flex justify-around items-center text-base">
+          <div>Account Number: <strong>{company?.accNo}</strong></div>
+          <div>Account Name: <strong className="uppercase">{company?.accName}</strong></div>
+          <div>Bank: <strong className="uppercase">{company?.bank}</strong></div>
+          <FaPen 
+          className="cursor-pointer"
+          onClick={() => { router.push(`/updateAccount?admin=${user?._id}`) }} />
+        </div>
 
         {/* <div className="my-5 mx-5"><div className="h-7 w-28 text-center text-xs bg-black text-white cursor-pointer" onClick={clearAll}>clearAllOrder</div></div> */}
 

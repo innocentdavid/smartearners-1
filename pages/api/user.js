@@ -66,9 +66,14 @@ export default async function user(req, res) {
   if (b[0] === 'addBankDetails') {
     const userId = b[1]
     const data = b[2]
+    const admin = b[3]
+    var d = { accountNumber: parseInt(data.number), accountName: data.name, bank: data.bank }
+    if(admin){
+      d = { accNo: parseInt(data.number), accName: data.name, bank: data.bank }
+    }
     await client
       .patch(userId)
-      .set({ accountNumber: parseInt(data.number), accountName: data.name, bank: data.bank })
+      .set(d)
       .commit()
       .catch(error => {
         console.log('update user profile', error)
