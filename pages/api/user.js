@@ -278,14 +278,14 @@ export default async function user(req, res) {
           // Level 1 commission
           const commission1 = (10 * amount) / 100
           level1user && await createRfCommision(user, level1user._id, commission1, amount, 1)
-          
-          if(level1user?.referrer?._id){
+
+          if (level1user?.referrer?._id) {
             const level2user = await getUserById(level1user?.referrer?._id)
             // Level 2 commission
             const commission2 = (5 * amount) / 100
             level2user && await createRfCommision(user, level2user?._id, commission2, amount, 2)
 
-            if(level2user?.referrer?._id){
+            if (level2user?.referrer?._id) {
               const level3user = await getUserById(level2user?.referrer?._id)
               // Level 3 commission
               const commission3 = (2 * amount) / 100
@@ -343,6 +343,27 @@ export default async function user(req, res) {
       return res.status(200).json({ message: "success", data })
     }
     return res.status(500).json({ message: "error" })
+  }
+
+  if (b[0] === 'claimReward') {
+    const u = b[1]
+    if (u) {
+      const user = await getUserById(u._id)
+      if(user?.vrs >= 20000){
+        return res.status(200).json({ message: 'success' })
+      }
+      // Validate request
+      await client
+        .patch(u._id)
+        .inc({ vrs: 20000 })
+        .commit()
+        .catch(error => {
+          // console.log('update user profile', error)
+          return res.status(500).json({ message: "an error occured", error })
+        })
+    }
+
+    return res.status(200).json({ message: 'success' })
   }
 
   res.status(200).json({ message: '...' })

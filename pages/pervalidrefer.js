@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { BsArrowUp } from "react-icons/bs";
 import { ImUsers } from "react-icons/im";
 import AuthContext from "../context/authContext";
+import { getUserById } from "../lib/api";
 import { getAllValidRefer } from "../lib/functions";
 // import { getValidRefers } from "../lib/api";
 
@@ -38,7 +39,7 @@ export default function Pervalidrefer() {
   const claimReward = async () => {
     if (validRefers?.length < 50) {
       alert('You must have atleast 50 active members to claim this reward');
-      return
+      // return;
     }
 
     document.querySelector('#generalLoading').classList.remove('hidden')
