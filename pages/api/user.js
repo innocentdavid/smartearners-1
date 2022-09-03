@@ -1,4 +1,5 @@
 import { getUser, getUserById } from '../../lib/api'
+import { groq } from 'next-sanity'
 import client from './config'
 
 export default async function user(req, res) {
