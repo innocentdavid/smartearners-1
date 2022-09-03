@@ -94,7 +94,7 @@ export default function Home({ allInvestmentPlan }) {
               <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Referral</div>
             </div>
 
-            <Link href="https://api.whatsapp.com/send?phone=2349135060837&text=hello, ">
+            <Link href="https://wa.link/3hxbsj">
               <a className="flex flex-col items-center">
                 <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer">
                   <img src="/images/icons8-comments-50.png" alt="" width="20px" className="" />
