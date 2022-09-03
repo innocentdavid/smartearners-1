@@ -130,24 +130,25 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
   }
 
   const investNow = async () => {
+    alert('your request will be processed, and this might take upto a minute!')
     const lastPurchaseDate = new Date(user.lastPurchaseDate).getTime()
     const now = new Date().getTime()
     const gap = now - lastPurchaseDate
     const dif = gap / (1000 * 3600 * 24)
     console.log(dif)
-    if(dif && dif <= 0.002){
-      alert('Try again in the next 30 seconds')
-      return
+    if (dif && dif <= 0.002) {
+      // alert('Try again in the next 30 seconds')
+      console.log('Try again in the next 30 seconds')
+      // return
     }
-
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
     if (user) {
       // console.log(user.myTicket, plan.da)
       if (parseInt(user.myTicket) < parseInt(plan.da)) {
         alert('You do not have enough ticket, get more ticket to continue');
-        document.querySelector('#generalLoading').classList.remove('grid')
-        document.querySelector('#generalLoading').classList.add('hidden')
+        // document.querySelector('#generalLoading').classList.remove('grid')
+        // document.querySelector('#generalLoading').classList.add('hidden')
         router.push('/deposit')
         return
       }
@@ -175,23 +176,22 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
       }
 
       await getUserById(user?._id)
-      setTimeout(async () => {
-        await getUserById(user?._id)
-        await getUserById(user?._id)
-        await getUserById(user?._id)
-        console.log({ u1, u2, u3 })
-      }, 10000);
+      await getUserById(user?._id)
+      await getUserById(user?._id)
+      await getUserById(user?._id)
       const u3 = await getUserById(user?._id)
       setUser(u3)
-      alert('successful')
-      hideModal()
-      window.location = '/orders'
-      // document.querySelector('#generalLoading').classList.remove('grid')
-      // document.querySelector('#generalLoading').classList.add('hidden')
-      return;
     } else {
       alert('You have to log in first!')
     }
+    setTimeout(async () => {
+      await getUserById(user?._id)
+      alert('successful')
+      hideModal()
+      window.location = '/orders'
+    }, 10000);
+
+
     // document.querySelector('#generalLoading').classList.remove('grid')
     // document.querySelector('#generalLoading').classList.add('hidden')
   }
