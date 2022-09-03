@@ -11,7 +11,7 @@ import AuthContext from '../context/authContext';
 
 export default function Home({ allInvestmentPlan }) {
   const [plans] = useState(allInvestmentPlan)
-  const [canBuy, setCanBuy] = useState(false)
+  const [canBuy, setCanBuy] = useState(true)
   const { status, data } = useSession();
   const { user, setUser } = useContext(AuthContext)
   const router = useRouter()
@@ -29,8 +29,11 @@ export default function Home({ allInvestmentPlan }) {
       const u = await getUserById(user?._id)
       let oldTicketBalance = localStorage.getItem('oldTicketBalance')
       setUser(u)
+      // console.log({oldTicketBalance, myTicket:u?.myTicket})
       if (oldTicketBalance < u.myTicket) {
         setCanBuy(true)
+      }else{
+        setCanBuy(false)
       }
     }
     if (user) {
@@ -198,6 +201,9 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
         hideModal()
         window.location = '/orders'
       }, 5000);
+    }else{
+      alert("can't purchase any plan now, please try again later")
+      console.log(canBuy)
     }
   }
 
