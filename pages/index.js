@@ -29,10 +29,10 @@ export default function Home({ allInvestmentPlan }) {
       const u = await getUserById(user?._id)
       let oldTicketBalance = localStorage.getItem('oldTicketBalance')
       setUser(u)
-      // console.log({oldTicketBalance, myTicket:u?.myTicket})
       if (oldTicketBalance < u.myTicket) {
         setCanBuy(true)
       } else {
+        console.log({oldTicketBalance, myTicket:u?.myTicket})
         setCanBuy(false)
       }
     }
@@ -140,18 +140,19 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
   }
 
   const investNow = async () => {
-    if (canBuy) {
+    // if (canBuy) {
       alert('your request will be processed, and this might take some seconds!')
-      const lastPurchaseDate = new Date(user.lastPurchaseDate).getTime()
-      const now = new Date().getTime()
-      const gap = now - lastPurchaseDate
-      const dif = gap / (1000 * 3600 * 24)
-      console.log(dif)
-      if (dif && dif <= 0.002) {
-        // alert('Try again in the next 30 seconds')
-        console.log('Try again in the next 30 seconds')
-        // return
-      }
+      // const lastPurchaseDate = new Date(user.lastPurchaseDate).getTime()
+      // const now = new Date().getTime()
+      // const gap = now - lastPurchaseDate
+      // const dif = gap / (1000 * 3600 * 24)
+      // console.log(dif)
+      // if (dif && dif <= 0.002) {
+      //   // alert('Try again in the next 30 seconds')
+      //   console.log('Try again in the next 30 seconds')
+      //   // return
+      // }
+
       document.querySelector('#generalLoading').classList.remove('hidden')
       document.querySelector('#generalLoading').classList.add('grid')
       if (user) {
@@ -182,10 +183,8 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
             localStorage.setItem('oldTicketBalance', user.myTicket)
           }
         } catch (err) {
-          // alert('Something went wrong')
           console.log(err)
           hideModal()
-          // return;
         }
         const u3 = await getUserById(user?._id)
         setUser(u3)
@@ -198,10 +197,10 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
         hideModal()
         window.location = '/orders'
       }, 500);
-    } else {
-      alert("can't purchase any plan now, please try again later")
-      console.log(canBuy)
-    }
+    // } else {
+    //   alert("can't purchase any plan now, please try again later")
+    //   console.log(canBuy)
+    // }
   }
 
   return (<>
