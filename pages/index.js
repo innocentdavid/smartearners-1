@@ -182,10 +182,10 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
             localStorage.setItem('oldTicketBalance', user.myTicket)
           }
         } catch (err) {
-          alert('Something went wrong')
+          // alert('Something went wrong')
           console.log(err)
           hideModal()
-          return;
+          // return;
         }
         const u3 = await getUserById(user?._id)
         setUser(u3)
