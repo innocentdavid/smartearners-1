@@ -108,11 +108,12 @@ export default function Pervalidrefer() {
         </header>
 
         <div className="flex justify-between py-2 px-4">
-          <div className="h-[50px] px-[50px] bg-black text-white grid place-items-center cursor-pointer" onClick={claimReward}>Claim Your reward</div>
-          <div className="flex flex-col items-end py-2 px-4">
+          <div className="flex flex-col py-2 px-4">
             <strong>Total Valid Refer: <span>{validRefers?.length}</span></strong>
             <strong>Total Earnings: <span>₦{user?.vrs ? user?.vrs : 0}</span></strong>
           </div>
+
+          {validRefers?.length >= 50 && <div className="h-[50px] px-[50px] bg-black text-white grid place-items-center cursor-pointer" onClick={claimReward}>Claim Your reward</div>}
         </div>
 
         <section className="mt-8">

@@ -13,7 +13,7 @@ import { useSession } from 'next-auth/react';
 
 export default function Admin() {
   const router = useRouter()
-  const {user, setUser} = useContext(AuthContext)
+  const { user, setUser } = useContext(AuthContext)
   const { status } = useSession();
   const [allPaymentProofs, setAllPaymentProofs] = useState()
   const [allWithdrawRequest, setAllWithdrawRequest] = useState()
@@ -215,14 +215,16 @@ export default function Admin() {
           const u1 = await getUserById(user?._id)
           const u2 = await getUserById(user?._id)
           const u3 = await getUserById(user?._id)
-          console.log({u1,u2,u3})          
+          console.log({ u1, u2, u3 })
         }, 5000);
         console.log('done!')
         if (res.message === 'success') {
-          alert('success') 
+          alert('success')
           console.log(res) //
           const u4 = await getUserById(user?._id)
-          router.reload();
+          // router.reload();
+          document.querySelector('#generalLoading').classList.remove('grid')
+          document.querySelector('#generalLoading').classList.add('hidden')
           return;
         } else {
           alert('Something went wrong')
@@ -268,7 +270,7 @@ export default function Admin() {
           <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold uppercase text-center ">Smart Energy Dashboard</div>
         </header>
 
-        <div className="my-5 mx-5"><div className="h-7 w-28 text-center text-xs bg-black text-white cursor-pointer" onClick={clearAll}>clearAllOrder</div></div>
+        {/* <div className="my-5 mx-5"><div className="h-7 w-28 text-center text-xs bg-black text-white cursor-pointer" onClick={clearAll}>clearAllOrder</div></div> */}
 
         <section className="mt-16 mb-8 px-4">
           <div className="bg-gray-400 px-[3px] py-[3px] rounded-[10px] flex items-center justify-center text-[.9rem] max-w-[600px] m-auto">
