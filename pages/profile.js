@@ -202,7 +202,7 @@ export default function Profile() {
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Payment Records</div>
               </a>
             </Link>
-            <Link href="https://api.whapsapp.com/send?phone=+2349135060837">
+            <Link href="https://api.whatsapp.com/send?phone=2349135060837&text=hello, ">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Customer Support</div>
               </a>
