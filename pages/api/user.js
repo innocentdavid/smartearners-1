@@ -280,14 +280,12 @@ export default async function user(req, res) {
           level1user && await createRfCommision(user, level1user._id, commission1, amount, 1)
 
           if (level1user?.referrer?._ref) {
-            console.log("level1user?.referrer?._ref", level1user?.referrer?._ref)
             const level2user = await getUserById(level1user?.referrer?._ref)
             // Level 2 commission
             const commission2 = (5 * amount) / 100
             level2user && await createRfCommision(user, level2user?._id, commission2, amount, 2)
 
             if (level2user?.referrer?._ref) {
-              console.log("level2user?.referrer?._ref", level2user?.referrer?._ref)
               const level3user = await getUserById(level2user?.referrer?._ref)
               // Level 3 commission
               const commission3 = (2 * amount) / 100
