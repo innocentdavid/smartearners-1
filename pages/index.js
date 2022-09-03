@@ -189,7 +189,7 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
       alert('successful')
       hideModal()
       window.location = '/orders'
-    }, 10000);
+    }, 20000);
 
 
     // document.querySelector('#generalLoading').classList.remove('grid')
