@@ -39,7 +39,7 @@ export default function Pervalidrefer() {
   const claimReward = async () => {
     if (validRefers?.length < 50) {
       alert('You must have atleast 50 active members to claim this reward');
-      // return;
+      return;
     }
 
     document.querySelector('#generalLoading').classList.remove('hidden')
