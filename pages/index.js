@@ -147,9 +147,9 @@ const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod
       // console.log(user.myTicket, plan.da)
       if (parseInt(user.myTicket) < parseInt(plan.da)) {
         alert('You do not have enough ticket, get more ticket to continue');
-        // document.querySelector('#generalLoading').classList.remove('grid')
-        // document.querySelector('#generalLoading').classList.add('hidden')
         router.push('/deposit')
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
         return
       }
       // const res = await buyInvestmentPlan(plan, user)
