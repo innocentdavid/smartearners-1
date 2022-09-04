@@ -68,12 +68,12 @@ export default function Profile() {
         //   router.reload();
         // }, 10000);
         alert('You have successfully mined all your reward')
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
       } else {
         alert("An error occured! please try again")
         router.reload();
       }
-      // document.querySelector('#generalLoading').classList.remove('grid')
-      // document.querySelector('#generalLoading').classList.add('hidden')
     }
   }
 
