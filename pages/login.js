@@ -73,13 +73,16 @@ export default function Login() {
         document.querySelector('#generalLoading').classList.add('hidden')
         return;
       } else {
-        console.log(response)
+        console.log(await response.json())
         document.querySelector('#generalLoading').classList.remove('grid')
         document.querySelector('#generalLoading').classList.add('hidden')
         return;
       }
     } catch (err) {
       console.log(err)
+      console.log(await err.json())
+      document.querySelector('#generalLoading').classList.remove('grid')
+      document.querySelector('#generalLoading').classList.add('hidden')
     }
     document.querySelector('#generalLoading').classList.remove('grid')
     document.querySelector('#generalLoading').classList.add('hidden')
