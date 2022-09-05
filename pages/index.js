@@ -11,6 +11,8 @@ import { getAllInvestmentPlan } from '../lib/api'
 import AuthContext from '../context/authContext';
 
 export default function Home({ allInvestmentPlan }) {
+  // console.log(allInvestmentPlan)
+
   const [plans] = useState(allInvestmentPlan)
   const [canBuy, setCanBuy] = useState(true)
   const { status, data } = useSession();

@@ -71,6 +71,7 @@ export default async function user(req, res) {
     if(admin){
       d = { accNo: parseInt(data.number), accName: data.name, bank: data.bank }
     }
+    console.log([d, {userId}])
     await client
       .patch(userId)
       .set(d)

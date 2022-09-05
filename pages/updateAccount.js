@@ -53,7 +53,7 @@ export default function UpdateAccount() {
         }
         const response = await fetch('/api/user', {
           method: 'POST',
-          body: JSON.stringify(['addBankDetails', user?._id, accDetails, params?.admin]),
+          body: JSON.stringify(['addBankDetails', userId, accDetails, params?.admin]),
           type: 'application/json'
         })
         if (response.status == 200) {

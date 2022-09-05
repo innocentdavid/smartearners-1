@@ -118,7 +118,7 @@ export default function Admin() {
       },
     ]
 
-    const tokenWithWriteAccess = process.env.SANITY_API_TOKEN;
+    const tokenWithWriteAccess = process.env.NEXT_PUBLIC_SANITY_API_TOKEN;
 
     fetch(`https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}?dryRun=false`, {
       method: 'post',
@@ -274,6 +274,8 @@ export default function Admin() {
 
   if (user?.isAdmin) {
     return (<>
+    {/* <div className="my-5 mx-5"><div className="h-7 w-28 text-center text-xs bg-black text-white cursor-pointer" onClick={clearAll}>clearAllOrder</div></div> */}
+
       <div>
         <Head>
           <title>Backend</title>
@@ -286,16 +288,18 @@ export default function Admin() {
           <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold uppercase text-center ">Smart Energy Dashboard</div>
         </header>
 
-        <div className="flex justify-around items-center text-base">
-          <div>Account Number: <strong>{company?.accNo}</strong></div>
-          <div>Account Name: <strong className="uppercase">{company?.accName}</strong></div>
-          <div>Bank: <strong className="uppercase">{company?.bank}</strong></div>
-          <FaPen 
-          className="cursor-pointer"
-          onClick={() => { router.push(`/updateAccount?admin=${user?._id}`) }} />
+        <div className="flex flex-col md:flex-row justify-around items-center text-base px-6">
+          <div className="flex justify-around items-center text-base">
+            <div>Account Number: <strong>{company?.accNo}</strong></div>
+            <div>Account Name: <strong className="uppercase">{company?.accName}</strong></div>
+          </div>
+          <div className="flex justify-around items-center text-base mt-4 md:mt-0">
+            <div>Bank: <strong className="uppercase">{company?.bank}</strong></div>
+            <FaPen
+              className="cursor-pointer ml-8 md:ml-0"
+              onClick={() => { router.push(`/updateAccount?admin=${user?._id}`) }} />
+          </div>
         </div>
-
-        {/* <div className="my-5 mx-5"><div className="h-7 w-28 text-center text-xs bg-black text-white cursor-pointer" onClick={clearAll}>clearAllOrder</div></div> */}
 
         <section className="mt-16 mb-8 px-4">
           <div className="bg-gray-400 px-[3px] py-[3px] rounded-[10px] flex items-center justify-center text-[.9rem] max-w-[600px] m-auto">
