@@ -36,7 +36,7 @@ export default async function createUser(req, res) {
           }
   
           const newUser = await client.create(data)
-          // console.log(newUser)
+          console.log(newUser)
   
           // const create bonus Order = 
           await client.create({
@@ -78,7 +78,7 @@ export default async function createUser(req, res) {
   
         } catch (err) {
           console.error(err)
-          return res.status(500).json({ message: `Couldn't create user`, err })
+          // return res.status(500).json({ message: `Couldn't create user`, err })
         }
         return res.status(200).json({ message: 'success' })
       });
