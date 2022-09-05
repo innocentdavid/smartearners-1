@@ -23,7 +23,7 @@ export default async function createUser(req, res) {
     const saltRounds = 10;
     bcrypt.genSalt(saltRounds, function (err, salt) {
       bcrypt.hash(password, salt, async function (err, hash) {
-        try {
+        // try {
           var data = {}
           if (rf) {
             data = {
@@ -35,7 +35,9 @@ export default async function createUser(req, res) {
             }
           }
   
-          const newUser = await client.create(data)
+          const newUser = await client.create(data).catch(error => {
+            return res.status(500).json({ message: `Couldn't create user`, err })
+          })
           console.log(newUser)
   
           // const create bonus Order = 
@@ -76,10 +78,10 @@ export default async function createUser(req, res) {
             })
           }
   
-        } catch (err) {
-          console.error(err)
-          return res.status(500).json({ message: `Couldn't create user`, err })
-        }
+        // } catch (err) {
+        //   console.error(err)
+        //   return res.status(500).json({ message: `Couldn't create user`, err })
+        // }
         return res.status(200).json({ message: 'success' })
       });
     });
