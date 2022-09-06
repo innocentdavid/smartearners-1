@@ -24,10 +24,10 @@ export default function ImageUploader({ user, amount }) {
   }
 
   function uploadFile(file) {
-    const NEXT_PUBLIC_CLOUDINARY_CLOUDNAME = 'code-cent' // get this from .env
-    const NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET = 'sjoawypm' // get this from .env
+    const NEXT_PUBLIC_CLOUDINARY_CLOUDNAME = '' // get this from .env
+    const NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET = '' // get this from .env
 
-    const url = `https://api.cloudinary.com/v1_1/${NEXT_PUBLIC_CLOUDINARY_CLOUDNAME}/upload`;
+    const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUDNAME}/upload`;
     const xhr = new XMLHttpRequest();
     const fd = new FormData();
     xhr.open("POST", url, true);
@@ -48,8 +48,10 @@ export default function ImageUploader({ user, amount }) {
       }
     };
 
+    const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET
+    
     fd.append(
-      "upload_preset", NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET
+      "upload_preset", UPLOAD_PRESET
     );
     fd.append("tags", "browser_upload");
     fd.append("file", file);
