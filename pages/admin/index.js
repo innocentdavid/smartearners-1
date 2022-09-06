@@ -64,75 +64,6 @@ export default function Admin() {
     fetch()
   }, [user])
 
-  const clearAll = () => {
-    const mutations = [
-      {
-        "delete": {
-          "query": "*[_type == 'user']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'order']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'rfCommission']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'validRef']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'paymentProof']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'dailyReturn']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'irc']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'referral']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'record']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'withdraw']",
-        }
-      },
-    ]
-
-    const tokenWithWriteAccess = process.env.NEXT_PUBLIC_SANITY_API_TOKEN;
-
-    fetch(`https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}?dryRun=false`, {
-      method: 'post',
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `Bearer ${tokenWithWriteAccess}`
-      },
-      body: JSON.stringify({ mutations })
-    })
-      .then(response => response.json())
-      .then(result => console.log(result))
-      .catch(error => console.error(error))
-  }
-
   const declineWithdraw = async (itemId, owner, amount) => {
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
@@ -266,6 +197,75 @@ export default function Admin() {
   const hideModal = () => {
     const modal = document.querySelector('#modal')
     modal.classList.add('hidden')
+  }
+
+  const clearAll = () => {
+    const mutations = [
+      {
+        "delete": {
+          "query": "*[_type == 'user']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'order']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'rfCommission']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'validRef']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'paymentProof']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'dailyReturn']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'irc']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'referral']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'record']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'withdraw']",
+        }
+      },
+    ]
+
+    const tokenWithWriteAccess = process.env.NEXT_PUBLIC_SANITY_API_TOKEN;
+
+    fetch(`https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}?dryRun=false`, {
+      method: 'post',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${tokenWithWriteAccess}`
+      },
+      body: JSON.stringify({ mutations })
+    })
+      .then(response => response.json())
+      .then(result => console.log(result))
+      .catch(error => console.error(error))
   }
 
   if (status === "loading") {
