@@ -169,7 +169,7 @@ export default function Admin() {
           alert('success')
           console.log(res) //
           // const u4 = await getUserById(user?._id)
-          // router.reload();
+          router.reload();
           document.querySelector('#generalLoading').classList.remove('grid')
           document.querySelector('#generalLoading').classList.add('hidden')
           return;
