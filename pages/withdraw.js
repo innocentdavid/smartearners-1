@@ -66,10 +66,9 @@ export default function Withdraw() {
   }, [p])
 
   const canWithdrawCheck = () => {
-    if(!user.lastWithdrawDate){
-      console.log(user.lastWithdrawDate)
-      return true
-    }
+    if(!user.isValid) return false;
+    if(!user.lastWithdrawDate) return true;
+
     // console.log(user.lastWithdrawDate)
     const lastWithdrawDate = new Date(user.lastWithdrawDate).getTime()
     const now = new Date().getTime()
