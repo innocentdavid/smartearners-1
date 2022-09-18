@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { SessionProvider } from "next-auth/react"
 import '../styles/globals.css'
 import { AuthContextProvider } from '../context/authContext'
-import { FaTelegramePlane, FaWhatsapp } from 'react-icons/fa'
+import { FaTelegramPlane, FaWhatsapp } from 'react-icons/fa'
 
 function MyApp({ Component, pageProps }) {
 
@@ -14,11 +14,11 @@ function MyApp({ Component, pageProps }) {
       </div>
     </div>
 
-    <div className="fixed left-0 bottom-[20%] translate-y-[-20%] flex flex-col gap-10">
+    <div className="fixed right-5 bottom-[40%] translate-y-[-40%] flex flex-col items-center justify-center gap-5 text-xl z-[999999999999]">
       <div>
         <Link href="https://wa.link/3hxbsj">
           <a className="">
-            <FaTelegramePlane />
+            <FaTelegramPlane />
           </a>
         </Link>
       </div>
@@ -30,6 +30,7 @@ function MyApp({ Component, pageProps }) {
         </Link>
       </div>
     </div>
+    
     <SessionProvider
       session={pageProps.session}
       // Re-fetch session every 0.5 minutes
