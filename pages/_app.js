@@ -16,14 +16,14 @@ function MyApp({ Component, pageProps }) {
 
     <div className="fixed right-5 bottom-[40%] translate-y-[-40%] flex flex-col items-center justify-center gap-5 text-xl z-[999999999999]">
       <div>
-        <Link href="https://wa.link/3hxbsj">
+        <Link href="https://t.me/smartearnerofficialgroup">
           <a className="">
             <FaTelegramPlane />
           </a>
         </Link>
       </div>
       <div>
-        <Link href="https://wa.link/3hxbsj">
+        <Link href="https://chat.whatsapp.com/GsnSC0E9nBwCjeuS8Kss0c">
           <a className="">
             <FaWhatsapp />
           </a>
