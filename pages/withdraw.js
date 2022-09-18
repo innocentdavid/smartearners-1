@@ -65,9 +65,9 @@ export default function Withdraw() {
     }
   }, [p])
 
-  const canWithdrawCheck = () => {
-    if(!user.isValid) return false;
+  const canWithdrawCheck = (user) => {
     if(!user.lastWithdrawDate) return true;
+    if(!user.isValid) return false;
 
     // console.log(user.lastWithdrawDate)
     const lastWithdrawDate = new Date(user.lastWithdrawDate).getTime()
@@ -84,7 +84,7 @@ export default function Withdraw() {
   useEffect(() => {
     // console.log(p)
     if (user) {
-      const cw = canWithdrawCheck()
+      const cw = canWithdrawCheck(user)
       // console.log(cw)
       setCanWithdraw(cw)
     }
@@ -92,6 +92,10 @@ export default function Withdraw() {
 
   const handleWithdraw = async (e) => {
     e.preventDefault();
+    if(!canWithdrawCheck(user)) {
+      alert('You can only withdraw once a day')
+      return;
+    };
 
     if (!amountToWithdraw) {
       alert('The minimum you can withdraw is 1000')
