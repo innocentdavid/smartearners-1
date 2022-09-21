@@ -50,7 +50,7 @@ export default async function createUser(req, res) {
             da: 5000,
             dr: 50,
             active: true,
-            returnPeriod: 365,
+            returnPeriod: 25, // 365
             drTime: newUser?._createdAt,
             userId: newUser?._id,
             userTel: newUser?.tel
