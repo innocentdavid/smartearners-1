@@ -144,7 +144,7 @@ export default function Withdraw() {
           // const u3 = await getUserById(user._id)
           // setUser(u3)
           alert('Your request has been submited successfully')
-          console.log(u)
+          // console.log(u)
           router.reload();
           return;
         }

@@ -37,7 +37,7 @@ export default function Admin() {
     }
   }, [status, user])
 
-  useEffect(() => {
+  useEffect(() => { // getAllPaymentProofs, getAllWithdrawRequest
     const fetch = async () => {
       const app = await getAllPaymentProofs();
       const awr = await getAllWithdrawRequest();
@@ -51,7 +51,7 @@ export default function Admin() {
 
   const [company, setCompany] = useState(null)
 
-  useEffect(() => {
+  useEffect(() => { // getCompanyDetails
     const fetch = async () => {
       if (user) {
         // await delOrders()
