@@ -15,7 +15,7 @@ export default function Login() {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   useEffect(() => {
-    console.log(rf)
+    // console.log(rf)
     if(rf){
       setUserDetails({ ...userDetails, rfCode: rf })
       setActiveTabIndex(1)
@@ -37,7 +37,7 @@ export default function Login() {
       document.querySelector('#generalLoading').classList.add('hidden')
       return;
     }
-    console.log(res.error)
+    // console.log(res.error)
     res.error && alert(res.error)
     document.querySelector('#generalLoading').classList.remove('grid')
     document.querySelector('#generalLoading').classList.add('hidden')
@@ -73,7 +73,8 @@ export default function Login() {
         document.querySelector('#generalLoading').classList.add('hidden')
         return;
       } else {
-        console.log(await response.json())
+        alert("An error occured, please check your connection")
+        // console.log(await response.json())
         document.querySelector('#generalLoading').classList.remove('grid')
         document.querySelector('#generalLoading').classList.add('hidden')
         return;

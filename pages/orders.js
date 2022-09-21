@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from 'react'
 import Footer from '../components/footer'
 import AuthContext from '../context/authContext'
 import { getOrders } from '../lib/api'
+import { checkUserInvestments } from './api/user'
 
 export default function Orders() {
   const {user, setUser} = useContext(AuthContext)
@@ -26,7 +27,17 @@ export default function Orders() {
         const orders = await getOrders(user._id).catch(err => {
           console.log(err)
         })
-        orders?.order && setOrderItems(orders.order)
+        if(orders?.order){
+          const array = orders.order
+          const list = []
+          array.forEach(async item => {
+            const order = await checkUserInvestments(item)
+            console.log({order})
+            list.push(order)
+          });
+          console.log({array})
+          array && setOrderItems(list)
+        }
       }
     }
     if(user){

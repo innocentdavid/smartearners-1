@@ -68,10 +68,10 @@ export default async function user(req, res) {
     const data = b[2]
     const admin = b[3]
     var d = { accountNumber: parseInt(data.number), accountName: data.name, bank: data.bank }
-    if(admin){
+    if (admin) {
       d = { accNo: parseInt(data.number), accName: data.name, bank: data.bank }
     }
-    console.log([d, {userId}])
+    console.log([d, { userId }])
     await client
       .patch(userId)
       .set(d)
@@ -343,14 +343,14 @@ export default async function user(req, res) {
 
   if (b[0] === 'claimReward') {
     const user = b[1]
-    if (u) {
-      const user = await getUserById(u._id)
-      if(user?.vrs >= 20000){
+    if (user) {
+      // const user = await getUserById(user._id)
+      if (user?.vrs >= 20000) {
         return res.status(200).json({ message: 'success' })
       }
       // Validate request
       await client
-        .patch(u._id)
+        .patch(user._id)
         .inc({ vrs: 20000 })
         .commit()
         .catch(error => {
@@ -388,4 +388,35 @@ const createRfCommision = async (user, referrerId, commission, amount, level) =>
     return { message: 'success' }
   }
   return { message: 'user does not have a referral' }
+}
+
+export async function disableInvestment(orderId) {
+  const order = await client
+    .patch(orderId)
+    .set({ active: false })
+    .commit()
+    .catch(error => {
+      // console.log('update user profile', error)
+      return { message: "an error occured", error }
+    })
+    return { message: "success", order }
+}
+
+export async function checkUserInvestments(investment) {
+  if (investment) {
+    const investedAt = new Date(investment._createdAt).getTime()
+    const limit = investment.returnPeriod
+    const now = new Date().getTime()
+    const gap = now - investedAt
+    const dif = (gap) / (1000 * 3600 * 24)
+    if (Math.floor(dif) >= limit) {
+      // disable that investment
+      const res = await disableInvestment(investment._id)
+      console.log(`disableInvestment (${investment._id})`, res)
+      if(res.message === "success"){
+        return res.order;
+      }        
+    }
+    return investment;
+  }
 }
