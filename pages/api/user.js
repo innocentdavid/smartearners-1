@@ -405,19 +405,19 @@ export async function disableInvestment(orderId) {
 
 export async function checkUserInvestments(investment) {
   if (investment) {
-    // const investedAt = new Date(investment._createdAt).getTime()
-    // const limit = investment.returnPeriod
-    // const now = new Date().getTime()
-    // const gap = now - investedAt
-    // const dif = (gap) / (1000 * 3600 * 24)
-    // if (Math.floor(dif) >= limit) {
-    //   // disable that investment
-    //   const res = await disableInvestment(investment._id)
-    //   console.log(`disableInvestment (${investment._id})`, res)
-    //   if(res.message === "success"){
-    //     return res.order;
-    //   }        
-    // }
+    const investedAt = new Date(investment._createdAt).getTime()
+    const limit = investment.returnPeriod
+    const now = new Date().getTime()
+    const gap = now - investedAt
+    const dif = (gap) / (1000 * 3600 * 24)
+    if (Math.floor(dif) >= limit) {
+      // disable that investment
+      const res = await disableInvestment(investment._id)
+      console.log(`disableInvestment (${investment._id})`, res)
+      if(res.message === "success"){
+        return res.order;
+      }        
+    }
     return investment;
   }
 }

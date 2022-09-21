@@ -20,7 +20,7 @@ export default function Login() {
       setUserDetails({ ...userDetails, rfCode: rf })
       setActiveTabIndex(1)
     }
-  }, [rf])
+  }, [rf, userDetails])
 
   const handleLogIn = async (e) => {
     e.preventDefault();

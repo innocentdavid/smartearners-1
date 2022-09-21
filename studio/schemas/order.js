@@ -53,7 +53,7 @@ export default {
       name: 'active',
       title: 'Active',
       type: 'boolean',
-      readOnly: true,
+      // readOnly: true,
     },
     {
       name: 'lastMined',
