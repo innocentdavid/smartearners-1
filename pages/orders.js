@@ -32,10 +32,10 @@ export default function Orders() {
           const list = []
           array.forEach(async item => {
             const order = await checkUserInvestments(item)
-            console.log({order})
+            // console.log({order})
             list.push(order)
           });
-          console.log({array})
+          // console.log({array})
           array && setOrderItems(list)
         }
       }
