@@ -390,6 +390,7 @@ const createRfCommision = async (user, referrerId, commission, amount, level) =>
   return { message: 'user does not have a referral' }
 }
 
+// disableinvestment
 export async function disableInvestment(orderId) {
   const order = await client
     .patch(orderId)
