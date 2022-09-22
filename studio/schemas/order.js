@@ -53,13 +53,11 @@ export default {
       name: 'active',
       title: 'Active',
       type: 'boolean',
-      // readOnly: true,
     },
     {
       name: 'lastMined',
       title: 'Last Mined',
       type: 'string',
-      // readOnly: true,
     },
     {
       name: 'userId',
