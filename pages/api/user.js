@@ -413,7 +413,7 @@ export async function checkUserInvestments(investment) {
     if (Math.floor(dif) >= limit) {
       // disable that investment
       const res = await disableInvestment(investment._id)
-      console.log(`disableInvestment (${investment._id})`, res)
+      // console.log(`disableInvestment (${investment._id})`, res)
       if(res.message === "success"){
         return res.order;
       }        
