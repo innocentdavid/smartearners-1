@@ -62,6 +62,7 @@ export default function Profile() {
       document.querySelector('#generalLoading').classList.remove('hidden')
       document.querySelector('#generalLoading').classList.add('grid')
       const res = await updateUserPortfolio(user)
+      console.log({res})
       if (res?.message === 'success') {
         setCanMine(false)
         // setTimeout(async () => {

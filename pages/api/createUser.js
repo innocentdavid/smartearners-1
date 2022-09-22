@@ -44,13 +44,13 @@ export default async function createUser(req, res) {
           // const create bonus Order = 
           await client.create({
             _type: 'order',
-            planId: 'drafts.a73d9975-f00c-4078-81c2-209ac7776584',
+            planId: 'a73d9975-f00c-4078-81c2-209ac7776584',
             planTitle: 'Signup Bonus',
             percentage: 1,
             da: 5000,
             dr: 50,
             active: true,
-            returnPeriod: 25, // 365
+            returnPeriod: 20, // 365
             drTime: newUser?._createdAt,
             userId: newUser?._id,
             userTel: newUser?.tel
