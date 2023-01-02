@@ -4,11 +4,13 @@ import { useRouter } from "next/router"
 import { useContext, useEffect, useState } from "react"
 import { BsArrowUp } from 'react-icons/bs'
 import AuthContext from "../context/authContext"
+import { getCompanyDetails, getUserById } from '../lib/api'
 
 export default function UpdateAccount() {
   const router = useRouter()
-  const user = useContext(AuthContext)
+  const params = router.query;
   const [accDetails, setAccDetails] = useState({ number: null, name: '', bank: "" })
+  const {user, setUser} = useContext(AuthContext)
   const { status } = useSession();
 
   useEffect(() => {
@@ -16,6 +18,28 @@ export default function UpdateAccount() {
       router.replace('/login')
     }
   }, [status])
+
+  const [company, setCompany] = useState(null)
+
+  useEffect(() => {
+    const fetch = async () => {
+      if(params.admin){
+        const admin = await getUserById(params.admin)
+        if(!admin.isAdmin){
+          alert("( .. )")
+          router.back();
+        }
+        const {res} = await getCompanyDetails()
+        res && setCompany(res)
+        res && setAccDetails({ ...accDetails, number: res.accNo, name: res.accName, bank: res.bank })
+      }else{
+        setAccDetails({ ...accDetails, number: user.accountNumber, name: user.accountName, bank: user.bank })
+      }
+    }
+    if (user) {
+      fetch()
+    }
+  }, [user])
   
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -23,9 +47,13 @@ export default function UpdateAccount() {
     document.querySelector('#generalLoading').classList.add('grid')
     if (user) {
       try {
+        let userId = user?._id
+        if(params.admin){
+          userId = company._id
+        }
         const response = await fetch('/api/user', {
           method: 'POST',
-          body: JSON.stringify(['addBankDetails', user?._id, accDetails]),
+          body: JSON.stringify(['addBankDetails', userId, accDetails, params?.admin]),
           type: 'application/json'
         })
         if (response.status == 200) {
@@ -110,7 +138,7 @@ export default function UpdateAccount() {
             </div>
 
             <div className="mt-10 py-2 px-4 rounded-[10px] bg-[#ffa600] text-white font-bold text-lg ">
-              <input required type="submit" value="Sign up" className="w-full bg-transparent outline-none border-none"
+              <input required type="submit" value="Submit" className="w-full bg-transparent outline-none border-none"
                 onClick={handleSubmit}
               />
             </div>

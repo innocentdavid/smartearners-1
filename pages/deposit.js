@@ -10,7 +10,7 @@ import AuthContext from '../context/authContext'
 import { signOut } from 'next-auth/react'
 
 export default function Deposit() {
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const router = useRouter()
   const [ticket, setTicket] = useState(3000)
   const [ticketPlaceholder, setTicketPlaceholder] = useState()
@@ -33,16 +33,18 @@ export default function Deposit() {
     }
     setShowPaymentGateWay(true)
   }
-  
+
   const makeDeposit = async () => {
-    if(paymentGateWay === 2){
+    if (paymentGateWay === 2) {
       // paywithBalance
-      if(!(user.balance >= parseInt(ticket))){
+      if (!((user.tbalance + user?.ri + user?.roi + user?.vrs) >= parseInt(ticket))) {
         alert('Your balance is not enough')
         return
       }
       // const res = await depositWithBalance(user, ticket)
       try {
+        document.querySelector('#generalLoading').classList.remove('hidden')
+        document.querySelector('#generalLoading').classList.add('grid')
         const response = await fetch('/api/user', {
           method: 'POST',
           body: JSON.stringify(['depositWithBalance', user, parseInt(ticket)]),
@@ -50,16 +52,20 @@ export default function Deposit() {
         })
         const res = await response.json()
         if (res) {
+          setTimeout(async () => {
+            router.reload();
+          }, 500);
           alert(`You have successfully purchase ${ticket} tickets with your balance`)
           setShowPaymentGateWay(false)
           // signOut()
           router.reload()
           return;
         } else {
-          console.log(res)          
+          console.log(res)
         }
       } catch (err) {
         console.log(err)
+        router.reload()
         alert('something went wrong!')
       }
     }
@@ -80,7 +86,7 @@ export default function Deposit() {
 
         <div className="flex items-center gap-5 text-[.8rem] font-semibold font-['Metric-Medium'] ">
           <div className="flex flex-col items-center">Ticket <strong className="text-lg font-Josefin">{user?.myTicket}</strong></div>
-          <div className="flex flex-col items-center">Balance <strong className="text-lg font-Josefin">N<span>{user?.balance}</span></strong></div>
+          <div className="flex flex-col items-center">Balance <strong className="text-lg font-Josefin">N<span>{user?.tbalance + user?.ri + user?.roi + user?.vrs}</span></strong></div>
         </div>
       </nav>
 

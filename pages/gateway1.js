@@ -9,7 +9,7 @@ import { getCompanyDetails } from '../lib/api';
 export default function Gateway1() {
   const router = useRouter()
   const { ticket } = router.query
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const [company, setCompany] = useState(null)
 
   useEffect(() => {

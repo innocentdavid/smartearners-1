@@ -1,5 +1,6 @@
 import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 import { BiTrendingUp } from 'react-icons/bi'
@@ -10,9 +11,12 @@ import { getAllInvestmentPlan } from '../lib/api'
 import AuthContext from '../context/authContext';
 
 export default function Home({ allInvestmentPlan }) {
+  // console.log(allInvestmentPlan)
+
   const [plans] = useState(allInvestmentPlan)
+  const [canBuy, setCanBuy] = useState(true)
   const { status, data } = useSession();
-  const user = useContext(AuthContext)
+  const { user, setUser } = useContext(AuthContext)
   const router = useRouter()
 
   useEffect(() => {
@@ -47,7 +51,9 @@ export default function Home({ allInvestmentPlan }) {
           <div className="flex items-center gap-3 text-[.8em] font-semibold font-['Metric-Medium'] ">
             <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit') }}>Ticket <strong className="font-bold font-Josefin select-none">{user?.myTicket ? user?.myTicket : 0}</strong></div>
             <div className="border-r border-[#fff3dc] h-[60%]"></div>
-            <div onClick={() => { router.push('/withdraw') }} className="flex flex-col items-center cursor-pointer">Balance <strong className="font-bold font-Josefin select-none">N<span>{user?.balance}</span></strong></div>
+            <div onClick={() => { router.push('/withdraw') }} className="flex flex-col items-center cursor-pointer">Balance <strong className="font-bold font-Josefin select-none">N<span>{
+              user?.tbalance + user?.ri + user?.roi + user?.vrs
+            }</span></strong></div>
           </div>
         </nav>
 
@@ -71,12 +77,14 @@ export default function Home({ allInvestmentPlan }) {
               <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Referral</div>
             </div>
 
-            <div className="flex flex-col items-center">
-              <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer" onClick={() => { router.push('/#support') }}>
-                <img src="/images/icons8-comments-50.png" alt="" width="20px" className="" />
-              </div>
-              <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Support</div>
-            </div>
+            <Link href="https://wa.link/3hxbsj">
+              <a className="flex flex-col items-center">
+                <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-white flex justify-center items-center  cursor-pointer">
+                  <img src="/images/icons8-comments-50.png" alt="" width="20px" className="" />
+                </div>
+                <div className="text-[.8rem] font-bold font-['Poppins'] mt-1 ">Support</div>
+              </a>
+            </Link>
 
             <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/#investmentPlan') }}>
               <div className="rounded-[15px] w-[40px] h-[40px] bg-[#fff3dc] text-black flex justify-center items-center "><BiTrendingUp size="20px" /></div>
@@ -90,7 +98,7 @@ export default function Home({ allInvestmentPlan }) {
 
           <section className="my-5 px-5 flex flex-col md:flex-row flex-wrap justify-center items-center md:gap-10">
             {plans?.map((plan, index) => {
-              return <PlanCard key={plan?._id} user={user} id={index + 1} plan={plan} title={plan?.title} returnPeriod={plan?.returnPeriod} percentage={plan?.percentage} da={plan?.da} router={router} />
+              return <PlanCard key={plan?._id} user={user} setUser={setUser} id={index + 1} plan={plan} title={plan?.title} returnPeriod={plan?.returnPeriod} percentage={plan?.percentage} da={plan?.da} router={router} canBuy={canBuy} setCanBuy={setCanBuy} />
             })}
           </section>
         </main>
@@ -101,7 +109,7 @@ export default function Home({ allInvestmentPlan }) {
   }
 }
 
-const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router }) => {
+const PlanCard = ({ user, setUser, id, plan, title, percentage, da, returnPeriod, router, canBuy, setCanBuy }) => {
   const dailyReturn = (percentage / 100) * da
   const totalReturn = ((percentage / 100) * da) * returnPeriod
   const totalReturnPercentage = percentage * returnPeriod;
@@ -118,15 +126,28 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
   }
 
   const investNow = async () => {
+    // if (canBuy) {
+    alert('your request will be processed, and this might take some seconds!')
+    // const lastPurchaseDate = new Date(user.lastPurchaseDate).getTime()
+    // const now = new Date().getTime()
+    // const gap = now - lastPurchaseDate
+    // const dif = gap / (1000 * 3600 * 24)
+    // console.log(dif)
+    // if (dif && dif <= 0.002) {
+    //   // alert('Try again in the next 30 seconds')
+    //   console.log('Try again in the next 30 seconds')
+    //   // return
+    // }
+
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
     if (user) {
       // console.log(user.myTicket, plan.da)
       if (parseInt(user.myTicket) < parseInt(plan.da)) {
         alert('You do not have enough ticket, get more ticket to continue');
+        router.push('/deposit')
         document.querySelector('#generalLoading').classList.remove('grid')
         document.querySelector('#generalLoading').classList.add('hidden')
-        router.push('/deposit')
         return
       }
       // const res = await buyInvestmentPlan(plan, user)
@@ -137,34 +158,37 @@ const PlanCard = ({ user, id, plan, title, percentage, da, returnPeriod, router 
           type: 'application/json'
         })
         const res = await response.json()
-        if(res?.message === 'unexpected'){
+        if (res?.message === 'unexpected') {
           signOut()
           hideModal()
-          document.querySelector('#generalLoading').classList.remove('grid')
-          document.querySelector('#generalLoading').classList.add('hidden')
+          alert('Somthing went wrong!');
+          router.reload();
           return;
         }
-        if (res.message !== 'error') {
-          res.message && alert(res?.message)
-          hideModal()
-          router.push("/orders")
-          document.querySelector('#generalLoading').classList.remove('grid')
-          document.querySelector('#generalLoading').classList.add('hidden')
-          return;
+        if (res?.message !== 'error') {
+          // localStorage.setItem('oldTicketBalance', user.myTicket)
         }
-        hideModal()
-        console.log(res)
       } catch (err) {
         console.log(err)
         hideModal()
       }
-      hideModal()
-      router.push('/orders')
+      // const u3 = await getUserById(user?._id)
+      // setUser(u3)
+      setTimeout(async () => {
+        // await getUserById(user?._id)
+        alert('successful')
+        hideModal()
+        window.location = '/orders'
+      }, 500);
+      return;
     } else {
       alert('You have to log in first!')
+      return;
     }
-    document.querySelector('#generalLoading').classList.remove('grid')
-    document.querySelector('#generalLoading').classList.add('hidden')
+    // } else {
+    //   alert("can't purchase any plan now, please try again later")
+    //   console.log(canBuy)
+    // }
   }
 
   return (<>

@@ -24,10 +24,12 @@ export default function ImageUploader({ user, amount }) {
   }
 
   function uploadFile(file) {
-    const NEXT_PUBLIC_CLOUDINARY_CLOUDNAME = 'code-cent' // get this from .env
-    const NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET = 'sjoawypm' // get this from .env
+    const CLOUDINARY_CLOUDNAME = "code-cent" // process.env.NEXT_PUBLIC_CLOUDINARY_CLOUDNAME
+    const UPLOAD_PRESET = "sjoawypm" // process.env.NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET
+    // const CLOUDINARY_CLOUDNAME = 'smart-earners' // process.env.NEXT_PUBLIC_CLOUDINARY_CLOUDNAME
+    // const UPLOAD_PRESET = "cuspgzgd" // process.env.NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET
 
-    const url = `https://api.cloudinary.com/v1_1/${NEXT_PUBLIC_CLOUDINARY_CLOUDNAME}/upload`;
+    const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUDNAME}/image/upload`;
     const xhr = new XMLHttpRequest();
     const fd = new FormData();
     xhr.open("POST", url, true);
@@ -48,9 +50,7 @@ export default function ImageUploader({ user, amount }) {
       }
     };
 
-    fd.append(
-      "upload_preset", NEXT_PUBLIC_CLOUDINARY_UNSIGNED_UPLOAD_PRESET
-    );
+    fd.append("upload_preset", UPLOAD_PRESET);
     fd.append("tags", "browser_upload");
     fd.append("file", file);
     xhr.send(fd);
@@ -71,7 +71,7 @@ export default function ImageUploader({ user, amount }) {
       })
       const res = await response.json()
       // console.log(res.message)
-      if(res.message === 'success'){
+      if (res.message === 'success') {
         alert('Your request has been received and will be processed.');
         router.push('/')
       }

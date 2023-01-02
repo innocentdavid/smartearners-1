@@ -1,13 +1,13 @@
 import { getSession, signIn, providers, csrfToken } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { BsPhone, BsLock } from 'react-icons/bs'
+import { BsPhone, BsLink45Deg, BsLock } from 'react-icons/bs'
 
 export default function Login() {
   const router = useRouter()
   const { rf } = router.query
   const [loginDetails, setLoginDetails] = useState({ tel: '', password: '' })
-  const [userDetails, setUserDetails] = useState({ tel: '', password: '', cPassword: '' })
+  const [userDetails, setUserDetails] = useState({ tel: '', password: '', cPassword: '', rfCode: '' })
   const tabsData = [
     { label: "Log in", content: "" },
     { label: "Sign up", content: "" },
@@ -15,11 +15,12 @@ export default function Login() {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   useEffect(() => {
-    console.log(rf)
+    // console.log(rf)
     if(rf){
+      setUserDetails({ ...userDetails, rfCode: rf })
       setActiveTabIndex(1)
     }
-  }, [rf])
+  }, [rf, userDetails])
 
   const handleLogIn = async (e) => {
     e.preventDefault();
@@ -36,7 +37,7 @@ export default function Login() {
       document.querySelector('#generalLoading').classList.add('hidden')
       return;
     }
-    console.log(res.error)
+    // console.log(res.error)
     res.error && alert(res.error)
     document.querySelector('#generalLoading').classList.remove('grid')
     document.querySelector('#generalLoading').classList.add('hidden')
@@ -50,7 +51,8 @@ export default function Login() {
     }
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
-    const data = { tel: userDetails.tel, password: userDetails.password, rf }
+
+    const data = { tel: userDetails.tel, password: userDetails.password, rf: userDetails.rfCode ? userDetails.rfCode : '' }
     try {
       const response = await fetch('/api/createUser', {
         method: 'POST',
@@ -71,13 +73,17 @@ export default function Login() {
         document.querySelector('#generalLoading').classList.add('hidden')
         return;
       } else {
-        console.log(response)
+        alert("An error occured, please check your connection")
+        // console.log(await response.json())
         document.querySelector('#generalLoading').classList.remove('grid')
         document.querySelector('#generalLoading').classList.add('hidden')
         return;
       }
     } catch (err) {
       console.log(err)
+      console.log(await err.json())
+      document.querySelector('#generalLoading').classList.remove('grid')
+      document.querySelector('#generalLoading').classList.add('hidden')
     }
     document.querySelector('#generalLoading').classList.remove('grid')
     document.querySelector('#generalLoading').classList.add('hidden')
@@ -118,7 +124,7 @@ export default function Login() {
                     value={loginDetails.tel} />
               <div className="">
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Mobile Number</p>
-                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
+                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
                   <BsPhone size="20px" />
                   <input required type="number" name="tel" id="lTel" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setLoginDetails({ ...loginDetails, tel: e.target.value }) }}
@@ -128,7 +134,7 @@ export default function Login() {
 
               <div className="mt-5">
                 <p className="font-[fona] font-bold text-[16px] text-[#9e9292] mb-1 ">Password</p>
-                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
+                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
                   <BsLock size="20px" />
                   <input required type="password" name="password" id="lPassword" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setLoginDetails({ ...loginDetails, password: e.target.value }) }}
@@ -152,7 +158,7 @@ export default function Login() {
                     value={userDetails.tel} />
               <div className="">
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Mobile Number</p>
-                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
+                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
                   <BsPhone size="20px" />
                   <input required type="number" name="tel" id="redTel" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setUserDetails({ ...userDetails, tel: e.target.value }) }}
@@ -162,7 +168,7 @@ export default function Login() {
 
               <div className="mt-5">
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Password</p>
-                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
+                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
                   <BsLock size="20px" />
                   <input required type="password" name="password" id="RegPassword" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setUserDetails({ ...userDetails, password: e.target.value }) }}
@@ -172,11 +178,21 @@ export default function Login() {
 
               <div className="mt-5">
                 <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Confirm Password</p>
-                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-gray-400">
+                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
                   <BsLock size="20px" />
                   <input required type="password" name="cpassword" id="cRegPassword" className="w-full bg-transparent outline-none border-none"
                     onChange={(e) => { setUserDetails({ ...userDetails, cPassword: e.target.value }) }}
                     value={userDetails.cPassword} />
+                </div>
+              </div>
+
+              <div className="mt-5">
+                <p className="font-[fona] font-bold text-[16px] text-[#6b6b6b] mb-1 ">Referral Code <small>(optional)</small></p>
+                <div className="flex items-center gap-4 py-3 px-4 rounded-[10px] bg-[#fff3dc] text-black">
+                  <BsLink45Deg size="20px" />
+                  <input required type="text" name="rfCode" id="" className="w-full bg-transparent outline-none border-none"
+                    onChange={(e) => { setUserDetails({ ...userDetails, rfCode: e.target.value }) }}
+                    value={userDetails.rfCode} />
                 </div>
               </div>
 

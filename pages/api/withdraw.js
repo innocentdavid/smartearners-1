@@ -10,7 +10,7 @@ export default async function withdraw(req, res) {
     const amount = b[2]
 
     // user can only withdraw once a day
-    console.log('hasWithdrawToday(user?._id)', await hasWithdrawToday(user?.lastWithdrawDate))
+    // console.log('hasWithdrawToday(user?._id)', await hasWithdrawToday(user?.lastWithdrawDate))
     if (await hasWithdrawToday(user?.lastWithdrawDate)) {
       return res.status(500).json({ message: 'You can only withdraw once a day, try again tomorrow.' })
     }
@@ -64,31 +64,33 @@ export default async function withdraw(req, res) {
   if (b[0] === 'declineWithdraw') {
     const itemId = b[1]
     const amount = b[2]
-    const user = b[3]
-    
+    const ownerId = b[3]
+
     if (!itemId) {
       return res.status(500).json({ message: "an error occured", error })
     }
 
-    await client
-      .patch(user._id)
-      .inc({ tbalance: amount })
-      .set({ lastWithdrawDate: new Date() })
-      .commit()
-      .catch(error => {
-        // console.log('update user profile', error)
-        res.status(500).json({ message: 'An error occured', error })
-      })
-
     // approve the withdrawal
-    await client
+    let a = await client
       .patch(itemId)
       .set({ status: 'declined' })
       .commit()
       .catch(error => {
-        // console.log('update user profile', error)
+        // console.log('update owner profile', error)
         return res.status(500).json({ message: "an error occured", error })
       })
+
+    if (a) {
+      await client
+        .patch(ownerId)
+        .inc({ tbalance: amount })
+        .set({ lastWithdrawDate: '' })
+        .commit()
+        .catch(error => {
+          // console.log('update owner profile', error)
+          res.status(500).json({ message: 'An error occured', error })
+        })
+    }
     return res.status(200).json({ message: "success" })
   }
 

@@ -8,7 +8,7 @@ import { fetchRfCommission } from "../../lib/api";
 
 export default function ReferralLevel({ level }) {
   const router = useRouter()
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const [data, setData] = useState([])
 
   const getTotalDetails = (array) => {

@@ -5,13 +5,12 @@ import { useContext, useEffect, useState } from 'react';
 import { BsArrowUp } from 'react-icons/bs'
 import { TbCurrencyNaira } from 'react-icons/tb'
 import AuthContext from '../context/authContext';
-import { getUserById } from '../lib/api';
 import { getAllBalanceRecord, getAllPaymentRecord, getAllWithDrawRecord } from '../lib/functions';
 
 export default function Withdraw() {
   const router = useRouter()
   const { p } = router.query
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const balance = user?.tbalance + user?.roi + user?.ri + user?.vrs
   const tabsData = [
     { label: "Withdrawal Record", content: "" },
@@ -66,11 +65,10 @@ export default function Withdraw() {
     }
   }, [p])
 
-  const canWithdrawCheck = () => {
-    if(!user.lastWithdrawDate){
-      console.log(user.lastWithdrawDate)
-      return true
-    }
+  const canWithdrawCheck = (user) => {
+    if(!user.lastWithdrawDate) return true;
+    if(!user.isValid) return false;
+
     // console.log(user.lastWithdrawDate)
     const lastWithdrawDate = new Date(user.lastWithdrawDate).getTime()
     const now = new Date().getTime()
@@ -86,7 +84,7 @@ export default function Withdraw() {
   useEffect(() => {
     // console.log(p)
     if (user) {
-      const cw = canWithdrawCheck()
+      const cw = canWithdrawCheck(user)
       // console.log(cw)
       setCanWithdraw(cw)
     }
@@ -94,7 +92,10 @@ export default function Withdraw() {
 
   const handleWithdraw = async (e) => {
     e.preventDefault();
-    const Nuser = await getUserById(user?._id)
+    if(!canWithdrawCheck(user)) {
+      alert('You can only withdraw once a day')
+      return;
+    };
 
     if (!amountToWithdraw) {
       alert('The minimum you can withdraw is 1000')
@@ -109,8 +110,8 @@ export default function Withdraw() {
       return;
     }
 
-    if (Nuser) {
-      if (!Nuser.accountNumber) {
+    if (user) {
+      if (!user.accountNumber) {
         alert("You have not provided your account number")
         router.push('/updateAccount')
         return;
@@ -122,36 +123,40 @@ export default function Withdraw() {
       }
 
       // run withdraw
-      document.querySelector('#generalLoading').classList.remove('hidden')
-      document.querySelector('#generalLoading').classList.add('grid')
       try {
+        document.querySelector('#generalLoading').classList.remove('hidden')
+        document.querySelector('#generalLoading').classList.add('grid')
         const response = await fetch('/api/withdraw', {
           method: 'POST',
-          body: JSON.stringify(['withdraw', Nuser, parseInt(amountToWithdraw)]),
+          body: JSON.stringify(['withdraw', user, parseInt(amountToWithdraw)]),
           type: 'application/json'
         })
         const res = await response.json()
-        console.log(res)
+        // console.log(res)
         if (response.status == 200) {
+          // const u = await getUserById(user?._id)
+          setTimeout(async () => {
+            // await getUserById(user._id)
+            // await getUserById(user._id)
+            // await getUserById(user._id)
+            router.reload();
+          }, 500);
+          // const u3 = await getUserById(user._id)
+          // setUser(u3)
           alert('Your request has been submited successfully')
-          const u = await getUserById(Nuser?._id)
-          console.log(u)
+          // console.log(u)
           router.reload();
-          document.querySelector('#generalLoading').classList.remove('grid')
-          document.querySelector('#generalLoading').classList.add('hidden')
           return;
         }
       } catch (err) {
+        alert('somthing went wrong, please try again later')
         console.log(err)
-        document.querySelector('#generalLoading').classList.remove('grid')
-        document.querySelector('#generalLoading').classList.add('hidden')
+        // document.querySelector('#generalLoading').classList.remove('grid')
+        // document.querySelector('#generalLoading').classList.add('hidden')
       }
-      document.querySelector('#generalLoading').classList.remove('grid')
-      document.querySelector('#generalLoading').classList.add('hidden')
     } else {
       alert('you have to login to be here!');
-      document.querySelector('#generalLoading').classList.remove('grid')
-      document.querySelector('#generalLoading').classList.add('hidden')
+      router.reload();
       return;
     }
   }

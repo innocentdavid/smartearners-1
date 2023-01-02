@@ -7,12 +7,11 @@ import { BsArrowUp } from "react-icons/bs";
 import { ImUsers } from "react-icons/im";
 import AuthContext from "../context/authContext";
 import { getAllValidRefer } from "../lib/functions";
-// import { getValidRefers } from "../lib/api";
 
 export default function Pervalidrefer() {
   const router = useRouter()
   const { status, data } = useSession();
-  const user = useContext(AuthContext)
+  const { user, setUser } = useContext(AuthContext)
   const [validRefers, setValidRefers] = useState([])
 
   useEffect(() => {
@@ -34,6 +33,41 @@ export default function Pervalidrefer() {
       fetch()
     }
   }, [user])
+
+  const claimReward = async () => {
+    if (validRefers?.length < 50) {
+      alert('You must have atleast 50 active members to claim this reward');
+      return;
+    }
+
+    document.querySelector('#generalLoading').classList.remove('hidden')
+    document.querySelector('#generalLoading').classList.add('grid')
+    if (user) {
+      try {
+        const response = await fetch('/api/user', {
+          method: 'POST',
+          body: JSON.stringify(['claimReward', user]),
+          type: 'application/json'
+        })
+        await response.json()        
+      } catch (err) {
+        console.log(err)
+        alert('Something went wrong')
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
+        return;
+      }
+      setTimeout(async () => {
+        // await getUserById(user?._id)
+        alert('successful')
+        router.reload()
+      }, 500);
+      return;
+    } else {
+      alert('You have to log in first!')
+      return;
+    }
+  }
 
   if (status === 'loading') {
     return (
@@ -69,9 +103,13 @@ export default function Pervalidrefer() {
           <p className="mt-3 text-[.75rem]">{'Receive ₦20,000 monthly salary when you have up to 50 active downlines.'}</p>
         </header>
 
-        <div className="flex flex-col items-end py-2 px-4">
-          <strong>Total Valid Refer: <span>{validRefers.length}</span></strong>
-          <strong>Total Earnings: <span>₦{user?.vrs ? user?.vrs : 0}</span></strong>
+        <div className="flex justify-between py-2 px-4">
+          <div className="flex flex-col py-2 px-4">
+            <strong>Total Valid Refer: <span>{validRefers?.length}</span></strong>
+            <strong>Total Earnings: <span>₦{user?.vrs ? user?.vrs : 0}</span></strong>
+          </div>
+
+          {validRefers?.length >= 50 && <div className="h-[50px] px-[50px] bg-black text-white grid place-items-center cursor-pointer" onClick={claimReward}>Claim Your reward</div>}
         </div>
 
         <section className="mt-8">

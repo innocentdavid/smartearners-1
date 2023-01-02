@@ -8,19 +8,19 @@ import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import AuthContext from '../context/authContext'
 import { signOut } from "next-auth/react"
-import { getUserById, updateUserPortfolio } from '../lib/api'
+import { updateUserPortfolio } from '../lib/api'
 
 export default function Profile() {
   const router = useRouter()
   const { status, data } = useSession();
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const [canMine, setCanMine] = useState(false)
 
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.replace('/login')
     }
-  }, [status])
+  }, [router, status])
 
   useEffect(() => {
     if (user) {
@@ -38,7 +38,7 @@ export default function Profile() {
         // return
       }
       const lastChecked = new Date(user?.lastChecked).getTime()
-      if(lastChecked){
+      if (lastChecked) {
         const now = new Date().getTime()
         const gap = now - lastChecked
         const dif = (gap) / (1000 * 3600 * 24)
@@ -59,12 +59,21 @@ export default function Profile() {
       return;
     }
     if (canMine) {
+      document.querySelector('#generalLoading').classList.remove('hidden')
+      document.querySelector('#generalLoading').classList.add('grid')
       const res = await updateUserPortfolio(user)
-      const u = getUserById(user._id)
-      console.log(u)
-      if(res.message === 'success'){
-        alert('You have successfully mined all your reward')
+      // console.log({res})
+      if (res?.message === 'success') {
         setCanMine(false)
+        // setTimeout(async () => {
+        //   router.reload();
+        // }, 10000);
+        alert('You have successfully mined all your reward')
+        document.querySelector('#generalLoading').classList.remove('grid')
+        document.querySelector('#generalLoading').classList.add('hidden')
+      } else {
+        alert("An error occured! please try again")
+        router.reload();
       }
     }
   }
@@ -73,7 +82,8 @@ export default function Profile() {
     return (
       <div className="fixed top-0 left-0 w-full h-screen grid place-items-center z-[999999999] text-white" style={{ background: 'rgba(0,0,0,.8)' }}>
         <div className="text-2xl md:text-3xl lg:text-5xl flex items-center gap-3">
-          <img src="/images/withdraw-1.png" alt="" width="20px" height="20px" className="animate-spin" />
+          {// eslint-disable-next-line @next/next/no-img-element
+          <img src="/images/withdraw-1.png" alt="" width="20px" height="20px" className="animate-spin" />}
           <span>Loading<span className="animate-ping">...</span></span>
         </div>
       </div>
@@ -94,7 +104,9 @@ export default function Profile() {
 
           <div className="flex items-center gap-5 text-[.8rem] ">
             <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/deposit') }}>Ticket <strong>{user?.myTicket}</strong></div>
-            <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/withdraw') }}>Balance <strong className="">N<span>{user?.balance}</span></strong></div>
+            <div className="flex flex-col items-center cursor-pointer" onClick={() => { router.push('/withdraw') }}>Balance <strong className="">₦<span>{
+            user?.tbalance + user?.ri + user?.roi + user?.vrs
+            }</span></strong></div>
           </div>
         </nav>
 
@@ -187,7 +199,7 @@ export default function Profile() {
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Payment Records</div>
               </a>
             </Link>
-            <Link href="#">
+            <Link href="https://wa.link/3hxbsj">
               <a className="w-1/2 md:w-1/3 flex justify-center items-center">
                 <div className="w-full text-center mx-8 my-4 py-3 px-3 border-2 border-[#ffa600] hover:bg-[#ffa600]">Customer Support</div>
               </a>

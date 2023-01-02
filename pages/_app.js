@@ -1,6 +1,8 @@
+import Link from 'next/link'
 import { SessionProvider } from "next-auth/react"
 import '../styles/globals.css'
 import { AuthContextProvider } from '../context/authContext'
+import { FaTelegramPlane, FaWhatsapp } from 'react-icons/fa'
 
 function MyApp({ Component, pageProps }) {
 
@@ -11,12 +13,30 @@ function MyApp({ Component, pageProps }) {
         <span>Loading<span className="animate-ping">...</span></span>
       </div>
     </div>
-    <SessionProvider 
-    session={pageProps.session}
-    // Re-fetch session every 5 minutes
-    refetchInterval={5 * 60}
-    // Re-fetches session when window is focused
-    refetchOnWindowFocus={true}
+
+    <div className="fixed right-5 bottom-[40%] translate-y-[-40%] flex flex-col items-center justify-center gap-5 text-xl z-[999999999999]">
+      <div>
+        <Link href="https://t.me/smartearnerofficialgroup">
+          <a className="">
+            <FaTelegramPlane />
+          </a>
+        </Link>
+      </div>
+      <div>
+        <Link href="https://chat.whatsapp.com/GsnSC0E9nBwCjeuS8Kss0c">
+          <a className="">
+            <FaWhatsapp />
+          </a>
+        </Link>
+      </div>
+    </div>
+    
+    <SessionProvider
+      session={pageProps.session}
+      // Re-fetch session every 0.5 minutes
+      refetchInterval={30}
+      // Re-fetches session when window is focused
+      refetchOnWindowFocus={true}
     >
       <AuthContextProvider>
         <Component {...pageProps} />

@@ -1,5 +1,5 @@
-import client from './config'
 import bcrypt from 'bcrypt'
+import client from './config'
 // import { createRecord } from '../../lib/api';
 
 async function getUser(tel) {
@@ -23,7 +23,7 @@ export default async function createUser(req, res) {
     const saltRounds = 10;
     bcrypt.genSalt(saltRounds, function (err, salt) {
       bcrypt.hash(password, salt, async function (err, hash) {
-        try {
+        // try {
           var data = {}
           if (rf) {
             data = {
@@ -35,19 +35,22 @@ export default async function createUser(req, res) {
             }
           }
   
-          const newUser = await client.create(data)
+          const newUser = await client.create(data).catch(error => {
+            console.log("create user error", error)
+            return res.status(500).json({ message: `Couldn't create user`, err })
+          })
           // console.log(newUser)
   
           // const create bonus Order = 
           await client.create({
             _type: 'order',
-            planId: 'drafts.a73d9975-f00c-4078-81c2-209ac7776584',
+            planId: 'a73d9975-f00c-4078-81c2-209ac7776584',
             planTitle: 'Signup Bonus',
             percentage: 1,
             da: 5000,
             dr: 50,
             active: true,
-            returnPeriod: 365,
+            returnPeriod: 20, // 365
             drTime: newUser?._createdAt,
             userId: newUser?._id,
             userTel: newUser?.tel
@@ -74,12 +77,11 @@ export default async function createUser(req, res) {
             }).catch(err => {
               console.log(err)
             })
-          }
-  
-        } catch (err) {
-          console.error(err)
-          return res.status(500).json({ message: `Couldn't create user`, err })
-        }
+          }  
+        // } catch (err) {
+        //   console.error(err)
+        //   return res.status(500).json({ message: `Couldn't create user`, err })
+        // }
         return res.status(200).json({ message: 'success' })
       });
     });

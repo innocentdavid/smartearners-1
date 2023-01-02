@@ -7,9 +7,10 @@ import { useContext, useEffect, useState } from 'react'
 import Footer from '../components/footer'
 import AuthContext from '../context/authContext'
 import { getOrders } from '../lib/api'
+import { checkUserInvestments } from './api/user'
 
 export default function Orders() {
-  const user = useContext(AuthContext)
+  const {user, setUser} = useContext(AuthContext)
   const { status, data } = useSession();
   const router = useRouter()
 
@@ -26,19 +27,30 @@ export default function Orders() {
         const orders = await getOrders(user._id).catch(err => {
           console.log(err)
         })
-        orders?.order && setOrderItems(orders.order)
+        if(orders?.order){
+          const array = orders.order
+          const list = []
+          array.forEach(async item => {
+            const order = await checkUserInvestments(item)
+            // console.log({order})
+            list.push(order)
+          });
+          // console.log({array})
+          array && setOrderItems(list)
+        }
       }
     }
     if(user){
       fetch()
     }
-  }, [user])
-
+  }, [router, status, user])
+  
   if (status === 'loading') {
     return (
       <div className="fixed top-0 left-0 w-full h-screen grid place-items-center z-[999999999] text-white" style={{ background: 'rgba(0,0,0,.8)' }}>
         <div className="text-2xl md:text-3xl lg:text-5xl flex items-center gap-3">
-          <img src="/images/withdraw-1.png" alt="" width="20px" height="20px" className="animate-spin" />
+        { // eslint-disable-next-line @next/next/no-img-element
+          <img src="/images/withdraw-1.png" alt="" width="20px" height="20px" className="animate-spin" />}        
           <span>Loading<span className="animate-ping">...</span></span>
         </div>
       </div>
@@ -176,7 +188,7 @@ const OrderCard = ({ order }) => {
                 </div>
               </div>
             </div>
-
+xxxxxzvvvvzzz
             <div className="flex justify-between mt-5">
               <div className="">
                 <div className="text-gray-500">Return Period</div>

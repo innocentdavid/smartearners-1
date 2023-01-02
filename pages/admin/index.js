@@ -1,8 +1,9 @@
 import { useRouter } from "next/router"
 import { useContext, useEffect, useState } from "react"
 import AuthContext from "../../context/authContext"
-import { getAllPaymentProofs, getAllWithdrawRequest } from "../../lib/api"
+import { getAllPaymentProofs, getAllWithdrawRequest, getCompanyDetails, getUserById } from "../../lib/api"
 import { MdCheck } from 'react-icons/md'
+import { FaPen } from 'react-icons/fa'
 import { BsArrowUp, BsPatchCheckFill } from 'react-icons/bs'
 import { BiCopy } from 'react-icons/bi'
 import { TiTimes } from 'react-icons/ti'
@@ -13,7 +14,7 @@ import { useSession } from 'next-auth/react';
 
 export default function Admin() {
   const router = useRouter()
-  const user = useContext(AuthContext)
+  const { user, setUser } = useContext(AuthContext)
   const { status } = useSession();
   const [allPaymentProofs, setAllPaymentProofs] = useState()
   const [allWithdrawRequest, setAllWithdrawRequest] = useState()
@@ -36,7 +37,7 @@ export default function Admin() {
     }
   }, [status, user])
 
-  useEffect(() => {
+  useEffect(() => { // getAllPaymentProofs, getAllWithdrawRequest
     const fetch = async () => {
       const app = await getAllPaymentProofs();
       const awr = await getAllWithdrawRequest();
@@ -48,42 +49,28 @@ export default function Admin() {
     }
   }, [user])
 
-  const clearAll = () => {
-    const mutations = [
-      {
-        "delete": {
-          "query": "*[_type == 'paymentProof']",
-        }
-      },
-      {
-        "delete": {
-          "query": "*[_type == 'withdraw']",
-        }
-      },
-    ]
+  const [company, setCompany] = useState(null)
 
-    const tokenWithWriteAccess = '';
+  useEffect(() => { // getCompanyDetails
+    const fetch = async () => {
+      if (user) {
+        // await delOrders()
+        const r = await getCompanyDetails().catch(err => {
+          console.log(err)
+        })
+        r?.res && setCompany(r.res)
+      }
+    }
+    fetch()
+  }, [user])
 
-    fetch(`https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}?dryRun=false`, {
-      method: 'post',
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `Bearer ${tokenWithWriteAccess}`
-      },
-      body: JSON.stringify({ mutations })
-    })
-      .then(response => response.json())
-      .then(result => console.log(result))
-      .catch(error => console.error(error))
-  }
-
-  const declineWithdraw = async (itemId, amount) => {
+  const declineWithdraw = async (itemId, owner, amount) => {
     document.querySelector('#generalLoading').classList.remove('hidden')
     document.querySelector('#generalLoading').classList.add('grid')
     try {
       const response = await fetch('/api/withdraw', {
         method: 'POST',
-        body: JSON.stringify(['declineWithdraw', itemId, amount, user]),
+        body: JSON.stringify(['declineWithdraw', itemId, amount, owner]),
         type: 'application/json'
       })
       if (response.status == 200) {
@@ -159,24 +146,37 @@ export default function Admin() {
   }
 
   const approvePayment = async (itemId, userId, amount) => {
-    document.querySelector('#generalLoading').classList.remove('hidden')
-    document.querySelector('#generalLoading').classList.add('grid')
     try {
+      document.querySelector('#generalLoading').classList.remove('hidden')
+      document.querySelector('#generalLoading').classList.add('grid')
+
       const response = await fetch('/api/user', {
         method: 'POST',
         body: JSON.stringify(['approvePayment', itemId, userId, amount]),
         type: 'application/json'
       })
+
       if (response.status == 200) {
         const res = await response.json()
+        // setTimeout(async () => {
+        //   const u1 = await getUserById(user?._id)
+        //   const u2 = await getUserById(user?._id)
+        //   const u3 = await getUserById(user?._id)
+        //   console.log({ u1, u2, u3 })
+        // }, 5000);
+        // console.log('done!')
         if (res.message === 'success') {
           alert('success')
+          console.log(res) //
+          // const u4 = await getUserById(user?._id)
           router.reload();
           document.querySelector('#generalLoading').classList.remove('grid')
           document.querySelector('#generalLoading').classList.add('hidden')
           return;
         } else {
           alert('Something went wrong')
+          document.querySelector('#generalLoading').classList.remove('grid')
+          document.querySelector('#generalLoading').classList.add('hidden')
           console.log(res)
           return;
         }
@@ -187,8 +187,6 @@ export default function Admin() {
       document.querySelector('#generalLoading').classList.remove('grid')
       document.querySelector('#generalLoading').classList.add('hidden')
     }
-    document.querySelector('#generalLoading').classList.remove('grid')
-    document.querySelector('#generalLoading').classList.add('hidden')
   }
 
   const showModal = () => {
@@ -201,12 +199,83 @@ export default function Admin() {
     modal.classList.add('hidden')
   }
 
+  const clearAll = () => {
+    const mutations = [
+      {
+        "delete": {
+          "query": "*[_type == 'user']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'order']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'rfCommission']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'validRef']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'paymentProof']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'dailyReturn']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'irc']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'referral']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'record']",
+        }
+      },
+      {
+        "delete": {
+          "query": "*[_type == 'withdraw']",
+        }
+      },
+    ]
+
+    const tokenWithWriteAccess = process.env.NEXT_PUBLIC_SANITY_API_TOKEN;
+
+    fetch(`https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}?dryRun=false`, {
+      method: 'post',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${tokenWithWriteAccess}`
+      },
+      body: JSON.stringify({ mutations })
+    })
+      .then(response => response.json())
+      .then(result => console.log(result))
+      .catch(error => console.error(error))
+  }
+
   if (status === "loading") {
     return "Loading or not authenticated..."
   }
 
   if (user?.isAdmin) {
     return (<>
+    {/* <div className="my-5 mx-5"><div className="h-7 w-28 text-center text-xs bg-black text-white cursor-pointer" onClick={clearAll}>clearAllOrder</div></div> */}
+
       <div>
         <Head>
           <title>Backend</title>
@@ -219,7 +288,18 @@ export default function Admin() {
           <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] text-base font-bold uppercase text-center ">Smart Energy Dashboard</div>
         </header>
 
-        {/* <div className="my-5 mx-5"><div className="h-7 w-28 text-center text-xs bg-black text-white cursor-pointer" onClick={clearAll}>clearAllOrder</div></div> */}
+        <div className="flex flex-col md:flex-row justify-around items-center text-base px-6">
+          <div className="flex justify-around items-center text-base">
+            <div>Account Number: <strong>{company?.accNo}</strong></div>
+            <div>Account Name: <strong className="uppercase">{company?.accName}</strong></div>
+          </div>
+          <div className="flex justify-around items-center text-base mt-4 md:mt-0">
+            <div>Bank: <strong className="uppercase">{company?.bank}</strong></div>
+            <FaPen
+              className="cursor-pointer ml-8 md:ml-0"
+              onClick={() => { router.push(`/updateAccount?admin=${user?._id}`) }} />
+          </div>
+        </div>
 
         <section className="mt-16 mb-8 px-4">
           <div className="bg-gray-400 px-[3px] py-[3px] rounded-[10px] flex items-center justify-center text-[.9rem] max-w-[600px] m-auto">
@@ -275,11 +355,11 @@ export default function Admin() {
                             </> : <>
                               {data.approved === "approved" ? <BsPatchCheckFill className="text-[#ffa600] absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]" /> : <>
                                 <div className="h-full flex flex-col justify-between items-center">
-                                  <MdCheck className="border"
+                                  <MdCheck className="border cursor-pointer"
                                     onClick={() => { approvePayment(data._id, data.userId, data.amount) }}
                                   />
 
-                                  <TiTimes className="border"
+                                  <TiTimes className="border cursor-pointer"
                                     onClick={() => { declinePayment(data._id) }}
                                   />
                                 </div>
@@ -337,7 +417,7 @@ export default function Admin() {
                               />
 
                               <TiTimes className="mt-3 text-lg border cursor-pointer"
-                                onClick={() => { declineWithdraw(request._id, request?.amount) }}
+                                onClick={() => { declineWithdraw(request._id, request?.userId, request?.amount) }}
                               />
                             </div>
                           </>}
